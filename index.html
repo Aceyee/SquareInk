@@ -1,0 +1,36 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+
+<body>
+    <!-- <div id="header" style="width: 20rem; height: 20rem; background-color: black">
+        <h1 style="color: white">SQUAREINK STUDIO</h1>
+    </div> -->
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="920px" height="520px" viewBox="0 0  920 520"
+        preserveAspectRatio="xMidYMid meet">
+        <!-- <polyline class="draw" stroke-width="1" id="e1_polyline" points="168 123 187 378 261 375 279 248 367 247 380 370 477 387 527 268 534 150 566 355 616 364 653 338 647 110 580 116 570 220 538 113 502 122 473 260 452 320 416 313 391 185 296 191 248 215 239 321 224 318 194 125 188 123"
+        /> -->
+    </svg>
+</body>
+<script>
+    var points = [168, 123, 187, 378, 261, 375, 279, 248, 367, 247, 380, 370, 477, 387, 527, 268, 534, 150, 566, 355, 616, 364, 653, 338, 647, 110, 580, 116, 570, 220, 538, 113, 502, 122, 473, 260, 452, 320, 416, 313, 391, 185, 296, 191, 248, 215, 239, 321, 224, 318, 194, 125, 188, 123];
+    var stringOfPoints = "";
+    var svg = document.getElementsByTagName('svg')[0]; //Get svg element
+    for (var i = 0; i < 3; i++) {
+        var shift = 5;
+        for (var j = 0; j < points.length; j++) {
+            if (j % 2 == 0) {
+                points[j] += shift;
+            }
+        }
+        var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
+        newElement.setAttribute("class", "draw"); //Set path's data    
+        newElement.setAttribute("points", points);
+        svg.appendChild(newElement);
+    }
+
+</script>
+
+</html>

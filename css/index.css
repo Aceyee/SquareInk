@@ -1,0 +1,40 @@
+/* div{
+    height:0px;
+    width:1px;
+    border-bottom:1px solid #000;
+    
+    -webkit-animation: increase 3s;
+    -moz-animation:    increase 3s; 
+    -o-animation:      increase 3s; 
+    animation:         increase 3s; 
+    animation-fill-mode: forwards;
+  }
+  
+  @keyframes increase {
+      100% {
+          width: 300px;
+      }
+} */
+
+svg{
+    background-color: aqua;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+svg .draw{
+    stroke: #000;
+    stroke-width: 3px;
+    fill: transparent;
+    stroke-dasharray: 2800;
+    stroke-dashoffset: 2800;
+    animation: animate 5s linear infinite;
+}
+
+@keyframes animate{
+    to{
+        stroke-dashoffset: 0;
+    }
+}
