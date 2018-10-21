@@ -9,24 +9,43 @@ var mainPage = {
         var chipMainY2 = chipMainY1;
 
         var svg = document.getElementsByTagName('svg')[0]; //Get svg element
-        var botX1 = 0;
-        var botX2 = $(window).width();
+
+        /*Bottom Line*/
+        var d = chipMainWidth / 2;
+        var slopeLength = Math.sqrt(2)*d;
+        var botX1 = chipMainX1 - d;
+        var botX2 = chipMainX2 + d;
+
+        // var botX2 = $(window).width();
         var botY1 = $(window).height();
         var botY2 = botY1;
 
         var count = 10;
         var deltaChipMainX = chipMainWidth / count;
         var deltaX = $(window).width() / count;
+        var middlePointX = botX1;
+        var middlePointY = botY1 - (botY1 - chipMainY1 - d)/2;
 
         var svg = document.getElementsByTagName('svg')[0]; //Get svg element
-        for(var i=0; i<count+1; i++){
-            var points = [botX1+deltaX*i, botY1, chipMainX1+deltaChipMainX*i, chipMainY1];
-            var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
-            newElement.setAttribute("class", "draw");
-            newElement.setAttribute("points", points);
-            svg.appendChild(newElement);
-        }
-       
+
+        var points = [botX1, botY1,
+            middlePointX, middlePointY, 
+            middlePointX+d, middlePointY-d,
+            chipMainX1, chipMainY1];
+
+        var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
+        newElement.setAttribute("class", "draw");
+        newElement.setAttribute("points", points);
+        svg.appendChild(newElement);
+
+        // for(var i=0; i<count+1; i++){
+        //     var points = [botX1+deltaX*i, botY1, chipMainX1+deltaChipMainX*i, chipMainY1];
+        //     var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
+        //     newElement.setAttribute("class", "draw");
+        //     newElement.setAttribute("points", points);
+        //     svg.appendChild(newElement);
+        // }
+
         // alert(chipMainX1+", "+chipMainY1+"   "+ chipMainX2+", "+chipMainY2);        
     },
     onCreate: function () {
