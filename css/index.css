@@ -34,9 +34,9 @@ svg .draw{
     stroke: #000;
     stroke-width: 3px;
     fill: transparent;
-    stroke-dasharray: 1000;
-    stroke-dashoffset: 1000;
-    animation: animate 5s linear infinite;
+    stroke-dasharray: 700;
+    stroke-dashoffset: 700;
+    animation: animate 3s linear infinite;
 }
 
 @keyframes animate{

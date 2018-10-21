@@ -14,14 +14,19 @@ var mainPage = {
         var botY1 = $(window).height();
         var botY2 = botY1;
 
-        alert(botX1+" "+botY1);
+        var count = 10;
+        var deltaChipMainX = chipMainWidth / count;
+        var deltaX = $(window).width() / count;
 
-        var points = [botX1, botY1, chipMainX1, chipMainY1];
         var svg = document.getElementsByTagName('svg')[0]; //Get svg element
-        var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
-        newElement.setAttribute("class", "draw");
-        newElement.setAttribute("points", points);
-        svg.appendChild(newElement);
+        for(var i=0; i<count+1; i++){
+            var points = [botX1+deltaX*i, botY1, chipMainX1+deltaChipMainX*i, chipMainY1];
+            var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
+            newElement.setAttribute("class", "draw");
+            newElement.setAttribute("points", points);
+            svg.appendChild(newElement);
+        }
+       
         // alert(chipMainX1+", "+chipMainY1+"   "+ chipMainX2+", "+chipMainY2);        
     },
     onCreate: function () {
