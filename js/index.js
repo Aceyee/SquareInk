@@ -14,6 +14,18 @@ var mainPage = {
         var chipMainY2 = chipMainY1;
 
         var svg = document.getElementsByTagName('svg')[0]; //Get svg element
+        
+
+        var c = document.getElementById("myCanvas");
+        c.setAttribute('width', screenWidth);
+        c.setAttribute('height', screenHeight);
+        var ctx = c.getContext("2d");
+        ctx.strokeStyle = "aqua";
+        var strokeWidth = 5;
+
+
+        // alert(c.width);
+        
 
         var d = 20;
         /*Bottom Circuit*/
@@ -33,6 +45,7 @@ var mainPage = {
             middlePointX, middlePointY,
             middlePointX + d, middlePointY - d,
             chipMainX1, chipMainY1];
+        var lastIndex = points.length-1;    
         var dash = (botY1 - middlePointY)+(Math.sqrt(2)*d)+( (middlePointY - d)-chipMainY1);
         // alert(dash);
 
@@ -44,6 +57,11 @@ var mainPage = {
             newElement.style.strokeDasharray=dash;
             newElement.style.strokeDashoffset=dash;
             svg.appendChild(newElement);
+    
+            ctx.beginPath();
+            ctx.arc(points[lastIndex-1], points[lastIndex]-strokeWidth, strokeWidth, 0, 2 * Math.PI);
+            ctx.stroke();
+
             points = this.shiftPointsH(points, deltaChipMainX);
         }
 
@@ -62,6 +80,11 @@ var mainPage = {
             newElement.style.strokeDasharray=dash;
             newElement.style.strokeDashoffset=dash;
             svg.appendChild(newElement);
+
+            ctx.beginPath();
+            ctx.arc(points[lastIndex-1], points[lastIndex]-strokeWidth, strokeWidth, 0, 2 * Math.PI);
+            ctx.stroke();
+
             points = this.shiftPointsH(points, -1 * deltaChipMainX);
         }
 
@@ -93,6 +116,11 @@ var mainPage = {
             newElement.style.strokeDasharray=dash;
             newElement.style.strokeDashoffset=dash;
             svg.appendChild(newElement);
+
+            ctx.beginPath();
+            ctx.arc(points[lastIndex-1], points[lastIndex]+strokeWidth, strokeWidth, 0, 2 * Math.PI);
+            ctx.stroke();
+
             points = this.shiftPointsH(points, deltaChipMainX);
         }
 
@@ -121,19 +149,13 @@ var mainPage = {
             newElement.style.strokeDasharray=dash;
             newElement.style.strokeDashoffset=dash;
             svg.appendChild(newElement);
+
+            ctx.beginPath();
+            ctx.arc(points[lastIndex-1], points[lastIndex]+strokeWidth, strokeWidth, 0, 2 * Math.PI);
+            ctx.stroke();
+
             points = this.shiftPointsH(points, -1*deltaChipMainX);
         }
-
-
-        var c = document.getElementById("myCanvas");
-        var ctx = c.getContext("2d");
-        ctx.beginPath();
-        c.setAttribute('width', screenWidth);
-        c.setAttribute('height', screenHeight);
-        alert(c.width);
-        ctx.arc(100, 100, 3, 0, 2 * Math.PI);
-        ctx.strokeStyle = "aqua";
-        ctx.stroke();
     },
 
     myEndFunction : function(){
