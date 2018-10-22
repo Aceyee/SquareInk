@@ -28,8 +28,9 @@ svg .draw{
     stroke: aqua;
     stroke-width: 3px;
     fill: transparent;
-    stroke-dasharray: 500;
-    stroke-dashoffset: 500;
+/*     
+    stroke-dasharray: 350;
+    stroke-dashoffset: 350; */
     animation: animate 3s linear infinite;
 }
 

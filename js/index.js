@@ -3,10 +3,11 @@ var mainPage = {
         var screenWidth = $(window).width();
         var screenHeight = $(window).height();
 
-        var chipMainBorder = 10;
+        var chipMainBorder = 50;
         var chipMainOffset = $('#chipMain').offset();
         var chipMainWidth = $('#chipMain').width();
         var chipMainHeight = $('#chipMain').height();
+        
         var chipMainX1 = chipMainOffset.left;
         var chipMainX2 = screenWidth - chipMainOffset.left;
         var chipMainY1 = chipMainOffset.top + chipMainHeight + chipMainBorder;
@@ -16,6 +17,7 @@ var mainPage = {
 
         /*Bottom Circuit*/
         var d = chipMainWidth / 2;
+        
         var botX1 = chipMainX1 - d;
         var botY1 = screenHeight;
 
@@ -31,11 +33,15 @@ var mainPage = {
             middlePointX, middlePointY,
             middlePointX + d, middlePointY - d,
             chipMainX1, chipMainY1];
+        var dash = (botY1 - middlePointY)+(Math.sqrt(2)*d)+( (middlePointY - d)-chipMainY1);
+        // alert(dash);
 
         for (var i = 0; i < 3; i++) {
             var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
             newElement.setAttribute("class", "draw");
             newElement.setAttribute("points", points);
+            newElement.style.strokeDasharray=dash;
+            newElement.style.strokeDashoffset=dash;
             svg.appendChild(newElement);
             points = this.shiftPointsH(points, deltaChipMainX);
         }
@@ -52,6 +58,8 @@ var mainPage = {
             var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
             newElement.setAttribute("class", "draw");
             newElement.setAttribute("points", points);
+            newElement.style.strokeDasharray=dash;
+            newElement.style.strokeDashoffset=dash;
             svg.appendChild(newElement);
             points = this.shiftPointsH(points, -1 * deltaChipMainX);
         }
