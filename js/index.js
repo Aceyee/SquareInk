@@ -16,7 +16,7 @@ var mainPage = {
         var svg = document.getElementsByTagName('svg')[0]; //Get svg element
 
         /*Bottom Circuit*/
-        var d = chipMainWidth / 2;
+        var d = 20;
         
         var botX1 = chipMainX1 - d;
         var botY1 = screenHeight;
