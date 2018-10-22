@@ -123,6 +123,17 @@ var mainPage = {
             svg.appendChild(newElement);
             points = this.shiftPointsH(points, -1*deltaChipMainX);
         }
+
+
+        var c = document.getElementById("myCanvas");
+        var ctx = c.getContext("2d");
+        ctx.beginPath();
+        c.setAttribute('width', screenWidth);
+        c.setAttribute('height', screenHeight);
+        alert(c.width);
+        ctx.arc(100, 100, 3, 0, 2 * Math.PI);
+        ctx.strokeStyle = "aqua";
+        ctx.stroke();
     },
 
     myEndFunction : function(){
