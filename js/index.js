@@ -1,24 +1,27 @@
 var mainPage = {
     onCreate2: function () {
+        var screenWidth = $(window).width();
+        var screenHeight = $(window).height();
+
         var chipMainBorder = 10;
-        var chipMainOffset = $('#chipMain').position();
+        var chipMainOffset = $('#chipMain').offset();
         var chipMainWidth = $('#chipMain').width();
         var chipMainHeight = $('#chipMain').height();
         var chipMainX1 = chipMainOffset.left;
-        var chipMainX2 = chipMainOffset.left + chipMainWidth;
-        var chipMainY1 = chipMainOffset.top + chipMainHeight+chipMainBorder;
+        var chipMainX2 = screenWidth - chipMainOffset.left;
+        var chipMainY1 = chipMainOffset.top + chipMainHeight + chipMainBorder;
         var chipMainY2 = chipMainY1;
 
         var svg = document.getElementsByTagName('svg')[0]; //Get svg element
 
-        /*Bottom Line*/
+        /*Bottom Circuit*/
         var d = chipMainWidth / 2;
         var botX1 = chipMainX1 - d;
-        var botY1 = $(window).height();
+        var botY1 = screenHeight;
 
         var count = 9;
         var deltaChipMainX = chipMainWidth / count;
-        var deltaX = $(window).width() / count;
+        var deltaX = screenWidth / count;
         var middlePointX = botX1;
         var middlePointY = botY1 - (botY1 - chipMainY1 - d) / 2;
 
@@ -37,7 +40,6 @@ var mainPage = {
             points = this.shiftPointsH(points, deltaChipMainX);
         }
 
-        var screenWidth = $(window).width();
         var botX2 = screenWidth-botX1;
         var botY2 = botY1;
         middlePointX = screenWidth- middlePointX;
@@ -53,6 +55,8 @@ var mainPage = {
             svg.appendChild(newElement);
             points = this.shiftPointsH(points, -1 * deltaChipMainX);
         }
+
+        /*Left Circuit*/
 
         // for(var i=0; i<count+1; i++){
         //     var points = [botX1+deltaX*i, botY1, chipMainX1+deltaChipMainX*i, chipMainY1];

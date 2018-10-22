@@ -5,9 +5,12 @@
 #chipMain{
     width: 20rem; 
     height: 20rem; 
-    background-color: gray;
+    background-color: black;
+    border-style: double;
+    border-width: 1rem;
+    border-radius: 5rem;
+    border-color: aqua;
 }
-
 
 
 svg{
