@@ -36,8 +36,9 @@ var mainPage = {
         var dash = (botY1 - middlePointY)+(Math.sqrt(2)*d)+( (middlePointY - d)-chipMainY1);
         // alert(dash);
 
+        var newElement;
         for (var i = 0; i < 3; i++) {
-            var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
+            newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
             newElement.setAttribute("class", "draw");
             newElement.setAttribute("points", points);
             newElement.style.strokeDasharray=dash;
@@ -55,7 +56,7 @@ var mainPage = {
             chipMainX2, chipMainY2
         ];
         for (var i = 0; i < 3; i++) {
-            var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
+            newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
             newElement.setAttribute("class", "draw");
             newElement.setAttribute("points", points);
             newElement.style.strokeDasharray=dash;
@@ -64,6 +65,7 @@ var mainPage = {
             points = this.shiftPointsH(points, -1 * deltaChipMainX);
         }
 
+        newElement.addEventListener("webkitAnimationEnd", this.myEndFunction);
         /*Left Circuit*/
 
         // for(var i=0; i<count+1; i++){
@@ -76,6 +78,11 @@ var mainPage = {
 
         // alert(chipMainX1+", "+chipMainY1+"   "+ chipMainX2+", "+chipMainY2);        
     },
+
+    myEndFunction : function(){
+        // alert("end");
+    },
+
     shiftPointsH: function (points, deltaChipMainX) {
         for (var i = 0; i < points.length; i++) {
             if (i % 2 == 0) {

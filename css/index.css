@@ -9,7 +9,9 @@
     border-style: double;
     border-width: 1rem;
     border-radius: 5rem;
-    border-color: aqua;
+    animation: show 500ms ease forwards;
+    animation-delay: 2s;
+    
 }
 
 
@@ -28,14 +30,30 @@ svg .draw{
     stroke: aqua;
     stroke-width: 3px;
     fill: transparent;
-/*     
-    stroke-dasharray: 350;
-    stroke-dashoffset: 350; */
-    animation: animate 3s linear infinite;
+    /* animation: animate 2s ease infinite; */
+    animation: animate 2s ease 1;
+    /* -moz-animation: animate 2s ease 1; */
+    /* -webkit-animation: animate 2s ease 1; */
+
 }
 
+
 @keyframes animate{
-    to{
-        stroke-dashoffset: 0;
+    to{stroke-dashoffset: 0;}
+}
+
+@-webkit-keyframes animate{
+    to{stroke-dashoffset: 0;}
+}
+@-moz-keyframes animate{
+    to{stroke-dashoffset: 0;}
+}
+
+@keyframes show{
+    0% {
+        color: black;
+    }
+    100% {
+        color: aqua;
     }
 }
