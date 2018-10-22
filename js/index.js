@@ -15,8 +15,8 @@ var mainPage = {
 
         var svg = document.getElementsByTagName('svg')[0]; //Get svg element
 
-        /*Bottom Circuit*/
         var d = 20;
+        /*Bottom Circuit*/
         
         var botX1 = chipMainX1 - d;
         var botY1 = screenHeight;
@@ -66,17 +66,63 @@ var mainPage = {
         }
 
         newElement.addEventListener("webkitAnimationEnd", this.myEndFunction);
-        /*Left Circuit*/
 
-        // for(var i=0; i<count+1; i++){
-        //     var points = [botX1+deltaX*i, botY1, chipMainX1+deltaChipMainX*i, chipMainY1];
-        //     var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
-        //     newElement.setAttribute("class", "draw");
-        //     newElement.setAttribute("points", points);
-        //     svg.appendChild(newElement);
-        // }
 
-        // alert(chipMainX1+", "+chipMainY1+"   "+ chipMainX2+", "+chipMainY2);        
+        /*Top Circuit*/
+        var topX1 = chipMainX1 - d;
+        var topY1 = 0;
+        var chipMainTopY1 = chipMainOffset.top -d;
+
+        var middlePointX = topX1;
+        var middlePointY = (chipMainOffset.top - d) / 2;
+        // var middlePointY = (botY1 - chipMainY1 - d) / 2;
+        
+
+        var points = [topX1, topY1,
+            middlePointX, middlePointY,
+            middlePointX + d, middlePointY + d,
+            chipMainX1, chipMainTopY1];
+        // var dash = (botY1 - middlePointY)+(Math.sqrt(2)*d)+( (middlePointY - d)-chipMainY1);
+        // alert(dash);
+
+        var newElement;
+        for (var i = 0; i < 3; i++) {
+            newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
+            newElement.setAttribute("class", "draw");
+            newElement.setAttribute("points", points);
+            newElement.style.strokeDasharray=dash;
+            newElement.style.strokeDashoffset=dash;
+            svg.appendChild(newElement);
+            points = this.shiftPointsH(points, deltaChipMainX);
+        }
+
+
+        var topX2 = screenWidth - topX1;
+        var topY2 = 0;
+        var chipMainTopY2 = chipMainTopY1;
+
+        var middlePointX = topX2;
+        var middlePointY = (chipMainOffset.top - d) / 2;
+        // var middlePointY = (botY1 - chipMainY1 - d) / 2;
+        
+
+        var points = [topX2, topY2,
+            middlePointX, middlePointY,
+            middlePointX - d, middlePointY + d,
+            chipMainX2, chipMainTopY2];
+        // var dash = (botY1 - middlePointY)+(Math.sqrt(2)*d)+( (middlePointY - d)-chipMainY1);
+        // alert(dash);
+
+        var newElement;
+        for (var i = 0; i < 3; i++) {
+            newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
+            newElement.setAttribute("class", "draw");
+            newElement.setAttribute("points", points);
+            newElement.style.strokeDasharray=dash;
+            newElement.style.strokeDashoffset=dash;
+            svg.appendChild(newElement);
+            points = this.shiftPointsH(points, -1*deltaChipMainX);
+        }
     },
 
     myEndFunction : function(){
