@@ -1,21 +1,19 @@
 var mainPage = {
     onCreate2: function () {
-        var chipMainOffset = $('#chipMain').offset();
+        var chipMainBorder = 10;
+        var chipMainOffset = $('#chipMain').position();
         var chipMainWidth = $('#chipMain').width();
         var chipMainHeight = $('#chipMain').height();
         var chipMainX1 = chipMainOffset.left;
         var chipMainX2 = chipMainOffset.left + chipMainWidth;
-        var chipMainY1 = chipMainOffset.top + chipMainHeight;
+        var chipMainY1 = chipMainOffset.top + chipMainHeight+chipMainBorder;
         var chipMainY2 = chipMainY1;
 
         var svg = document.getElementsByTagName('svg')[0]; //Get svg element
 
         /*Bottom Line*/
         var d = chipMainWidth / 2;
-        var slopeLength = Math.sqrt(2) * d;
         var botX1 = chipMainX1 - d;
-        var botX2 = chipMainX2 + d;
-
         var botY1 = $(window).height();
 
         var count = 9;
