@@ -1,8 +1,10 @@
 var t=1;
 var breakpoints;
-var ctx;
 var newElement;
 var strokeWidth = 5;
+var screenWidth;
+var screenHeight; 
+var ctx;
 
 var drawBotLeft = function(svg, points, dash, deltaChipMainX, shiftDirection, moveCircleDirection){
     var lastIndex = points.length - 1;
@@ -22,8 +24,6 @@ var drawBotLeft = function(svg, points, dash, deltaChipMainX, shiftDirection, mo
     }
 }
 
-
-
 var shiftPointsH = function (points, deltaChipMainX) {
     for (var i = 0; i < points.length; i++) {
         if (i % 2 == 0) {
@@ -35,9 +35,19 @@ var shiftPointsH = function (points, deltaChipMainX) {
 
 var mainPage = {
     onCreate: function () {
-        var screenWidth = $(window).width();
-        var screenHeight = $(window).height();
+        screenWidth = $(window).width();
+        screenHeight = $(window).height();
+        var c = document.getElementById("myCanvas");
+        c.setAttribute('width', screenWidth);
+        c.setAttribute('height', screenHeight);
+        ctx = c.getContext("2d");
+        ctx.strokeStyle = "aqua";
 
+        this.drawTopDownLine(ctx);
+        this.drawTest(ctx);
+    },
+
+    drawTopDownLine: function(ctx){
         var chipMainBorder = 50;
         var chipMainOffset = $('#chipMain').offset();
         var chipMainWidth = $('#chipMain').width();
@@ -49,13 +59,6 @@ var mainPage = {
         var chipMainY2 = chipMainY1;
 
         var svg = document.getElementsByTagName('svg')[0]; //Get svg element
-
-
-        var c = document.getElementById("myCanvas");
-        c.setAttribute('width', screenWidth);
-        c.setAttribute('height', screenHeight);
-        ctx = c.getContext("2d");
-        ctx.strokeStyle = "aqua";
 
         var d = 20;
         /*Bottom Circuit*/
@@ -75,9 +78,7 @@ var mainPage = {
             middlePointX, middlePointY,
             middlePointX + d, middlePointY - d,
             chipMainX1, chipMainY1];
-        var lastIndex = points.length - 1;
         var dash = (botY1 - middlePointY) + (Math.sqrt(2) * d) + ((middlePointY - d) - chipMainY1);
-        // alert(dash);
         drawBotLeft(svg, points, dash, deltaChipMainX, 1, 1);
 
         var botX2 = screenWidth - botX1;
@@ -97,22 +98,15 @@ var mainPage = {
         var topX1 = chipMainX1 - d;
         var topY1 = 0;
         var chipMainTopY1 = chipMainOffset.top - d;
-
         var middlePointX = topX1;
         var middlePointY = (chipMainOffset.top - d) / 2;
-        // var middlePointY = (botY1 - chipMainY1 - d) / 2;
-
 
         var points = [topX1, topY1,
             middlePointX, middlePointY,
             middlePointX + d, middlePointY + d,
             chipMainX1, chipMainTopY1];
-        // var dash = (botY1 - middlePointY)+(Math.sqrt(2)*d)+( (middlePointY - d)-chipMainY1);
-        // alert(dash);
 
         drawBotLeft(svg, points, dash, deltaChipMainX, 1, -1);
-
-
 
         var topX2 = screenWidth - topX1;
         var topY2 = 0;
@@ -120,20 +114,13 @@ var mainPage = {
 
         var middlePointX = topX2;
         var middlePointY = (chipMainOffset.top - d) / 2;
-        // var middlePointY = (botY1 - chipMainY1 - d) / 2;
-
 
         var points = [topX2, topY2,
             middlePointX, middlePointY,
             middlePointX - d, middlePointY + d,
             chipMainX2, chipMainTopY2];
-        // var dash = (botY1 - middlePointY)+(Math.sqrt(2)*d)+( (middlePointY - d)-chipMainY1);
-        // alert(dash);
 
         drawBotLeft(svg, points, dash, deltaChipMainX, -1, -1);
-
-
-        this.drawTest(ctx);
     },
 
     drawTest: function (ctx) {
@@ -204,9 +191,6 @@ var mainPage = {
         }
         return (waypoints);
     },
-    
-    
-
 
     onCreate2: function () {
         /* super inefficient right now, could be improved */
