@@ -1,6 +1,5 @@
 var t=1;
 var breakpoints;
-var newElement;
 var strokeWidth = 5;
 var screenWidth;
 var screenHeight; 
@@ -9,7 +8,7 @@ var ctx;
 var drawBotLeft = function(svg, points, dash, deltaChipMainX, shiftDirection, moveCircleDirection){
     var lastIndex = points.length - 1;
     for (var i = 0; i < 3; i++) {
-        newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
+        var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
         newElement.setAttribute("class", "draw");
         newElement.setAttribute("points", points);
         newElement.style.strokeDasharray = dash;
@@ -22,6 +21,7 @@ var drawBotLeft = function(svg, points, dash, deltaChipMainX, shiftDirection, mo
 
         points = shiftPointsH(points, shiftDirection*deltaChipMainX);
     }
+        // newElement.addEventListener("webkitAnimationEnd", this.myEndFunction);
 }
 
 var shiftPointsH = function (points, deltaChipMainX) {
@@ -33,6 +33,59 @@ var shiftPointsH = function (points, deltaChipMainX) {
     return points;
 }
 
+var animate = function() {
+    if (t < breakpoints.length - 1) {
+        requestAnimationFrame(animate);
+
+    }else{
+        // ctx.clearRect(0,0,300+5,200+5);
+        t = 1;
+
+    }
+
+    // draw a line segment from the last waypoint
+    // to the current waypoint
+    ctx.beginPath();
+    ctx.moveTo(breakpoints[t - 1].x, breakpoints[t - 1].y);
+    ctx.lineTo(breakpoints[t].x, breakpoints[t].y);
+    ctx.stroke();
+    // increment "t" to get the next waypoint
+    t++;
+}
+
+function Circle(x, y, dx, dy, radius){
+    this.x = x;
+    this.y = y;
+    this.dx = dx;
+    this.dy = dy;
+    this.radius = radius;
+
+    this.draw = function(){
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
+        ctx.stroke();
+    }
+
+    this.update = function(){
+        this.y += 1;
+        this.draw();
+    }
+}
+
+var x = 200;
+var y = 200;
+var dx = 1;
+var dy = 1;
+var radius = 30;
+var circle = new Circle(x, y, dx, dy, radius);
+
+var animate2 =function(){
+    requestAnimationFrame(animate2);
+    ctx.clearRect(0,0, screenWidth, screenHeight);
+    circle.update();
+}
+
+
 var mainPage = {
     onCreate: function () {
         screenWidth = $(window).width();
@@ -43,11 +96,17 @@ var mainPage = {
         ctx = c.getContext("2d");
         ctx.strokeStyle = "aqua";
 
-        this.drawTopDownLine(ctx);
-        this.drawTest(ctx);
+        this.drawTopDownLine();
+        // this.drawTest(ctx);
+        this.drawSideLine();
     },
 
-    drawTopDownLine: function(ctx){
+    drawSideLine: function(){
+        
+        animate2();
+    },
+
+    drawTopDownLine: function(){
         var chipMainBorder = 50;
         var chipMainOffset = $('#chipMain').offset();
         var chipMainWidth = $('#chipMain').width();
@@ -61,18 +120,15 @@ var mainPage = {
         var svg = document.getElementsByTagName('svg')[0]; //Get svg element
 
         var d = 20;
-        /*Bottom Circuit*/
+        var count = 9;
 
+        /*Bottom Left Circuit*/
         var botX1 = chipMainX1 - d;
         var botY1 = screenHeight;
 
-        var count = 9;
         var deltaChipMainX = chipMainWidth / count;
-        var deltaX = screenWidth / count;
         var middlePointX = botX1;
         var middlePointY = botY1 - (botY1 - chipMainY1 - d) / 2;
-
-        var svg = document.getElementsByTagName('svg')[0]; //Get svg element
 
         var points = [botX1, botY1,
             middlePointX, middlePointY,
@@ -81,6 +137,7 @@ var mainPage = {
         var dash = (botY1 - middlePointY) + (Math.sqrt(2) * d) + ((middlePointY - d) - chipMainY1);
         drawBotLeft(svg, points, dash, deltaChipMainX, 1, 1);
 
+        /*Bottom Right Circuit*/
         var botX2 = screenWidth - botX1;
         var botY2 = botY1;
         middlePointX = screenWidth - middlePointX;
@@ -91,10 +148,7 @@ var mainPage = {
         ];
         drawBotLeft(svg, points, dash, deltaChipMainX, -1, 1);
 
-        // newElement.addEventListener("webkitAnimationEnd", this.myEndFunction);
-
-
-        /*Top Circuit*/
+        /*Top Left Circuit*/
         var topX1 = chipMainX1 - d;
         var topY1 = 0;
         var chipMainTopY1 = chipMainOffset.top - d;
@@ -108,6 +162,7 @@ var mainPage = {
 
         drawBotLeft(svg, points, dash, deltaChipMainX, 1, -1);
 
+        /*Top right Circuit*/
         var topX2 = screenWidth - topX1;
         var topY2 = 0;
         var chipMainTopY2 = chipMainTopY1;
@@ -170,7 +225,7 @@ var mainPage = {
         // calculate incremental points along the path
         breakpoints = this.calcWaypoints(vertices);
         // extend the line from start to finish with animation
-        animate();
+        // animate();
     },
 
     calcWaypoints : function(vertices) {
@@ -357,24 +412,8 @@ var mainPage = {
 
     myEndFunction: function () {
         // alert("end");
-    },
-
-    
-
-    
+    },    
 }
 
-var animate = function() {
-    if (t < breakpoints.length - 1) {
-        requestAnimationFrame(animate);
-    }
-    // draw a line segment from the last waypoint
-    // to the current waypoint
-    ctx.beginPath();
-    ctx.moveTo(breakpoints[t - 1].x, breakpoints[t - 1].y);
-    ctx.lineTo(breakpoints[t].x, breakpoints[t].y);
-    ctx.stroke();
-    // increment "t" to get the next waypoint
-    t++;
-}
+
 
