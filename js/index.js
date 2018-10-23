@@ -1,3 +1,6 @@
+var t=1;
+var breakpoints;
+var ctx;
 var mainPage = {
     onCreate: function () {
         var screenWidth = $(window).width();
@@ -19,7 +22,7 @@ var mainPage = {
         var c = document.getElementById("myCanvas");
         c.setAttribute('width', screenWidth);
         c.setAttribute('height', screenHeight);
-        var ctx = c.getContext("2d");
+        ctx = c.getContext("2d");
         ctx.strokeStyle = "aqua";
         var strokeWidth = 5;
 
@@ -156,14 +159,91 @@ var mainPage = {
 
             points = this.shiftPointsH(points, -1 * deltaChipMainX);
         }
+
+        this.drawTest(ctx);
     },
+
+    drawTest: function (ctx) {
+        // ctx.save();
+        // ctx.beginPath();
+        // ctx.moveTo(0,0);
+        // ctx.lineTo(300,150);
+        // ctx.stroke();
+        // ctx.restore();
+
+        var vertices = [];
+        vertices.push({
+            x: 0,
+            y: 0
+        });
+        vertices.push({
+            x: 300,
+            y: 100
+        });
+        vertices.push({
+            x: 80,
+            y: 200
+        });
+        vertices.push({
+            x: 10,
+            y: 100
+        });
+        vertices.push({
+            x: 0,
+            y: 0
+        });
+
+        ctx.lineWidth = 1;
+        // tell canvas you are beginning a new path
+        ctx.beginPath();
+        // draw the path with moveTo and multiple lineTo's
+        ctx.moveTo(0, 0);
+        ctx.lineTo(300, 100);
+        ctx.lineTo(80, 200);
+        ctx.lineTo(10, 100);
+        ctx.lineTo(0, 0);
+        // stroke the path
+        ctx.stroke();
+
+
+        ctx.lineWidth = 5;
+        // calculate incremental points along the path
+        breakpoints = this.calcWaypoints(vertices);
+        // extend the line from start to finish with animation
+        animate();
+    },
+
+    calcWaypoints : function(vertices) {
+        var waypoints = [];
+        for (var i = 1; i < vertices.length; i++) {
+            var pt0 = vertices[i - 1];
+            var pt1 = vertices[i];
+            var dx = pt1.x - pt0.x;
+            var dy = pt1.y - pt0.y;
+            for (var j = 0; j < 100; j++) {
+                var x = pt0.x + dx * j / 100;
+                var y = pt0.y + dy * j / 100;
+                waypoints.push({
+                    x: x,
+                    y: y
+                });
+            }
+        }
+        return (waypoints);
+    },
+    
+    
+
 
     onCreate2: function () {
         /* super inefficient right now, could be improved */
+        var screenWidth = $(window).width();
+        var screenHeight = $(window).height();
+
         var c = document.getElementById('myCanvas'),
             ctx = c.getContext('2d'),
-            cw = c.width = 400,
-            ch = c.height = 300,
+            cw = c.width = screenWidth,
+            ch = c.height = screenHeight,
             rand = function (a, b) { return ~~((Math.random() * (b - a + 1)) + a); },
             dToR = function (degrees) {
                 return degrees * (Math.PI / 180);
@@ -329,5 +409,20 @@ var mainPage = {
             }
         }
         return points;
+    },
+
+    
+}
+var animate = function() {
+    if (t < breakpoints.length - 1) {
+        requestAnimationFrame(animate);
     }
+    // draw a line segment from the last waypoint
+    // to the current waypoint
+    ctx.beginPath();
+    ctx.moveTo(breakpoints[t - 1].x, breakpoints[t - 1].y);
+    ctx.lineTo(breakpoints[t].x, breakpoints[t].y);
+    ctx.stroke();
+    // increment "t" to get the next waypoint
+    t++;
 }
