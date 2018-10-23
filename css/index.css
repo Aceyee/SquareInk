@@ -9,7 +9,12 @@ body{
     border-style: double;
     border-width: 1rem;
     border-radius: 5rem;
-    animation: show 500ms ease forwards;
+    animation: show 1000ms ease forwards;
+    animation-delay: 2s;
+}
+
+.socket{
+    animation: show 100ms linear forwards;
     animation-delay: 2s;
 }
 
@@ -56,8 +61,10 @@ svg .draw{
 @keyframes show{
     0% {
         color: black;
+        stroke: black;
     }
     100% {
         color: aqua;
+        stroke:aqua;
     }
 }

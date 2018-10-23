@@ -16,13 +16,13 @@ var drawBotLeft = function(svg, points, dash, deltaChipMainX, shiftDirection, mo
         svg.appendChild(newElement);
 
         newElement = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
-        newElement.style.stroke="aqua";
+        newElement.setAttribute("class", "socket");
         newElement.setAttribute("cx", points[lastIndex - 1]);
         newElement.setAttribute("cy", points[lastIndex] - moveCircleDirection*strokeWidth);
         newElement.setAttribute("r", strokeWidth);
         svg.appendChild(newElement);
 
-        /*deprecared */
+        /*deprecated */
         // ctx.beginPath();
         // ctx.arc(points[lastIndex - 1], points[lastIndex] - moveCircleDirection*strokeWidth, strokeWidth, 0, 2 * Math.PI);
         // ctx.stroke();
