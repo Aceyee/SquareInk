@@ -1,11 +1,11 @@
-var t=1;
+var t = 1;
 var breakpoints;
 var strokeWidth = 5;
 var screenWidth;
-var screenHeight; 
+var screenHeight;
 var ctx;
 
-var drawBotLeft = function(svg, points, dash, deltaChipMainX, shiftDirection, moveCircleDirection){
+var drawBotLeft = function (svg, points, dash, deltaChipMainX, shiftDirection, moveCircleDirection) {
     var lastIndex = points.length - 1;
     for (var i = 0; i < 3; i++) {
         var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
@@ -18,7 +18,7 @@ var drawBotLeft = function(svg, points, dash, deltaChipMainX, shiftDirection, mo
         newElement = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
         newElement.setAttribute("class", "socket");
         newElement.setAttribute("cx", points[lastIndex - 1]);
-        newElement.setAttribute("cy", points[lastIndex] - moveCircleDirection*strokeWidth);
+        newElement.setAttribute("cy", points[lastIndex] - moveCircleDirection * strokeWidth);
         newElement.setAttribute("r", strokeWidth);
         svg.appendChild(newElement);
 
@@ -26,9 +26,9 @@ var drawBotLeft = function(svg, points, dash, deltaChipMainX, shiftDirection, mo
         // ctx.beginPath();
         // ctx.arc(points[lastIndex - 1], points[lastIndex] - moveCircleDirection*strokeWidth, strokeWidth, 0, 2 * Math.PI);
         // ctx.stroke();
-        points = shiftPointsH(points, shiftDirection*deltaChipMainX);
+        points = shiftPointsH(points, shiftDirection * deltaChipMainX);
     }
-        // newElement.addEventListener("webkitAnimationEnd", this.myEndFunction);
+    // newElement.addEventListener("webkitAnimationEnd", this.myEndFunction);
 }
 
 var shiftPointsH = function (points, deltaChipMainX) {
@@ -40,11 +40,11 @@ var shiftPointsH = function (points, deltaChipMainX) {
     return points;
 }
 
-var animate = function() {
+var animate = function () {
     if (t < breakpoints.length - 1) {
         requestAnimationFrame(animate);
 
-    }else{
+    } else {
         // ctx.clearRect(0,0,300+5,200+5);
         t = 1;
 
@@ -60,20 +60,28 @@ var animate = function() {
     t++;
 }
 
-function Circle(x, y, dx, dy, radius){
+function Circle(x, y, dx, dy, radius) {
     this.x = x;
     this.y = y;
     this.dx = dx;
     this.dy = dy;
     this.radius = radius;
 
-    this.draw = function(){
+    this.draw = function () {
+        // var grd = ctx.createLinearGradient(75,50,5,90,60,100);
+        var grd = ctx.createRadialGradient(this.x, this.y, this.radius/2, this.x, this.y, this.radius);
+        grd.addColorStop(0, 'hsla(180, 100%, 71%, 1)');
+        grd.addColorStop(1, 'hsla(180, 100%, 71%, 0)');
+
+        ctx.fillStyle=grd;
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
         ctx.stroke();
+        ctx.fill();
+
     }
 
-    this.update = function(){
+    this.update = function () {
         this.y += 1;
         this.draw();
     }
@@ -83,13 +91,12 @@ var x = 200;
 var y = 200;
 var dx = 1;
 var dy = 1;
-var radius = 30;
+var radius = 5;
 var circle = new Circle(x, y, dx, dy, radius);
 
-var animate2 =function(){
+var animate2 = function () {
     requestAnimationFrame(animate2);
-    ctx.clearRect(0,0, screenWidth, screenHeight);
-
+    ctx.clearRect(0, 0, screenWidth, screenHeight);
     circle.update();
 }
 
@@ -102,18 +109,33 @@ var mainPage = {
         c.setAttribute('width', screenWidth);
         c.setAttribute('height', screenHeight);
         ctx = c.getContext("2d");
-        ctx.strokeStyle = "aqua";
+        // ctx.strokeStyle = "aqua";
 
         this.drawTopDownLine();
         // this.drawTest(ctx);
+
+        
+
         this.drawSideLine();
     },
 
-    drawSideLine: function(){
+    drawSideLine: function () {
         animate2();
+
+        // var grd = ctx.createLinearGradient(200,200,5,200,200,100);
+        /*
+        var grd = ctx.createRadialGradient(200, 200, 0, 200, 200, 30);
+        grd.addColorStop(0, "red");
+        grd.addColorStop(1, "white");
+
+        ctx.beginPath();
+        ctx.fillStyle= grd;
+        ctx.arc(200, 200, 200, 0, Math.PI * 2, false);
+        ctx.stroke();
+        ctx.fill();*/
     },
 
-    drawTopDownLine: function(){
+    drawTopDownLine: function () {
         var chipMainBorder = 50;
         var chipMainOffset = $('#chipMain').offset();
         var chipMainWidth = $('#chipMain').width();
@@ -235,7 +257,7 @@ var mainPage = {
         // animate();
     },
 
-    calcWaypoints : function(vertices) {
+    calcWaypoints: function (vertices) {
         var waypoints = [];
         for (var i = 1; i < vertices.length; i++) {
             var pt0 = vertices[i - 1];
@@ -419,7 +441,7 @@ var mainPage = {
 
     myEndFunction: function () {
         // alert("end");
-    },    
+    },
 }
 
 
