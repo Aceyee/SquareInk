@@ -1,6 +1,38 @@
 var t=1;
 var breakpoints;
 var ctx;
+var newElement;
+var strokeWidth = 5;
+
+var drawBotLeft = function(svg, points, dash, deltaChipMainX, shiftDirection, moveCircleDirection){
+    var lastIndex = points.length - 1;
+    for (var i = 0; i < 3; i++) {
+        newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
+        newElement.setAttribute("class", "draw");
+        newElement.setAttribute("points", points);
+        newElement.style.strokeDasharray = dash;
+        newElement.style.strokeDashoffset = dash;
+        svg.appendChild(newElement);
+
+        ctx.beginPath();
+        ctx.arc(points[lastIndex - 1], points[lastIndex] - moveCircleDirection*strokeWidth, strokeWidth, 0, 2 * Math.PI);
+        ctx.stroke();
+
+        points = shiftPointsH(points, shiftDirection*deltaChipMainX);
+    }
+}
+
+
+
+var shiftPointsH = function (points, deltaChipMainX) {
+    for (var i = 0; i < points.length; i++) {
+        if (i % 2 == 0) {
+            points[i] += deltaChipMainX;
+        }
+    }
+    return points;
+}
+
 var mainPage = {
     onCreate: function () {
         var screenWidth = $(window).width();
@@ -24,11 +56,6 @@ var mainPage = {
         c.setAttribute('height', screenHeight);
         ctx = c.getContext("2d");
         ctx.strokeStyle = "aqua";
-        var strokeWidth = 5;
-
-
-        // alert(c.width);
-
 
         var d = 20;
         /*Bottom Circuit*/
@@ -51,22 +78,7 @@ var mainPage = {
         var lastIndex = points.length - 1;
         var dash = (botY1 - middlePointY) + (Math.sqrt(2) * d) + ((middlePointY - d) - chipMainY1);
         // alert(dash);
-
-        var newElement;
-        for (var i = 0; i < 3; i++) {
-            newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
-            newElement.setAttribute("class", "draw");
-            newElement.setAttribute("points", points);
-            newElement.style.strokeDasharray = dash;
-            newElement.style.strokeDashoffset = dash;
-            svg.appendChild(newElement);
-
-            ctx.beginPath();
-            ctx.arc(points[lastIndex - 1], points[lastIndex] - strokeWidth, strokeWidth, 0, 2 * Math.PI);
-            ctx.stroke();
-
-            points = this.shiftPointsH(points, deltaChipMainX);
-        }
+        drawBotLeft(svg, points, dash, deltaChipMainX, 1, 1);
 
         var botX2 = screenWidth - botX1;
         var botY2 = botY1;
@@ -76,22 +88,9 @@ var mainPage = {
             middlePointX - d, middlePointY - d,
             chipMainX2, chipMainY2
         ];
-        for (var i = 0; i < 3; i++) {
-            newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
-            newElement.setAttribute("class", "draw");
-            newElement.setAttribute("points", points);
-            newElement.style.strokeDasharray = dash;
-            newElement.style.strokeDashoffset = dash;
-            svg.appendChild(newElement);
+        drawBotLeft(svg, points, dash, deltaChipMainX, -1, 1);
 
-            ctx.beginPath();
-            ctx.arc(points[lastIndex - 1], points[lastIndex] - strokeWidth, strokeWidth, 0, 2 * Math.PI);
-            ctx.stroke();
-
-            points = this.shiftPointsH(points, -1 * deltaChipMainX);
-        }
-
-        newElement.addEventListener("webkitAnimationEnd", this.myEndFunction);
+        // newElement.addEventListener("webkitAnimationEnd", this.myEndFunction);
 
 
         /*Top Circuit*/
@@ -111,21 +110,8 @@ var mainPage = {
         // var dash = (botY1 - middlePointY)+(Math.sqrt(2)*d)+( (middlePointY - d)-chipMainY1);
         // alert(dash);
 
-        var newElement;
-        for (var i = 0; i < 3; i++) {
-            newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
-            newElement.setAttribute("class", "draw");
-            newElement.setAttribute("points", points);
-            newElement.style.strokeDasharray = dash;
-            newElement.style.strokeDashoffset = dash;
-            svg.appendChild(newElement);
+        drawBotLeft(svg, points, dash, deltaChipMainX, 1, -1);
 
-            ctx.beginPath();
-            ctx.arc(points[lastIndex - 1], points[lastIndex] + strokeWidth, strokeWidth, 0, 2 * Math.PI);
-            ctx.stroke();
-
-            points = this.shiftPointsH(points, deltaChipMainX);
-        }
 
 
         var topX2 = screenWidth - topX1;
@@ -144,21 +130,8 @@ var mainPage = {
         // var dash = (botY1 - middlePointY)+(Math.sqrt(2)*d)+( (middlePointY - d)-chipMainY1);
         // alert(dash);
 
-        var newElement;
-        for (var i = 0; i < 3; i++) {
-            newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
-            newElement.setAttribute("class", "draw");
-            newElement.setAttribute("points", points);
-            newElement.style.strokeDasharray = dash;
-            newElement.style.strokeDashoffset = dash;
-            svg.appendChild(newElement);
+        drawBotLeft(svg, points, dash, deltaChipMainX, -1, -1);
 
-            ctx.beginPath();
-            ctx.arc(points[lastIndex - 1], points[lastIndex] + strokeWidth, strokeWidth, 0, 2 * Math.PI);
-            ctx.stroke();
-
-            points = this.shiftPointsH(points, -1 * deltaChipMainX);
-        }
 
         this.drawTest(ctx);
     },
@@ -402,17 +375,11 @@ var mainPage = {
         // alert("end");
     },
 
-    shiftPointsH: function (points, deltaChipMainX) {
-        for (var i = 0; i < points.length; i++) {
-            if (i % 2 == 0) {
-                points[i] += deltaChipMainX;
-            }
-        }
-        return points;
-    },
+    
 
     
 }
+
 var animate = function() {
     if (t < breakpoints.length - 1) {
         requestAnimationFrame(animate);
@@ -426,3 +393,4 @@ var animate = function() {
     // increment "t" to get the next waypoint
     t++;
 }
+
