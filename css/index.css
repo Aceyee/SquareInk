@@ -14,8 +14,8 @@ body{
 }
 
 .socket{
-    animation: show 100ms linear forwards;
-    animation-delay: 2s;
+    animation: show 500ms linear forwards;
+    animation-delay: 1.6s;
 }
 
 .absoluteCenter{
@@ -36,7 +36,7 @@ svg .draw{
     stroke-width: 3px;
     fill: transparent;
     /* animation: animate 2s ease infinite; */
-    animation: animate 2s ease forwards;
+    animation: animate 2s ease-out forwards;
     /* -moz-animation: animate 2s ease 1; */
     /* -webkit-animation: animate 2s ease 1; */
 
