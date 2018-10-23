@@ -15,10 +15,17 @@ var drawBotLeft = function(svg, points, dash, deltaChipMainX, shiftDirection, mo
         newElement.style.strokeDashoffset = dash;
         svg.appendChild(newElement);
 
-        ctx.beginPath();
-        ctx.arc(points[lastIndex - 1], points[lastIndex] - moveCircleDirection*strokeWidth, strokeWidth, 0, 2 * Math.PI);
-        ctx.stroke();
+        newElement = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
+        newElement.style.stroke="aqua";
+        newElement.setAttribute("cx", points[lastIndex - 1]);
+        newElement.setAttribute("cy", points[lastIndex] - moveCircleDirection*strokeWidth);
+        newElement.setAttribute("r", strokeWidth);
+        svg.appendChild(newElement);
 
+        /*deprecared */
+        // ctx.beginPath();
+        // ctx.arc(points[lastIndex - 1], points[lastIndex] - moveCircleDirection*strokeWidth, strokeWidth, 0, 2 * Math.PI);
+        // ctx.stroke();
         points = shiftPointsH(points, shiftDirection*deltaChipMainX);
     }
         // newElement.addEventListener("webkitAnimationEnd", this.myEndFunction);
@@ -82,6 +89,7 @@ var circle = new Circle(x, y, dx, dy, radius);
 var animate2 =function(){
     requestAnimationFrame(animate2);
     ctx.clearRect(0,0, screenWidth, screenHeight);
+
     circle.update();
 }
 
@@ -102,7 +110,6 @@ var mainPage = {
     },
 
     drawSideLine: function(){
-        
         animate2();
     },
 
