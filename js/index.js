@@ -70,19 +70,24 @@ function Circle(x, y, dx, dy, radius) {
     this.draw = function () {
         // var grd = ctx.createLinearGradient(75,50,5,90,60,100);
         var grd = ctx.createRadialGradient(this.x, this.y, this.radius/2, this.x, this.y, this.radius);
-        grd.addColorStop(0, 'hsla(180, 100%, 71%, 1)');
-        grd.addColorStop(1, 'hsla(180, 100%, 71%, 0)');
+        grd.addColorStop(0, 'hsla(180, 100%, 75%, 1)');
+        grd.addColorStop(1, 'hsla(180, 100%, 75%, 0)');
 
         ctx.fillStyle=grd;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
         ctx.stroke();
         ctx.fill();
-
     }
 
     this.update = function () {
-        this.y += 1;
+        if(this.y+this.radius<screenHeight && this.y >0){
+            
+        }else{
+            this.dy=-this.dy;
+        }
+        this.y += this.dy;
+
         this.draw();
     }
 }
@@ -166,6 +171,18 @@ var mainPage = {
         var dash = (botY1 - middlePointY) + (Math.sqrt(2) * d) + ((middlePointY - d) - chipMainY1);
         drawBotLeft(svg, points, dash, deltaChipMainX, 1, 1);
 
+        /*Left Bottom Circuit */
+        var LeftBotX = chipMainOffset.left-chipMainBorder;
+        var LeftBotY = chipMainOffset.top +chipMainHeight;
+        for (var i = 0; i < 3; i++) {
+            var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
+            newElement.setAttribute("class", "socket");
+            newElement.setAttribute("cx", LeftBotX);
+            newElement.setAttribute("cy", LeftBotY-deltaChipMainX*i);
+            newElement.setAttribute("r", strokeWidth);
+            svg.appendChild(newElement);
+        }
+
         /*Bottom Right Circuit*/
         var botX2 = screenWidth - botX1;
         var botY2 = botY1;
@@ -176,6 +193,18 @@ var mainPage = {
             chipMainX2, chipMainY2
         ];
         drawBotLeft(svg, points, dash, deltaChipMainX, -1, 1);
+
+        /* Right Bottom Circuit*/
+        var RightBotX = screenWidth-LeftBotX;
+        var RightBotY = LeftBotY;
+        for (var i = 0; i < 3; i++) {
+            var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
+            newElement.setAttribute("class", "socket");
+            newElement.setAttribute("cx", RightBotX);
+            newElement.setAttribute("cy", RightBotY-deltaChipMainX*i);
+            newElement.setAttribute("r", strokeWidth);
+            svg.appendChild(newElement);
+        }
 
         /*Top Left Circuit*/
         var topX1 = chipMainX1 - d;
@@ -191,6 +220,18 @@ var mainPage = {
 
         drawBotLeft(svg, points, dash, deltaChipMainX, 1, -1);
 
+        var LeftTopX = LeftBotX;
+        var LeftTopY = screenHeight-LeftBotY;
+
+        for (var i = 0; i < 3; i++) {
+            var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
+            newElement.setAttribute("class", "socket");
+            newElement.setAttribute("cx", LeftTopX);
+            newElement.setAttribute("cy", LeftTopY+deltaChipMainX*i);
+            newElement.setAttribute("r", strokeWidth);
+            svg.appendChild(newElement);
+        }
+
         /*Top right Circuit*/
         var topX2 = screenWidth - topX1;
         var topY2 = 0;
@@ -205,6 +246,20 @@ var mainPage = {
             chipMainX2, chipMainTopY2];
 
         drawBotLeft(svg, points, dash, deltaChipMainX, -1, -1);
+
+        /*Right Top Circuit*/
+
+        var RightTopX = screenWidth- LeftTopX;
+        var RightTopY = LeftTopY;
+
+        for (var i = 0; i < 3; i++) {
+            var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
+            newElement.setAttribute("class", "socket");
+            newElement.setAttribute("cx", RightTopX);
+            newElement.setAttribute("cy", RightTopY+deltaChipMainX*i);
+            newElement.setAttribute("r", strokeWidth);
+            svg.appendChild(newElement);
+        }
     },
 
     drawTest: function (ctx) {
