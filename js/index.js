@@ -161,6 +161,15 @@ var animate = function () {
     circle.update();
 }
 
+var symmetryH = function(points){
+    for(var i=0; i<points.length; i++){
+        if(i%2==0){
+            points[i] = screenWidth - points[i];
+        }
+    }
+    return points;
+}
+
 var createPath = function (startX, startY, directionH, directionV) {
     // alert(startX+" "+stratY);
     var points = [];
@@ -411,15 +420,7 @@ var mainPage = {
         
         dash = (middlePointY-topY2)+Math.sqrt(2)*deltaChipMainX;
         drawTopThird(svg, points1, dash);
-
-        var topX2 = screenWidth - topX2;
-        var topY2 = 0;
-        var middlePointX = topX2;
-        var middlePointY = LeftTopY - deltaChipMainX;
-
-        var points1 = [topX2, topY2,
-            middlePointX, middlePointY,
-            RightTopX, RightTopY]
+        points1 = symmetryH(points1);
         drawTopThird(svg, points1, dash);
 
         var topX3 = LeftTopX - 4 * deltaChipMainX;
@@ -436,17 +437,7 @@ var mainPage = {
         dash = LeftTopY-4*deltaChipMainX + 2* Math.sqrt(2)* 2* deltaChipMainX;
         drawTopThird(svg, points3, dash);
 
-        var topX3 = screenWidth-topX3;
-        var topY3 = 0;
-        RightTopY += deltaChipMainX;
-        var middlePointX = RightTopX + 2 * deltaChipMainX;
-        var middlePointY = RightTopY - 2 * deltaChipMainX;
-
-        var points3 = [RightTopX, RightTopY,
-            middlePointX, middlePointY,
-            middlePointX, LeftTopY-4*deltaChipMainX,
-            topX3, topY3];
-        points3 = reverse(points3);
+        points3 = symmetryH(points3);
         drawTopThird(svg, points3, dash);
 
         var topX3 = LeftTopX - 5 * deltaChipMainX;
@@ -463,17 +454,7 @@ var mainPage = {
         dash = LeftTopY-4*deltaChipMainX + Math.sqrt(2)* (2+3)* deltaChipMainX;
         drawTopThird(svg, points3, dash);
 
-        var topX3 = RightTopX + 5 * deltaChipMainX;
-        var topY3 = 0;
-        RightTopY += deltaChipMainX;
-        var middlePointX = RightTopX + 3 * deltaChipMainX;
-        var middlePointY = RightTopY - 3 * deltaChipMainX;
-
-        var points3 = [RightTopX, RightTopY,
-            middlePointX, middlePointY,
-            middlePointX, RightTopY-5*deltaChipMainX,
-            topX3, topY3];
-        points3 = reverse(points3);
+        points3= symmetryH(points3);
         drawTopThird(svg, points3, dash);
     },
 
@@ -494,11 +475,7 @@ var mainPage = {
             }
         }
         return (waypoints);
-    },
-
-    myEndFunction: function () {
-        // alert("end");
-    },
+    }
 }
 
 
