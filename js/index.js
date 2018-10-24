@@ -68,7 +68,6 @@ var calcWaypoints= function (vertices) {
                 end=true;
             }
             waypoints.push(y);
-            // console.log(x+" "+y);
             if(end){
                 break;
             }
@@ -109,16 +108,12 @@ function Circle2(x, y, dx, dy, radius, detailPath) {
         this.y = detailPath[this.index+1];
         if(this.index<this.detailPath.length-2){
             this.index+=2;
+            this.draw();
+        }else{
+
         }
-        this.draw();
     }
 }
-
-var x = 200;
-var y = 200;
-var dx = 1;
-var dy = 1;
-var radius = 5;
 
 var circle2;
 var animate3 = function(){
@@ -133,8 +128,20 @@ var createPath = function (startX, startY, directionH, directionV) {
     // console.log(length);
     points.push(startX,startY);
     startCreatePath(points, startX, startY, directionH, directionV);
-
+    points = reverse(points);
     return points;
+}
+
+var reverse = function(points){
+    var reversePoints = [];
+    for(var i=0; i<points.length-1; i+=2){
+        var x = points[i];
+        var y = points[i+1];
+        reversePoints.unshift(y);
+        reversePoints.unshift(x);
+
+    }
+    return reversePoints;
 }
 
 var startCreatePath = function (points, currX, currY, directionH, directionV) {
@@ -239,7 +246,7 @@ var mainPage = {
         for(var i=0; i<detailPath.length; i++){
             // console.log(detailPath[i]);
         }
-        circle2 = new Circle2(200, 200, 1, 1, 30, detailPath);
+        circle2 = new Circle2(0, 0, 1, 1, strokeWidth+10, detailPath);
 
 
 
