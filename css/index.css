@@ -1,10 +1,9 @@
 body{
     /* background-color: black; */
-    background-image:radial-gradient(#022B2F, black);
+    background:radial-gradient(#022B2F, black);
 }
 
 #chipMain{
-    
     width: 20rem; 
     height: 20rem; 
     background-color: transparent;

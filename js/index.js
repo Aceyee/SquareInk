@@ -1,11 +1,11 @@
-var t = 1;
-var breakpoints;
 var strokeWidth = 5;
 var screenWidth;
 var screenHeight;
 var ctx;
 var detailPath;
 var division = 25;
+var circle;
+
 
 var drawTopSecond = function (svg, points, dash, deltaChipMainX, shiftDirection, moveCircleDirection) {
     var lastIndex = points.length - 1;
@@ -37,18 +37,18 @@ var drawTopThird = function (svg, points, dash, moveCircleDirection) {
     var lastIndex = points.length - 1;
 
     var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
-        newElement.setAttribute("class", "draw");
-        newElement.setAttribute("points", points);
-        newElement.style.strokeDasharray = dash;
-        newElement.style.strokeDashoffset = dash;
-        svg.appendChild(newElement);
-    
-        newElement = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
-        newElement.setAttribute("class", "socket");
-        newElement.setAttribute("cx", points[lastIndex - 1]+ 0.5* Math.sqrt(2)*moveCircleDirection*strokeWidth);
-        newElement.setAttribute("cy", points[lastIndex]+0.5* Math.sqrt(2)*strokeWidth);
-        newElement.setAttribute("r", strokeWidth);
-        svg.appendChild(newElement);
+    newElement.setAttribute("class", "draw");
+    newElement.setAttribute("points", points);
+    newElement.style.strokeDasharray = dash;
+    newElement.style.strokeDashoffset = dash;
+    svg.appendChild(newElement);
+
+    newElement = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
+    newElement.setAttribute("class", "socket");
+    newElement.setAttribute("cx", points[lastIndex - 1] + 0.5 * Math.sqrt(2) * moveCircleDirection * strokeWidth);
+    newElement.setAttribute("cy", points[lastIndex] + 0.5 * Math.sqrt(2) * strokeWidth);
+    newElement.setAttribute("r", strokeWidth);
+    svg.appendChild(newElement);
 }
 
 var shiftPointsH = function (points, deltaChipMainX) {
@@ -113,6 +113,7 @@ function Circle(x, y, dx, dy, radius, detailPath) {
         grd.addColorStop(0, 'hsla(180, 100%, 75%, 1)');
         grd.addColorStop(1, 'hsla(180, 100%, 75%, 0)');
 
+        ctx.beginPath();
         ctx.fillStyle = grd;
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
         ctx.fill();
@@ -132,6 +133,7 @@ function Circle(x, y, dx, dy, radius, detailPath) {
         }
     }
 
+
     this.update = function () {
         this.x = this.detailPath[this.index];
         this.y = this.detailPath[this.index + 1];
@@ -146,21 +148,22 @@ function Circle(x, y, dx, dy, radius, detailPath) {
             this.draw();
             this.index += 2;
         } else {
+            this.index = 0;
+            // circle = new Circle(0, 0, 1, 1, strokeWidth, detailPath);  
 
         }
     }
 }
 
-var circle;
 var animate = function () {
     requestAnimationFrame(animate);
     ctx.clearRect(0, 0, screenWidth, screenHeight);
     circle.update();
 }
 
-var symmetryH = function(points){
-    for(var i=0; i<points.length; i++){
-        if(i%2==0){
+var symmetryH = function (points) {
+    for (var i = 0; i < points.length; i++) {
+        if (i % 2 == 0) {
             points[i] = screenWidth - points[i];
         }
     }
@@ -261,6 +264,7 @@ var mainPage = {
     },
 
     drawSideLine: function () {
+        circle = new Circle(0, 0, 1, 1, strokeWidth, detailPath);
         animate();
     },
 
@@ -315,7 +319,6 @@ var mainPage = {
         for (var i = 0; i < detailPath.length; i++) {
             // console.log(detailPath[i]);
         }
-        circle = new Circle(0, 0, 1, 1, strokeWidth, detailPath);
 
         // for (var i = 0; i < pathPoints.length; i++) {
         //     // console.log(pathPoints[i]);
@@ -329,9 +332,9 @@ var mainPage = {
         svg.appendChild(newElement);*/
 
         /*Bottom Center Circuit */
-        var points =[chipMainX1+deltaChipMainX*4, screenHeight,
-            chipMainX1+deltaChipMainX*4, chipMainY1];
-        drawTopSecond(svg, points, screenHeight-chipMainY1, deltaChipMainX, 1, 1);
+        var points = [chipMainX1 + deltaChipMainX * 4, screenHeight,
+        chipMainX1 + deltaChipMainX * 4, chipMainY1];
+        drawTopSecond(svg, points, screenHeight - chipMainY1, deltaChipMainX, 1, 1);
 
         /*Bottom Right Circuit*/
 
@@ -377,7 +380,7 @@ var mainPage = {
         var LeftTopX = LeftBotX;
         var LeftTopY = screenHeight - LeftBotY;
 
-        
+
         /*Top right Circuit*/
         var topX2 = screenWidth - topX1;
         var topY2 = 0;
@@ -407,7 +410,7 @@ var mainPage = {
             svg.appendChild(newElement);
         }*/
 
-        var topX2 = LeftTopX -  deltaChipMainX;
+        var topX2 = LeftTopX - deltaChipMainX;
         var topY2 = 0;
         var middlePointX = topX2;
         var middlePointY = LeftTopY - deltaChipMainX;
@@ -415,8 +418,8 @@ var mainPage = {
         var points1 = [topX2, topY2,
             middlePointX, middlePointY,
             LeftTopX, LeftTopY]
-        
-        dash = (middlePointY-topY2)+Math.sqrt(2)*deltaChipMainX;
+
+        dash = (middlePointY - topY2) + Math.sqrt(2) * deltaChipMainX;
         drawTopThird(svg, points1, dash, 1);
         points1 = symmetryH(points1);
         drawTopThird(svg, points1, dash, -1);
@@ -429,11 +432,11 @@ var mainPage = {
 
         var points3 = [LeftTopX, LeftTopY,
             middlePointX, middlePointY,
-            middlePointX, LeftTopY-4*deltaChipMainX,
+            middlePointX, LeftTopY - 4 * deltaChipMainX,
             topX3, topY3];
         points3 = reverse(points3);
-        dash = LeftTopY-4*deltaChipMainX + 2* Math.sqrt(2)* 2* deltaChipMainX;
-        drawTopThird(svg, points3, dash,1);
+        dash = LeftTopY - 4 * deltaChipMainX + 2 * Math.sqrt(2) * 2 * deltaChipMainX;
+        drawTopThird(svg, points3, dash, 1);
 
         points3 = symmetryH(points3);
         drawTopThird(svg, points3, dash, -1);
@@ -446,13 +449,13 @@ var mainPage = {
 
         var points3 = [LeftTopX, LeftTopY,
             middlePointX, middlePointY,
-            middlePointX, LeftTopY-5*deltaChipMainX,
+            middlePointX, LeftTopY - 5 * deltaChipMainX,
             topX3, topY3];
         points3 = reverse(points3);
-        dash = LeftTopY-4*deltaChipMainX + Math.sqrt(2)* (2+3)* deltaChipMainX;
+        dash = LeftTopY - 4 * deltaChipMainX + Math.sqrt(2) * (2 + 3) * deltaChipMainX;
         drawTopThird(svg, points3, dash, 1);
 
-        points3= symmetryH(points3);
+        points3 = symmetryH(points3);
         drawTopThird(svg, points3, dash, -1);
     },
 
