@@ -97,11 +97,11 @@ function Circle2(x, y, dx, dy, radius, detailPath) {
         grd.addColorStop(1, 'hsla(180, 100%, 75%, 0)');
 
         ctx.fillStyle = grd;
-        ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
         ctx.fill();
 
         ctx.strokeStyle="aqua";
+        ctx.beginPath();
         ctx.moveTo(this.detailPath[this.sequence[0]], this.detailPath[this.sequence[1]]);
         for(var i=2; i<this.sequence.length; i+=2){
             ctx.lineTo(this.detailPath[this.sequence[i]], this.detailPath[this.sequence[i+1]]);
@@ -124,7 +124,7 @@ function Circle2(x, y, dx, dy, radius, detailPath) {
             }
             this.draw();
         }else{
-
+            
         }
     }
 }
@@ -288,7 +288,7 @@ var mainPage = {
         for(var i=0; i<detailPath.length; i++){
             // console.log(detailPath[i]);
         }
-        circle2 = new Circle2(0, 0, 1, 1, strokeWidth, detailPath);
+        circle2 = new Circle2(0, 0, 1, 1, strokeWidth+10, detailPath);
 
 
 
