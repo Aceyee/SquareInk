@@ -33,7 +33,7 @@ var drawTopSecond = function (svg, points, dash, deltaChipMainX, shiftDirection,
     // newElement.addEventListener("webkitAnimationEnd", this.myEndFunction);
 }
 
-var drawTopThird = function (svg, points, dash) {
+var drawTopThird = function (svg, points, dash, moveCircleDirection) {
     var lastIndex = points.length - 1;
 
     var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
@@ -45,8 +45,8 @@ var drawTopThird = function (svg, points, dash) {
     
         newElement = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
         newElement.setAttribute("class", "socket");
-        newElement.setAttribute("cx", points[lastIndex - 1]);
-        newElement.setAttribute("cy", points[lastIndex]);
+        newElement.setAttribute("cx", points[lastIndex - 1]+ 0.5* Math.sqrt(2)*moveCircleDirection*strokeWidth);
+        newElement.setAttribute("cy", points[lastIndex]+0.5* Math.sqrt(2)*strokeWidth);
         newElement.setAttribute("r", strokeWidth);
         svg.appendChild(newElement);
 }
@@ -109,7 +109,6 @@ function Circle(x, y, dx, dy, radius, detailPath) {
     this.sequence;
 
     this.draw = function () {
-        // var grd = ctx.createLinearGradient(75,50,5,90,60,100);
         var grd = ctx.createRadialGradient(this.x, this.y, this.radius / 2, this.x, this.y, this.radius);
         grd.addColorStop(0, 'hsla(180, 100%, 75%, 1)');
         grd.addColorStop(1, 'hsla(180, 100%, 75%, 0)');
@@ -131,8 +130,6 @@ function Circle(x, y, dx, dy, radius, detailPath) {
                 followRadius -= 1;
             }
         }
-
-        // ctx.lineTo(this.x-100, this.y+100);
     }
 
     this.update = function () {
@@ -171,9 +168,7 @@ var symmetryH = function(points){
 }
 
 var createPath = function (startX, startY, directionH, directionV) {
-    // alert(startX+" "+stratY);
     var points = [];
-    // console.log(length);
     points.push(startX, startY);
     startCreatePath(points, startX, startY, directionH, directionV);
     points = reverse(points);
@@ -236,7 +231,6 @@ var startCreatePath = function (points, currX, currY, directionH, directionV) {
         }
     }
 
-
     if (moveX && moveY) {
         if (zeroX > 0) {
             currY = currY + directionV * length - zeroX;
@@ -261,7 +255,6 @@ var mainPage = {
         c.setAttribute('width', screenWidth);
         c.setAttribute('height', screenHeight);
         ctx = c.getContext("2d");
-        // ctx.strokeStyle = "aqua";
 
         this.drawTopLine();
         this.drawSideLine();
@@ -424,9 +417,9 @@ var mainPage = {
             LeftTopX, LeftTopY]
         
         dash = (middlePointY-topY2)+Math.sqrt(2)*deltaChipMainX;
-        drawTopThird(svg, points1, dash);
+        drawTopThird(svg, points1, dash, 1);
         points1 = symmetryH(points1);
-        drawTopThird(svg, points1, dash);
+        drawTopThird(svg, points1, dash, -1);
 
         var topX3 = LeftTopX - 4 * deltaChipMainX;
         var topY3 = 0;
@@ -440,10 +433,10 @@ var mainPage = {
             topX3, topY3];
         points3 = reverse(points3);
         dash = LeftTopY-4*deltaChipMainX + 2* Math.sqrt(2)* 2* deltaChipMainX;
-        drawTopThird(svg, points3, dash);
+        drawTopThird(svg, points3, dash,1);
 
         points3 = symmetryH(points3);
-        drawTopThird(svg, points3, dash);
+        drawTopThird(svg, points3, dash, -1);
 
         var topX3 = LeftTopX - 5 * deltaChipMainX;
         var topY3 = 0;
@@ -457,10 +450,10 @@ var mainPage = {
             topX3, topY3];
         points3 = reverse(points3);
         dash = LeftTopY-4*deltaChipMainX + Math.sqrt(2)* (2+3)* deltaChipMainX;
-        drawTopThird(svg, points3, dash);
+        drawTopThird(svg, points3, dash, 1);
 
         points3= symmetryH(points3);
-        drawTopThird(svg, points3, dash);
+        drawTopThird(svg, points3, dash, -1);
     },
 
     calcWaypoints: function (vertices) {
@@ -482,6 +475,3 @@ var mainPage = {
         return (waypoints);
     }
 }
-
-
-

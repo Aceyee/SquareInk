@@ -1,11 +1,15 @@
 body{
-    background-color: black;
+    /* background-color: black; */
+    background-image:radial-gradient(#022B2F, black);
 }
 
 #chipMain{
+    
     width: 20rem; 
     height: 20rem; 
-    background-color: black;
+    background-color: transparent;
+    color: transparent;
+
     border-style: double;
     border-width: 1rem;
     border-radius: 5rem;
@@ -14,6 +18,7 @@ body{
 }
 
 .socket{
+    fill: transparent;
     animation: show 500ms linear forwards;
     animation-delay: 1.6s;
 }
@@ -60,8 +65,8 @@ svg .draw{
 
 @keyframes show{
     0% {
-        color: black;
-        stroke: black;
+        color: transparent;
+        stroke: transparent;
     }
     100% {
         color: aqua;
