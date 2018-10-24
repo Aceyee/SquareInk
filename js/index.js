@@ -139,7 +139,6 @@ var reverse = function(points){
         var y = points[i+1];
         reversePoints.unshift(y);
         reversePoints.unshift(x);
-
     }
     return reversePoints;
 }
@@ -158,35 +157,47 @@ var startCreatePath = function (points, currX, currY, directionH, directionV) {
     }
 
     if(moveX){
-        if (currX >= length) {
-            currX -= length;
+        var nextX = currX + directionH * length;
+        if (nextX>0 && nextX<screenWidth) {
+            currX = nextX;
         }else{
-            zeroX = currX;
-            currX = 0;
+            if(directionH>0){
+                currX = screenWidth;
+                zeroX = screenWidth - currX;
+            }else{
+                currX = 0;
+                zeroX = currX;  
+            }
             end = true;
         }
     }
 
     if(moveY){
-        if(currY >= length){
-            currY -= length;
+        var nextY = currY + directionV * length;
+        if(nextY>0 && nextY<screenHeight){
+            currY = nextY;
         }else{
-            zeroY = currY;
-            currY = 0;
+            if(directionV>0){
+                currY = screenHeight;
+                zeroY = screenHeight-currY;
+            }else{
+                currY = 0;
+                zeroY = currY;
+            }
             end = true;
         }
     }
 
+    
     if(moveX && moveY){
         if(zeroX>0){
-            currY = currY + length - zeroX;
+            currY = currY + directionV* length - zeroX;
         }
     
         if(zeroY>0){
-            currX = currX + length - zeroY;
+            currX = currX + directionH* length - zeroY;
         }
     }
-    
 
     points.push(currX, currY);
     if(!end){
