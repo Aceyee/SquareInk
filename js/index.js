@@ -41,31 +41,11 @@ var shiftPointsH = function (points, deltaChipMainX) {
     return points;
 }
 
-var animate = function () {
-    if (t < breakpoints.length - 1) {
-        requestAnimationFrame(animate);
-
-    } else {
-        // ctx.clearRect(0,0,300+5,200+5);
-        t = 1;
-
-    }
-
-    // draw a line segment from the last waypoint
-    // to the current waypoint
-    ctx.beginPath();
-    ctx.moveTo(breakpoints[t - 1].x, breakpoints[t - 1].y);
-    ctx.lineTo(breakpoints[t].x, breakpoints[t].y);
-    ctx.stroke();
-    // increment "t" to get the next waypoint
-    t++;
-}
-
 var calcWaypoints= function (vertices) {
     var waypoints = [];
     var end = false;
-    var division = 10;
-    for (var i = 0; i < vertices.length-3; i+=2) {
+    var division = 20;
+    for (var i = 0; i < vertices.length-2; i+=2) {
         var pt1X = vertices[i];
         var pt1Y = vertices[i+1];
 
@@ -101,37 +81,6 @@ var calcWaypoints= function (vertices) {
     return (waypoints);
 }
 
-function Circle(x, y, dx, dy, radius) {
-    this.x = x;
-    this.y = y;
-    this.dx = dx;
-    this.dy = dy;
-    this.radius = radius;
-
-    this.draw = function () {
-        // var grd = ctx.createLinearGradient(75,50,5,90,60,100);
-        var grd = ctx.createRadialGradient(this.x, this.y, this.radius / 2, this.x, this.y, this.radius);
-        grd.addColorStop(0, 'hsla(180, 100%, 75%, 1)');
-        grd.addColorStop(1, 'hsla(180, 100%, 75%, 0)');
-
-        ctx.fillStyle = grd;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-        ctx.stroke();
-        ctx.fill();
-    }
-
-    this.update = function () {
-        if (this.y + this.radius < screenHeight && this.y > 0) {
-
-        } else {
-            this.dy = -this.dy;
-        }
-        this.y += this.dy;
-        this.draw();
-    }
-}
-
 function Circle2(x, y, dx, dy, radius, detailPath) {
     this.x = x;
     this.y = y;
@@ -158,7 +107,9 @@ function Circle2(x, y, dx, dy, radius, detailPath) {
         // console.log();
         this.x = detailPath[this.index];
         this.y = detailPath[this.index+1];
-        // this.index+=2;
+        if(this.index<this.detailPath.length-2){
+            this.index+=2;
+        }
         this.draw();
     }
 }
@@ -168,13 +119,6 @@ var y = 200;
 var dx = 1;
 var dy = 1;
 var radius = 5;
-var circle = new Circle(x, y, dx, dy, radius);
-
-var animate2 = function () {
-    requestAnimationFrame(animate2);
-    ctx.clearRect(0, 0, screenWidth, screenHeight);
-    circle.update();
-}
 
 var circle2;
 var animate3 = function(){
@@ -243,20 +187,7 @@ var mainPage = {
     },
 
     drawSideLine: function () {
-        // animate2();
         animate3();
-
-        // var grd = ctx.createLinearGradient(200,200,5,200,200,100);
-        /*
-        var grd = ctx.createRadialGradient(200, 200, 0, 200, 200, 30);
-        grd.addColorStop(0, "red");
-        grd.addColorStop(1, "white");
-
-        ctx.beginPath();
-        ctx.fillStyle= grd;
-        ctx.arc(200, 200, 200, 0, Math.PI * 2, false);
-        ctx.stroke();
-        ctx.fill();*/
     },
 
     drawTopDownLine: function () {
