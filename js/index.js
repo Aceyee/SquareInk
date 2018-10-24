@@ -5,6 +5,7 @@ var screenWidth;
 var screenHeight;
 var ctx;
 var detailPath;
+var division = 25;
 
 var drawBotLeft = function (svg, points, dash, deltaChipMainX, shiftDirection, moveCircleDirection) {
     var lastIndex = points.length - 1;
@@ -44,7 +45,6 @@ var shiftPointsH = function (points, deltaChipMainX) {
 var calcWaypoints= function (vertices) {
     var waypoints = [];
     var end = false;
-    var division = 25;
     for (var i = 0; i < vertices.length-2; i+=2) {
         var pt1X = vertices[i];
         var pt1Y = vertices[i+1];
@@ -88,6 +88,7 @@ function Circle2(x, y, dx, dy, radius, detailPath) {
     this.radius = radius;
     this.detailPath = detailPath;
     this.index = 0;
+    this.sequence;
 
     this.draw = function () {
         // var grd = ctx.createLinearGradient(75,50,5,90,60,100);
@@ -98,16 +99,29 @@ function Circle2(x, y, dx, dy, radius, detailPath) {
         ctx.fillStyle = grd;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-        ctx.stroke();
         ctx.fill();
+
+        ctx.strokeStyle="aqua";
+        ctx.moveTo(this.detailPath[this.sequence[0]], this.detailPath[this.sequence[1]]);
+        for(var i=2; i<this.sequence.length; i+=2){
+            ctx.lineTo(this.detailPath[this.sequence[i]], this.detailPath[this.sequence[i+1]]);
+        }
+        // ctx.lineTo(this.x-100, this.y+100);
+        ctx.stroke();
     }
 
     this.update = function () {
         // console.log();
-        this.x = detailPath[this.index];
-        this.y = detailPath[this.index+1];
+        this.x = this.detailPath[this.index];
+        this.y = this.detailPath[this.index+1];
+        this.sequence = [];
         if(this.index<this.detailPath.length-2){
             this.index+=2;
+            for(var i=this.index-division*2; i<this.index; i++){
+                if(i>=0 &&i<this.detailPath.length){
+                    this.sequence.push(i);
+                }
+            }
             this.draw();
         }else{
 
@@ -274,20 +288,20 @@ var mainPage = {
         for(var i=0; i<detailPath.length; i++){
             // console.log(detailPath[i]);
         }
-        circle2 = new Circle2(0, 0, 1, 1, strokeWidth+10, detailPath);
+        circle2 = new Circle2(0, 0, 1, 1, strokeWidth, detailPath);
 
 
 
         // for (var i = 0; i < pathPoints.length; i++) {
         //     // console.log(pathPoints[i]);
         // }
-        
+        /*
         var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
         newElement.setAttribute("class", "draw");
         newElement.setAttribute("points", pathPoints);
         // newElement.style.strokeDasharray = 1000;
         // newElement.style.strokeDashoffset = 1000;
-        svg.appendChild(newElement);
+        svg.appendChild(newElement);*/
 
         /*Bottom Right Circuit*/
         var botX2 = screenWidth - botX1;
