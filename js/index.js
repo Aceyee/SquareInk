@@ -100,14 +100,17 @@ function Circle2(x, y, dx, dy, radius, detailPath) {
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
         ctx.fill();
 
-        ctx.strokeStyle="aqua";
-        ctx.beginPath();
-        ctx.moveTo(this.detailPath[this.sequence[0]], this.detailPath[this.sequence[1]]);
-        for(var i=2; i<this.sequence.length; i+=2){
-            ctx.lineTo(this.detailPath[this.sequence[i]], this.detailPath[this.sequence[i+1]]);
+        if(this.sequence.length>0){
+            var grd2 = ctx.createRadialGradient(this.detailPath[this.sequence[0]], this.detailPath[this.sequence[1]], this.radius / 2,this.detailPath[this.sequence[0]], this.detailPath[this.sequence[1]], this.radius);
+            grd2.addColorStop(0, 'hsla(180, 100%, 75%, 1)');
+            grd2.addColorStop(1, 'hsla(180, 100%, 75%, 0)');
+
+            ctx.fillStyle = grd2;
+            ctx.arc(this.detailPath[this.sequence[0]],  this.detailPath[this.sequence[1]], this.radius, 0, Math.PI * 2, false);
+            ctx.fill();
         }
+            
         // ctx.lineTo(this.x-100, this.y+100);
-        ctx.stroke();
     }
 
     this.update = function () {
@@ -116,13 +119,14 @@ function Circle2(x, y, dx, dy, radius, detailPath) {
         this.y = this.detailPath[this.index+1];
         this.sequence = [];
         if(this.index<this.detailPath.length-2){
-            this.index+=2;
-            for(var i=this.index-division*2; i<this.index; i++){
+            for(var i=this.index-4; i<this.index; i+=2){
                 if(i>=0 &&i<this.detailPath.length){
                     this.sequence.push(i);
+                    this.sequence.push(i+1);
                 }
             }
             this.draw();
+            this.index+=2;
         }else{
             
         }
