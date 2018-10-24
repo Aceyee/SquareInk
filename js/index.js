@@ -4,6 +4,7 @@ var strokeWidth = 5;
 var screenWidth;
 var screenHeight;
 var ctx;
+var detailPath;
 
 var drawBotLeft = function (svg, points, dash, deltaChipMainX, shiftDirection, moveCircleDirection) {
     var lastIndex = points.length - 1;
@@ -60,6 +61,46 @@ var animate = function () {
     t++;
 }
 
+var calcWaypoints= function (vertices) {
+    var waypoints = [];
+    var end = false;
+    var division = 10;
+    for (var i = 0; i < vertices.length-3; i+=2) {
+        var pt1X = vertices[i];
+        var pt1Y = vertices[i+1];
+
+        var pt2X = vertices[i+2];
+        var pt2Y = vertices[i+3];
+
+        var dx = pt2X- pt1X;
+        var dy = pt2Y - pt1Y;
+
+        for (var j = 0; j < division; j++) {
+            var x = pt1X + dx * j / division;
+            if(x<0){
+                x=0;
+                end=true;
+            }
+            waypoints.push(x);
+            var y = pt1Y + dy * j / division;
+            if(y<0){
+                y=0;
+                end=true;
+            }
+            waypoints.push(y);
+            // console.log(x+" "+y);
+            if(end){
+                break;
+            }
+        
+        }
+        if(end){
+            break;
+        }
+    }
+    return (waypoints);
+}
+
 function Circle(x, y, dx, dy, radius) {
     this.x = x;
     this.y = y;
@@ -69,11 +110,11 @@ function Circle(x, y, dx, dy, radius) {
 
     this.draw = function () {
         // var grd = ctx.createLinearGradient(75,50,5,90,60,100);
-        var grd = ctx.createRadialGradient(this.x, this.y, this.radius/2, this.x, this.y, this.radius);
+        var grd = ctx.createRadialGradient(this.x, this.y, this.radius / 2, this.x, this.y, this.radius);
         grd.addColorStop(0, 'hsla(180, 100%, 75%, 1)');
         grd.addColorStop(1, 'hsla(180, 100%, 75%, 0)');
 
-        ctx.fillStyle=grd;
+        ctx.fillStyle = grd;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
         ctx.stroke();
@@ -81,13 +122,43 @@ function Circle(x, y, dx, dy, radius) {
     }
 
     this.update = function () {
-        if(this.y+this.radius<screenHeight && this.y >0){
-            
-        }else{
-            this.dy=-this.dy;
+        if (this.y + this.radius < screenHeight && this.y > 0) {
+
+        } else {
+            this.dy = -this.dy;
         }
         this.y += this.dy;
+        this.draw();
+    }
+}
 
+function Circle2(x, y, dx, dy, radius, detailPath) {
+    this.x = x;
+    this.y = y;
+    this.dx = dx;
+    this.dy = dy;
+    this.radius = radius;
+    this.detailPath = detailPath;
+    this.index = 0;
+
+    this.draw = function () {
+        // var grd = ctx.createLinearGradient(75,50,5,90,60,100);
+        var grd = ctx.createRadialGradient(this.x, this.y, this.radius / 2, this.x, this.y, this.radius);
+        grd.addColorStop(0, 'hsla(180, 100%, 75%, 1)');
+        grd.addColorStop(1, 'hsla(180, 100%, 75%, 0)');
+
+        ctx.fillStyle = grd;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+        ctx.stroke();
+        ctx.fill();
+    }
+
+    this.update = function () {
+        // console.log();
+        this.x = detailPath[this.index];
+        this.y = detailPath[this.index+1];
+        // this.index+=2;
         this.draw();
     }
 }
@@ -105,6 +176,56 @@ var animate2 = function () {
     circle.update();
 }
 
+var circle2;
+var animate3 = function(){
+    requestAnimationFrame(animate3);
+    ctx.clearRect(0, 0, screenWidth, screenHeight);
+    circle2.update();
+}
+
+var createPath = function (startX, startY, directionH, directionV) {
+    // alert(startX+" "+stratY);
+    var points = [];
+    // console.log(length);
+    points.push(startX,startY);
+    startCreatePath(points, startX, startY, directionH, directionV);
+
+    return points;
+}
+
+var startCreatePath = function (points, currX, currY, directionH, directionV) {
+    var length = Math.random() * 25 + 25;
+    var moveX = Math.random()>0.5 ? true:false;
+    var moveY = Math.random()>0.5 ? true:false;
+    var end = false;
+
+    if(!moveX && !moveY){
+        moveX=true;
+        moveY=true;
+    }
+
+    if(moveX){
+        if (currX >= length) {
+            currX -= length;
+        }else{
+            currX = 0;
+            end = true;
+        }
+    }
+
+    if(moveY){
+        if(currY >= length){
+            currY -= length;
+        }else{
+            currY = 0;
+            end = true;
+        }
+    }
+    points.push(currX, currY);
+    if(!end){
+        startCreatePath(points, currX, currY, directionH, directionV);
+    }
+}
 
 var mainPage = {
     onCreate: function () {
@@ -118,14 +239,12 @@ var mainPage = {
 
         this.drawTopDownLine();
         // this.drawTest(ctx);
-
-        
-
         this.drawSideLine();
     },
 
     drawSideLine: function () {
-        animate2();
+        // animate2();
+        animate3();
 
         // var grd = ctx.createLinearGradient(200,200,5,200,200,100);
         /*
@@ -172,16 +291,36 @@ var mainPage = {
         drawBotLeft(svg, points, dash, deltaChipMainX, 1, 1);
 
         /*Left Bottom Circuit */
-        var LeftBotX = chipMainOffset.left-chipMainBorder;
-        var LeftBotY = chipMainOffset.top +chipMainHeight;
+        var LeftBotX = chipMainOffset.left - chipMainBorder;
+        var LeftBotY = chipMainOffset.top + chipMainHeight;
         for (var i = 0; i < 3; i++) {
             var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
             newElement.setAttribute("class", "socket");
             newElement.setAttribute("cx", LeftBotX);
-            newElement.setAttribute("cy", LeftBotY-deltaChipMainX*i);
+            newElement.setAttribute("cy", LeftBotY - deltaChipMainX * i);
             newElement.setAttribute("r", strokeWidth);
             svg.appendChild(newElement);
         }
+
+        var pathPoints = createPath(LeftBotX, LeftBotY, -1, 1);
+        
+        detailPath = calcWaypoints(pathPoints);
+        for(var i=0; i<detailPath.length; i++){
+            // console.log(detailPath[i]);
+        }
+        circle2 = new Circle2(200, 200, 1, 1, 30, detailPath);
+
+
+
+        // for (var i = 0; i < pathPoints.length; i++) {
+        //     // console.log(pathPoints[i]);
+        // }
+        var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
+        newElement.setAttribute("class", "draw");
+        newElement.setAttribute("points", pathPoints);
+        // newElement.style.strokeDasharray = 1000;
+        // newElement.style.strokeDashoffset = 1000;
+        svg.appendChild(newElement);
 
         /*Bottom Right Circuit*/
         var botX2 = screenWidth - botX1;
@@ -194,7 +333,9 @@ var mainPage = {
         ];
         drawBotLeft(svg, points, dash, deltaChipMainX, -1, 1);
 
+
         /* Right Bottom Circuit*/
+        /*
         var RightBotX = screenWidth-LeftBotX;
         var RightBotY = LeftBotY;
         for (var i = 0; i < 3; i++) {
@@ -204,7 +345,7 @@ var mainPage = {
             newElement.setAttribute("cy", RightBotY-deltaChipMainX*i);
             newElement.setAttribute("r", strokeWidth);
             svg.appendChild(newElement);
-        }
+        }*/
 
         /*Top Left Circuit*/
         var topX1 = chipMainX1 - d;
@@ -220,6 +361,7 @@ var mainPage = {
 
         drawBotLeft(svg, points, dash, deltaChipMainX, 1, -1);
 
+        /*
         var LeftTopX = LeftBotX;
         var LeftTopY = screenHeight-LeftBotY;
 
@@ -230,7 +372,7 @@ var mainPage = {
             newElement.setAttribute("cy", LeftTopY+deltaChipMainX*i);
             newElement.setAttribute("r", strokeWidth);
             svg.appendChild(newElement);
-        }
+        }*/
 
         /*Top right Circuit*/
         var topX2 = screenWidth - topX1;
@@ -249,6 +391,7 @@ var mainPage = {
 
         /*Right Top Circuit*/
 
+        /*
         var RightTopX = screenWidth- LeftTopX;
         var RightTopY = LeftTopY;
 
@@ -259,7 +402,7 @@ var mainPage = {
             newElement.setAttribute("cy", RightTopY+deltaChipMainX*i);
             newElement.setAttribute("r", strokeWidth);
             svg.appendChild(newElement);
-        }
+        }*/
     },
 
     drawTest: function (ctx) {
