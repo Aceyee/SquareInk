@@ -44,7 +44,7 @@ var shiftPointsH = function (points, deltaChipMainX) {
 var calcWaypoints= function (vertices) {
     var waypoints = [];
     var end = false;
-    var division = 20;
+    var division = 25;
     for (var i = 0; i < vertices.length-2; i+=2) {
         var pt1X = vertices[i];
         var pt1Y = vertices[i+1];
@@ -144,7 +144,7 @@ var reverse = function(points){
 }
 
 var startCreatePath = function (points, currX, currY, directionH, directionV) {
-    var length = Math.random() * 25 + 25;
+    var length = Math.random() * 50 + 25;
     var moveX = Math.random()>0.5 ? true:false;
     var moveY = Math.random()>0.5 ? true:false;
     var end = false;
@@ -162,11 +162,11 @@ var startCreatePath = function (points, currX, currY, directionH, directionV) {
             currX = nextX;
         }else{
             if(directionH>0){
-                currX = screenWidth;
                 zeroX = screenWidth - currX;
+                currX = screenWidth;
             }else{
-                currX = 0;
                 zeroX = currX;  
+                currX = 0;
             }
             end = true;
         }
@@ -178,11 +178,11 @@ var startCreatePath = function (points, currX, currY, directionH, directionV) {
             currY = nextY;
         }else{
             if(directionV>0){
-                currY = screenHeight;
                 zeroY = screenHeight-currY;
+                currY = screenHeight;
             }else{
-                currY = 0;
                 zeroY = currY;
+                currY = 0;
             }
             end = true;
         }
@@ -195,7 +195,7 @@ var startCreatePath = function (points, currX, currY, directionH, directionV) {
         }
     
         if(zeroY>0){
-            currX = currX + directionH* length - zeroY;
+            currX = currX - directionH* length - zeroY;
         }
     }
 
@@ -258,6 +258,7 @@ var mainPage = {
         /*Left Bottom Circuit */
         var LeftBotX = chipMainOffset.left - chipMainBorder;
         var LeftBotY = chipMainOffset.top + chipMainHeight;
+        /*
         for (var i = 0; i < 3; i++) {
             var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
             newElement.setAttribute("class", "socket");
@@ -265,7 +266,7 @@ var mainPage = {
             newElement.setAttribute("cy", LeftBotY - deltaChipMainX * i);
             newElement.setAttribute("r", strokeWidth);
             svg.appendChild(newElement);
-        }
+        }*/
 
         var pathPoints = createPath(LeftBotX, LeftBotY, -1, 1);
         
@@ -280,6 +281,7 @@ var mainPage = {
         // for (var i = 0; i < pathPoints.length; i++) {
         //     // console.log(pathPoints[i]);
         // }
+        
         var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
         newElement.setAttribute("class", "draw");
         newElement.setAttribute("points", pathPoints);
