@@ -301,7 +301,7 @@ var mainPage = {
             middlePointX, middlePointY,
             middlePointX + d, middlePointY - d,
             chipMainX1, chipMainY1];
-        drawBotLeft(svg, points, dash, deltaChipMainX, 1, 1);*/
+        drawTopSecond(svg, points, dash, deltaChipMainX, 1, 1);*/
 
         /*Left Bottom Circuit */
         var LeftBotX = chipMainOffset.left - chipMainBorder;
@@ -334,6 +334,11 @@ var mainPage = {
         // newElement.style.strokeDasharray = 1000;
         // newElement.style.strokeDashoffset = 1000;
         svg.appendChild(newElement);*/
+
+        /*Bottom Center Circuit */
+        var points =[chipMainX1+deltaChipMainX*4, screenHeight,
+            chipMainX1+deltaChipMainX*4, chipMainY1];
+        drawTopSecond(svg, points, screenHeight-chipMainY1, deltaChipMainX, 1, 1);
 
         /*Bottom Right Circuit*/
 
