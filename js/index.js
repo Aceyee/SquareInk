@@ -417,10 +417,37 @@ var mainPage = {
         var middlePointX = topX2;
         var middlePointY = LeftTopY - deltaChipMainX;
 
-        var points2 = [topX2, topY2,
+        var points1 = [topX2, topY2,
             middlePointX, middlePointY,
             RightTopX, RightTopY]
-        drawTopThird(svg, points2, dash);
+        drawTopThird(svg, points1, dash);
+
+        var topX3 = LeftTopX - 4 * deltaChipMainX;
+        var topY3 = 0;
+        LeftTopY += deltaChipMainX;
+        var middlePointX = LeftTopX - 2 * deltaChipMainX;
+        var middlePointY = LeftTopY - 2 * deltaChipMainX;
+
+        var points3 = [LeftTopX, LeftTopY,
+            middlePointX, middlePointY,
+            middlePointX, LeftTopY-4*deltaChipMainX,
+            topX3, topY3];
+        points3 = reverse(points3);
+        dash = LeftTopY-4*deltaChipMainX + 2* Math.sqrt(2)* 2* deltaChipMainX;
+        drawTopThird(svg, points3, dash);
+
+        var topX3 = screenWidth-topX3;
+        var topY3 = 0;
+        RightTopY += deltaChipMainX;
+        var middlePointX = RightTopX + 2 * deltaChipMainX;
+        var middlePointY = RightTopY - 2 * deltaChipMainX;
+
+        var points3 = [RightTopX, RightTopY,
+            middlePointX, middlePointY,
+            middlePointX, LeftTopY-4*deltaChipMainX,
+            topX3, topY3];
+        points3 = reverse(points3);
+        drawTopThird(svg, points3, dash);
     },
 
     calcWaypoints: function (vertices) {
