@@ -149,6 +149,8 @@ var startCreatePath = function (points, currX, currY, directionH, directionV) {
     var moveX = Math.random()>0.5 ? true:false;
     var moveY = Math.random()>0.5 ? true:false;
     var end = false;
+    var zeroX=0;
+    var zeroY=0;
 
     if(!moveX && !moveY){
         moveX=true;
@@ -159,6 +161,7 @@ var startCreatePath = function (points, currX, currY, directionH, directionV) {
         if (currX >= length) {
             currX -= length;
         }else{
+            zeroX = currX;
             currX = 0;
             end = true;
         }
@@ -168,10 +171,23 @@ var startCreatePath = function (points, currX, currY, directionH, directionV) {
         if(currY >= length){
             currY -= length;
         }else{
+            zeroY = currY;
             currY = 0;
             end = true;
         }
     }
+
+    if(moveX && moveY){
+        if(zeroX>0){
+            currY = currY + length - zeroX;
+        }
+    
+        if(zeroY>0){
+            currX = currX + length - zeroY;
+        }
+    }
+    
+
     points.push(currX, currY);
     if(!end){
         startCreatePath(points, currX, currY, directionH, directionV);
