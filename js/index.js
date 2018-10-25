@@ -283,7 +283,7 @@ var mainPage = {
     drawTopLine: function () {
         var svg = document.getElementsByTagName('svg')[0]; //Get svg element
 
-        var chipMainBorder = 50;
+        var chipMainBorder = 25;
         var chipMainOffset = $('#chipMain').offset();
         var chipMainWidth = $('#chipMain').width();
         var chipMainHeight = $('#chipMain').height();
@@ -295,12 +295,12 @@ var mainPage = {
 
         var d = 20;
         var count = 9;
+        var deltaChipMainX = chipMainWidth / count;
 
         /*Bottom Left Circuit*/
         var botLeftX = chipMainLeft - d;
         var botY = screenHeight;
 
-        var deltaChipMainX = chipMainWidth / count;
         var middlePointX = botLeftX;
         var middlePointY = botY - (botY - chipMainBot - d) / 2;
         var dash = (botY - middlePointY) + (Math.sqrt(2) * d) + ((middlePointY - d) - chipMainBot);
@@ -359,7 +359,6 @@ var mainPage = {
         drawTopSecond(svg, points, screenHeight - chipMainBot, deltaChipMainX, 1, 1);
 
         /*Bottom Right Circuit*/
-
         var botX2 = screenWidth - botLeftX;
         var botY2 = botY;
         /*
@@ -404,14 +403,14 @@ var mainPage = {
 
 
         /*Top right Circuit*/
-        var topX2 = screenWidth - topLeftX;
+        var topRightX = screenWidth - topLeftX;
         var topY2 = 0;
         var chipMainTopY2 = chipMainTopY1;
 
-        var middlePointX = topX2;
+        var middlePointX = topRightX;
         var middlePointY = (chipMainOffset.top - chipMainBorder) / 2;
 
-        var points = [topX2, topY2,
+        var points = [topRightX, topY2,
             middlePointX, middlePointY,
             middlePointX - d, middlePointY + d,
             chipMainRight, chipMainTopY2];
@@ -432,12 +431,12 @@ var mainPage = {
             svg.appendChild(newElement);
         }*/
 
-        var topX2 = LeftTopX - deltaChipMainX;
+        var topRightX = LeftTopX - deltaChipMainX;
         var topY2 = 0;
-        var middlePointX = topX2;
+        var middlePointX = topRightX;
         var middlePointY = LeftTopY - deltaChipMainX;
 
-        var points1 = [topX2, topY2,
+        var points1 = [topRightX, topY2,
             middlePointX, middlePointY,
             LeftTopX, LeftTopY]
 
@@ -476,7 +475,6 @@ var mainPage = {
         points3 = reverse(points3);
         dash = LeftTopY - 4 * deltaChipMainX + Math.sqrt(2) * (2 + 3) * deltaChipMainX;
         drawTopThird(svg, points3, dash, 1);
-
         points3 = symmetryH(points3);
         drawTopThird(svg, points3, dash, -1);
     },
