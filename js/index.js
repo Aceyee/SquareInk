@@ -3,8 +3,14 @@ var screenWidth;
 var screenHeight;
 var ctx;
 var detailPath;
+var detailPath2;
+var detailPath3;
+
 var division = 25;
 var circle;
+var circle2;
+var circle3;
+
 
 
 var drawTopSecond = function (svg, points, dash, deltaChipMainX, shiftDirection, moveCircleDirection) {
@@ -159,6 +165,9 @@ var animate = function () {
     requestAnimationFrame(animate);
     ctx.clearRect(0, 0, screenWidth, screenHeight);
     circle.update();
+    circle2.update();
+    circle3.update();
+
 }
 
 var symmetryH = function (points) {
@@ -265,6 +274,8 @@ var mainPage = {
 
     drawSideLine: function () {
         circle = new Circle(0, 0, 1, 1, strokeWidth, detailPath);
+        circle2 = new Circle(0, 0, 1, 1, strokeWidth, detailPath2);
+        circle3 = new Circle(0, 0, 1, 1, strokeWidth, detailPath3);
         animate();
     },
 
@@ -314,8 +325,13 @@ var mainPage = {
         }*/
 
         var pathPoints = createPath(LeftBotX, LeftBotY, -1, 1);
+        var pathPoints2 = createPath(LeftBotX, LeftBotY-deltaChipMainX, -1, 1);
+        var pathPoints3 = createPath(LeftBotX, LeftBotY-2*deltaChipMainX, -1, 1);
 
         detailPath = calcWaypoints(pathPoints);
+        detailPath2 = calcWaypoints(pathPoints2);
+        detailPath3 = calcWaypoints(pathPoints3);
+
         for (var i = 0; i < detailPath.length; i++) {
             // console.log(detailPath[i]);
         }
