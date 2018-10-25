@@ -8,9 +8,8 @@ body{
     height: 20rem; 
     background-color: transparent;
     color: transparent;
-
     border-style: double;
-    border-width: 1rem;
+    border-width: 0.5rem;
     border-radius: 5rem;
     animation: show 1000ms ease forwards;
     animation-delay: 2s;
