@@ -281,36 +281,35 @@ var mainPage = {
     },
 
     drawTopLine: function () {
+        var svg = document.getElementsByTagName('svg')[0]; //Get svg element
+
         var chipMainBorder = 50;
         var chipMainOffset = $('#chipMain').offset();
         var chipMainWidth = $('#chipMain').width();
         var chipMainHeight = $('#chipMain').height();
 
-        var chipMainX1 = chipMainOffset.left;
-        var chipMainX2 = screenWidth -chipMainX1;
+        var chipMainLeft = chipMainOffset.left;
+        var chipMainRight = screenWidth -chipMainLeft;
         var chipMainTop =  chipMainOffset.top - chipMainBorder;
-        var chipMainY1 = screenHeight - chipMainTop;
-        // var chipMainY2 = chipMainY1;
-
-        var svg = document.getElementsByTagName('svg')[0]; //Get svg element
+        var chipMainBot = screenHeight - chipMainTop;
 
         var d = 20;
         var count = 9;
 
         /*Bottom Left Circuit*/
-        var botX1 = chipMainX1 - d;
-        var botY1 = screenHeight;
+        var botLeftX = chipMainLeft - d;
+        var botY = screenHeight;
 
         var deltaChipMainX = chipMainWidth / count;
-        var middlePointX = botX1;
-        var middlePointY = botY1 - (botY1 - chipMainY1 - d) / 2;
-        var dash = (botY1 - middlePointY) + (Math.sqrt(2) * d) + ((middlePointY - d) - chipMainY1);
+        var middlePointX = botLeftX;
+        var middlePointY = botY - (botY - chipMainBot - d) / 2;
+        var dash = (botY - middlePointY) + (Math.sqrt(2) * d) + ((middlePointY - d) - chipMainBot);
 
         /*
-        var points = [botX1, botY1,
+        var points = [botLeftX, botY,
             middlePointX, middlePointY,
             middlePointX + d, middlePointY - d,
-            chipMainX1, chipMainY1];
+            chipMainLeft, chipMainBot];
         drawTopSecond(svg, points, dash, deltaChipMainX, 1, 1);*/
 
         /*Left Bottom Circuit */
@@ -355,20 +354,20 @@ var mainPage = {
         svg.appendChild(newElement);*/
 
         /*Bottom Center Circuit */
-        var points = [chipMainX1 + deltaChipMainX * 4, screenHeight,
-        chipMainX1 + deltaChipMainX * 4, chipMainY1];
-        drawTopSecond(svg, points, screenHeight - chipMainY1, deltaChipMainX, 1, 1);
+        var points = [chipMainLeft + deltaChipMainX * 4, screenHeight,
+        chipMainLeft + deltaChipMainX * 4, chipMainBot];
+        drawTopSecond(svg, points, screenHeight - chipMainBot, deltaChipMainX, 1, 1);
 
         /*Bottom Right Circuit*/
 
-        var botX2 = screenWidth - botX1;
-        var botY2 = botY1;
+        var botX2 = screenWidth - botLeftX;
+        var botY2 = botY;
         /*
         middlePointX = screenWidth - middlePointX;
         points = [botX2, botY2,
             middlePointX, middlePointY,
             middlePointX - d, middlePointY - d,
-            chipMainX2, chipMainY2
+            chipMainRight, chipMainY2
         ];
         drawBotLeft(svg, points, dash, deltaChipMainX, -1, 1);
         */
@@ -387,16 +386,16 @@ var mainPage = {
         }*/
 
         /*Top Left Circuit*/
-        var topX1 = chipMainX1 - d;
+        var topLeftX = chipMainLeft - d;
         var topY1 = 0;
         var chipMainTopY1 = chipMainOffset.top - chipMainBorder;
-        var middlePointX = topX1;
+        var middlePointX = topLeftX;
         var middlePointY = (chipMainOffset.top - chipMainBorder) / 2;
 
-        var points = [topX1, topY1,
+        var points = [topLeftX, topY1,
             middlePointX, middlePointY,
             middlePointX + d, middlePointY + d,
-            chipMainX1, chipMainTopY1];
+            chipMainLeft, chipMainTopY1];
 
         drawTopSecond(svg, points, dash, deltaChipMainX, 1, -1);
 
@@ -405,7 +404,7 @@ var mainPage = {
 
 
         /*Top right Circuit*/
-        var topX2 = screenWidth - topX1;
+        var topX2 = screenWidth - topLeftX;
         var topY2 = 0;
         var chipMainTopY2 = chipMainTopY1;
 
@@ -415,7 +414,7 @@ var mainPage = {
         var points = [topX2, topY2,
             middlePointX, middlePointY,
             middlePointX - d, middlePointY + d,
-            chipMainX2, chipMainTopY2];
+            chipMainRight, chipMainTopY2];
 
         drawTopSecond(svg, points, dash, deltaChipMainX, -1, -1);
 
