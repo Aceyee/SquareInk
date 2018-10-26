@@ -112,15 +112,23 @@ var calcWaypoints = function (vertices) {
     return (waypoints);
 }
 
-function Circle(x, y, dx, dy, radius, detailPath) {
+function Circle(x, y, dx, dy, radius, num) {
     this.x = x;
     this.y = y;
     this.dx = dx;
     this.dy = dy;
     this.radius = radius;
-    this.detailPath = detailPath;
+    if(num == 0){
+        this.detailPath = detailPath;
+    }else if(num==1){
+        this.detailPath = detailPath2;
+    }else{
+        this.detailPath = detailPath3;
+    }
+    this.num = num;
     this.index = 0;
     this.sequence;
+
 
     this.draw = function () {
         var grd = ctx.createRadialGradient(this.x, this.y, this.radius / 2, this.x, this.y, this.radius);
@@ -147,7 +155,6 @@ function Circle(x, y, dx, dy, radius, detailPath) {
         }
     }
 
-
     this.update = function () {
         this.x = this.detailPath[this.index];
         this.y = this.detailPath[this.index + 1];
@@ -162,7 +169,18 @@ function Circle(x, y, dx, dy, radius, detailPath) {
             this.draw();
             this.index += 2;
         } else {
+            // mainPage.drawSideLine();
             this.index = 0;
+            if(num==0){
+                createPath();
+                this.detailPath = detailPath;
+            }else if(num ==1){
+                this.detailPath = detailPath2;
+            }else{
+                this.detailPath = detailPath3;
+            }
+            
+            // this.detailPath = detailPath;    
             // circle = new Circle(0, 0, 1, 1, strokeWidth, detailPath);  
 
         }
@@ -174,7 +192,7 @@ var animate = function () {
     ctx.clearRect(0, 0, screenWidth, screenHeight);
     circle.update();
     circle2.update();
-    circle3.update();
+    circle3.update();    
 }
 
 var symmetryH = function (points) {
@@ -301,10 +319,10 @@ var mainPage = {
     },
 
     drawSideLine: function () {
-        circle = new Circle(0, 0, 1, 1, strokeWidth, detailPath);
-        circle2 = new Circle(0, 0, 1, 1, strokeWidth, detailPath2);
-        circle3 = new Circle(0, 0, 1, 1, strokeWidth, detailPath3);
-
+        createPath();
+        circle = new Circle(0, 0, 1, 1, strokeWidth, 0);
+        circle2 = new Circle(0, 0, 1, 1, strokeWidth, 1);
+        circle3 = new Circle(0, 0, 1, 1, strokeWidth, 2);
         setTimeout(animate, 3000);
     },
 
@@ -353,7 +371,6 @@ var mainPage = {
             svg.appendChild(newElement);
         }*/
 
-        createPath();
 
         // for (var i = 0; i < pathPoints.length; i++) {
         //     // console.log(pathPoints[i]);
