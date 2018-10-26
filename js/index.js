@@ -19,10 +19,11 @@ var chipMainWidth;
 var chipMainHeight;
 var deltaChipMainX;
 
-var division = 25;
+var division = 100;
 var circle;
 var circle2;
 var circle3;
+var cooldown = false;
 
 var drawTopSecond = function (svg, points, dash, deltaChipMainX, shiftDirection, moveCircleDirection) {
     var lastIndex = points.length - 1;
@@ -185,6 +186,7 @@ function Circle(x, y, dx, dy, radius, num) {
             // mainPage.drawSideLine();
             this.index = 0;
             if(num==1){
+                cooldown = false;
                 createPath();
                 this.detailPath = detailPath;
             }else if(num ==2){
@@ -209,14 +211,19 @@ function Circle(x, y, dx, dy, radius, num) {
 }
 
 var animate = function () {
-    requestAnimationFrame(animate);
-    ctx.clearRect(0, 0, screenWidth, screenHeight);
-    circle.update();
-    circle2.update();
-    circle3.update();
-    circle4.update();
-    circle5.update();
-    circle6.update();        
+    if(cooldown){
+        requestAnimationFrame(animate);
+        ctx.clearRect(0, 0, screenWidth, screenHeight);
+        circle.update();
+        circle2.update();
+        circle3.update();
+        circle4.update();
+        circle5.update();
+        circle6.update();        
+    }else{
+        cooldown = true;
+        setTimeout(animate, 1000);
+    }
 }
 
 var symmetryH = function (points) {
