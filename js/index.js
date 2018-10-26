@@ -24,6 +24,8 @@ var circle;
 var circle2;
 var circle3;
 var cooldown = false;
+var cooldown2 = false;
+
 
 var drawTopSecond = function (svg, points, dash, deltaChipMainX, shiftDirection, moveCircleDirection) {
     var lastIndex = points.length - 1;
@@ -196,6 +198,7 @@ function Circle(x, y, dx, dy, radius, num) {
             }
 
             if(num==4){
+                cooldown2 = false;
                 createPath();
                 this.detailPath = detailPath4;
             }else if(num ==5){
@@ -216,13 +219,29 @@ var animate = function () {
         ctx.clearRect(0, 0, screenWidth, screenHeight);
         circle.update();
         circle2.update();
-        circle3.update();
-        circle4.update();
-        circle5.update();
-        circle6.update();        
+        circle3.update();  
+        if(cooldown2){
+            circle4.update();
+            circle5.update();
+            circle6.update();  
+        }else{
+            setTimeout(function(){
+                cooldown2 = true;
+            }, 1000);
+        }
     }else{
-        cooldown = true;
-        setTimeout(animate, 1000);
+        setTimeout(function(){
+            cooldown = true;
+        }, 1000);
+        if(cooldown2){
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, screenWidth, screenHeight);
+            circle4.update();
+            circle5.update();
+            circle6.update();  
+        }else{
+            setTimeout(animate, 1000);
+        }
     }
 }
 
