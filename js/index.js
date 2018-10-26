@@ -128,6 +128,7 @@ function Circle(x, y, dx, dy, radius, num) {
     this.num = num;
     this.index = 0;
     this.sequence;
+    
 
 
     this.draw = function () {
@@ -140,7 +141,7 @@ function Circle(x, y, dx, dy, radius, num) {
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
         ctx.fill();
 
-        var followRadius = this.radius - 1;
+        var followRadius = 1;
         if (this.sequence.length > 0) {
             for (var i = 0; i < this.sequence.length; i += 2) {
                 var grd2 = ctx.createRadialGradient(this.detailPath[this.sequence[i]], this.detailPath[this.sequence[i + 1]], followRadius / 2, this.detailPath[this.sequence[i]], this.detailPath[this.sequence[i + 1]], followRadius);
@@ -150,7 +151,11 @@ function Circle(x, y, dx, dy, radius, num) {
                 ctx.fillStyle = grd2;
                 ctx.arc(this.detailPath[this.sequence[i]], this.detailPath[this.sequence[i + 1]], followRadius, 0, Math.PI * 2, false);
                 ctx.fill();
-                followRadius -= 1;
+                if(i<this.sequence.length/2){
+                    followRadius += 1;
+                }else{
+                    followRadius -= 1;
+                }
             }
         }
     }
@@ -160,7 +165,7 @@ function Circle(x, y, dx, dy, radius, num) {
         this.y = this.detailPath[this.index + 1];
         this.sequence = [];
         if (this.index < this.detailPath.length - 2) {
-            for (var i = this.index - 2; i > this.index - 10; i -= 2) {
+            for (var i = this.index + 10; i > this.index - 10; i -= 2) {
                 if (i >= 0 && i < this.detailPath.length) {
                     this.sequence.push(i);
                     this.sequence.push(i + 1);
@@ -179,7 +184,6 @@ function Circle(x, y, dx, dy, radius, num) {
             }else{
                 this.detailPath = detailPath3;
             }
-            
             // this.detailPath = detailPath;    
             // circle = new Circle(0, 0, 1, 1, strokeWidth, detailPath);  
 
@@ -245,7 +249,7 @@ var reverse = function (points) {
 }
 
 var startCreatePath = function (points, currX, currY, directionH, directionV) {
-    var length = 50;
+    var length = 100;
     var moveX = Math.random() > 0.5 ? true : false;
     var moveY = Math.random() > 0.5 ? true : false;
     var end = false;
@@ -255,6 +259,10 @@ var startCreatePath = function (points, currX, currY, directionH, directionV) {
     if (!moveX && !moveY) {
         moveX = true;
         moveY = true;
+    }
+
+    if(moveX && moveY){
+        length *= Math.sqrt(2)/2;
     }
 
     if (moveX) {
