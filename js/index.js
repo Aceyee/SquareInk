@@ -6,8 +6,15 @@ var detailPath;
 var detailPath2;
 var detailPath3;
 
-var LeftBotX;
-var LeftBotY;
+var chipMainOffset;
+var chipMainBorder;
+var chipMainLeft;
+var chipMainRight;
+var chipMainTop;
+var chipMainBot;
+var chipMainWidth;
+var chipMainHeight;
+var deltaChipMainX;
 
 var division = 25;
 var circle;
@@ -180,11 +187,32 @@ var symmetryH = function (points) {
 }
 
 var createPath = function (startX, startY, directionH, directionV) {
-    var points = [];
-    points.push(startX, startY);
-    startCreatePath(points, startX, startY, directionH, directionV);
-    points = reverse(points);
-    return points;
+    var LeftBotX = chipMainOffset.left - chipMainBorder;
+    var LeftBotY = chipMainOffset.top + chipMainHeight;
+    startX = LeftBotX;
+    startY = LeftBotY;
+    directionH = -1;
+    directionV = 1;
+    var pathPoints = [];
+    pathPoints.push(startX, startY);
+    startCreatePath(pathPoints, startX, startY, directionH, directionV);
+    pathPoints = reverse(pathPoints);
+
+    var pathPoints2 = [];
+    var pathPoints3 = [];
+    for (var i = 0; i < pathPoints.length; i++) {
+        if (i % 2 == 1) {
+            pathPoints2.push(pathPoints[i] - deltaChipMainX);
+            pathPoints3.push(pathPoints[i] - 2 * deltaChipMainX);
+        } else {
+            pathPoints2.push(pathPoints[i]);
+            pathPoints3.push(pathPoints[i]);
+        }
+    }
+
+    detailPath = calcWaypoints(pathPoints);
+    detailPath2 = calcWaypoints(pathPoints2);
+    detailPath3 = calcWaypoints(pathPoints3);
 }
 
 var reverse = function (points) {
@@ -276,26 +304,26 @@ var mainPage = {
         circle = new Circle(0, 0, 1, 1, strokeWidth, detailPath);
         circle2 = new Circle(0, 0, 1, 1, strokeWidth, detailPath2);
         circle3 = new Circle(0, 0, 1, 1, strokeWidth, detailPath3);
-        
+
         setTimeout(animate, 3000);
     },
 
     drawTopLine: function () {
         var svg = document.getElementsByTagName('svg')[0]; //Get svg element
 
-        var chipMainBorder = 25;
-        var chipMainOffset = $('#chipMain').offset();
-        var chipMainWidth = $('#chipMain').width();
-        var chipMainHeight = $('#chipMain').height();
+        chipMainBorder = 25;
+        chipMainOffset = $('#chipMain').offset();
+        chipMainWidth = $('#chipMain').width();
+        chipMainHeight = $('#chipMain').height();
 
-        var chipMainLeft = chipMainOffset.left;
-        var chipMainRight = screenWidth -chipMainLeft;
-        var chipMainTop =  chipMainOffset.top - chipMainBorder;
-        var chipMainBot = screenHeight - chipMainTop;
+        chipMainLeft = chipMainOffset.left;
+        chipMainRight = screenWidth - chipMainLeft;
+        chipMainTop = chipMainOffset.top - chipMainBorder;
+        chipMainBot = screenHeight - chipMainTop;
 
         var d = 20;
         var count = 9;
-        var deltaChipMainX = chipMainWidth / count;
+        deltaChipMainX = chipMainWidth / count;
 
         /*Bottom Left Circuit*/
         var botLeftX = chipMainLeft - d;
@@ -325,22 +353,7 @@ var mainPage = {
             svg.appendChild(newElement);
         }*/
 
-        var pathPoints = createPath(LeftBotX, LeftBotY, -1, 1);
-        var pathPoints2 = [];
-        var pathPoints3 = [];
-        for(var i =0; i <pathPoints.length; i++){
-            if(i%2==1){
-                pathPoints2.push(pathPoints[i] - deltaChipMainX);
-                pathPoints3.push(pathPoints[i]-2 * deltaChipMainX);
-            }else{
-                pathPoints2.push(pathPoints[i]);
-                pathPoints3.push(pathPoints[i]);
-            }
-        }
-
-        detailPath = calcWaypoints(pathPoints);
-        detailPath2 = calcWaypoints(pathPoints2);
-        detailPath3 = calcWaypoints(pathPoints3);
+        createPath();
 
         // for (var i = 0; i < pathPoints.length; i++) {
         //     // console.log(pathPoints[i]);
