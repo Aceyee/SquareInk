@@ -228,7 +228,7 @@ var symmetryH = function (points) {
     return points;
 }
 
-var createPath = function (startX, startY, directionH, directionV) {
+var createPath = function () {
     var leftDirection = Math.floor(Math.random()*Math.floor(2));
 
     // console.log(leftDirection);
@@ -376,8 +376,8 @@ var startCreatePath = function (points, currX, currY, directionH, directionV) {
         }
     }
 
-    points.push(currX, currY);
     if (!end) {
+        points.push(currX, currY);
         startCreatePath(points, currX, currY, directionH, directionV);
     }
 }
