@@ -5,6 +5,9 @@ var ctx;
 var detailPath;
 var detailPath2;
 var detailPath3;
+var detailPath4;
+var detailPath5;
+var detailPath6;
 
 var chipMainOffset;
 var chipMainBorder;
@@ -118,19 +121,24 @@ function Circle(x, y, dx, dy, radius, num) {
     this.dx = dx;
     this.dy = dy;
     this.radius = radius;
-    if(num == 0){
+    if(num == 1){
         this.detailPath = detailPath;
-    }else if(num==1){
+    }else if(num==2){
         this.detailPath = detailPath2;
-    }else{
+    }else if(num==3){
         this.detailPath = detailPath3;
+    }else if(num==4){
+        this.detailPath = detailPath4;
+    }else if(num==5){
+        this.detailPath = detailPath5;
+    }else if(num==6){
+        this.detailPath = detailPath6;
     }
+
     this.num = num;
     this.index = 0;
     this.sequence;
     
-
-
     this.draw = function () {
         var grd = ctx.createRadialGradient(this.x, this.y, this.radius / 2, this.x, this.y, this.radius);
         grd.addColorStop(0, 'hsla(180, 100%, 75%, 1)');
@@ -176,13 +184,22 @@ function Circle(x, y, dx, dy, radius, num) {
         } else {
             // mainPage.drawSideLine();
             this.index = 0;
-            if(num==0){
+            if(num==1){
                 createPath();
                 this.detailPath = detailPath;
-            }else if(num ==1){
+            }else if(num ==2){
                 this.detailPath = detailPath2;
-            }else{
+            }else if(num==3){
                 this.detailPath = detailPath3;
+            }
+
+            if(num==4){
+                createPath();
+                this.detailPath = detailPath4;
+            }else if(num ==5){
+                this.detailPath = detailPath5;
+            }else if(num==6){
+                this.detailPath = detailPath6;
             }
             // this.detailPath = detailPath;    
             // circle = new Circle(0, 0, 1, 1, strokeWidth, detailPath);  
@@ -196,7 +213,10 @@ var animate = function () {
     ctx.clearRect(0, 0, screenWidth, screenHeight);
     circle.update();
     circle2.update();
-    circle3.update();    
+    circle3.update();
+    circle4.update();
+    circle5.update();
+    circle6.update();        
 }
 
 var symmetryH = function (points) {
@@ -209,12 +229,24 @@ var symmetryH = function (points) {
 }
 
 var createPath = function (startX, startY, directionH, directionV) {
-    var LeftBotX = chipMainOffset.left - chipMainBorder;
-    var LeftBotY = chipMainOffset.top + chipMainHeight;
-    startX = LeftBotX;
-    startY = LeftBotY;
-    directionH = -1;
-    directionV = 1;
+    var leftDirection = Math.floor(Math.random()*Math.floor(2));
+
+    // console.log(leftDirection);
+    // console.log(rightDirection);
+    if(leftDirection==0){   //leftCener
+        startX = chipMainOffset.left - chipMainBorder;
+        startY = screenHeight - chipMainOffset.top - 4*deltaChipMainX;
+        
+        directionH = -1;
+        directionV = 1;
+    }else{//leftBottom
+        startX = chipMainOffset.left - chipMainBorder;
+        startY = chipMainOffset.top + chipMainHeight;
+        
+        directionH = -1;
+        directionV = 1;
+    }
+
     var pathPoints = [];
     pathPoints.push(startX, startY);
     startCreatePath(pathPoints, startX, startY, directionH, directionV);
@@ -235,6 +267,43 @@ var createPath = function (startX, startY, directionH, directionV) {
     detailPath = calcWaypoints(pathPoints);
     detailPath2 = calcWaypoints(pathPoints2);
     detailPath3 = calcWaypoints(pathPoints3);
+
+    var rightDirection = Math.floor(Math.random()*Math.floor(2));
+
+    if(rightDirection==0){  //rightCenter
+        startX = screenWidth - chipMainOffset.left+chipMainBorder;
+        startY = screenHeight - chipMainOffset.top - 4*deltaChipMainX;
+
+        directionH = 1;
+        directionV = 1;
+    }else{//rightBottom
+        startX = screenWidth - chipMainOffset.left+chipMainBorder;
+        startY = chipMainOffset.top + chipMainHeight;
+        
+        directionH = 1;
+        directionV = 1;
+    }
+
+    var pathPoints4 = [];
+    pathPoints4.push(startX, startY);
+    startCreatePath(pathPoints4, startX, startY, directionH, directionV);
+    pathPoints4 = reverse(pathPoints4);
+
+    var pathPoints5 = [];
+    var pathPoints6 = [];
+    for (var i = 0; i < pathPoints4.length; i++) {
+        if (i % 2 == 1) {
+            pathPoints5.push(pathPoints4[i] - deltaChipMainX);
+            pathPoints6.push(pathPoints4[i] - 2 * deltaChipMainX);
+        } else {
+            pathPoints5.push(pathPoints4[i]);
+            pathPoints6.push(pathPoints4[i]);
+        }
+    }
+
+    detailPath4 = calcWaypoints(pathPoints4);
+    detailPath5 = calcWaypoints(pathPoints5);
+    detailPath6 = calcWaypoints(pathPoints6);    
 }
 
 var reverse = function (points) {
@@ -328,9 +397,12 @@ var mainPage = {
 
     drawSideLine: function () {
         createPath();
-        circle = new Circle(0, 0, 1, 1, strokeWidth, 0);
-        circle2 = new Circle(0, 0, 1, 1, strokeWidth, 1);
-        circle3 = new Circle(0, 0, 1, 1, strokeWidth, 2);
+        circle = new Circle(0, 0, 1, 1, strokeWidth, 1);
+        circle2 = new Circle(0, 0, 1, 1, strokeWidth, 2);
+        circle3 = new Circle(0, 0, 1, 1, strokeWidth, 3);
+        circle4 = new Circle(0, 0, 1, 1, strokeWidth, 4);
+        circle5 = new Circle(0, 0, 1, 1, strokeWidth, 5);
+        circle6 = new Circle(0, 0, 1, 1, strokeWidth, 6);
         setTimeout(animate, 3000);
     },
 
