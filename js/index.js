@@ -31,12 +31,6 @@ var chipProjectHeight;
 var deltaChipProject;
 
 var division = 100;
-var circle;
-var circle2;
-var circle3;
-var cooldown = false;
-var cooldown2 = false;
-
 
 var drawTopSecond = function (svg, points, dash, deltaChipMainX, shiftDirection, moveCircleDirection) {
     var lastIndex = points.length - 1;
@@ -131,133 +125,6 @@ var calcWaypoints = function (vertices) {
     return (waypoints);
 }
 
-function Circle(x, y, dx, dy, radius, num) {
-    this.x = x;
-    this.y = y;
-    this.dx = dx;
-    this.dy = dy;
-    this.radius = radius;
-    if(num == 1){
-        this.detailPath = detailPath;
-    }else if(num==2){
-        this.detailPath = detailPath2;
-    }else if(num==3){
-        this.detailPath = detailPath3;
-    }else if(num==4){
-        this.detailPath = detailPath4;
-    }else if(num==5){
-        this.detailPath = detailPath5;
-    }else if(num==6){
-        this.detailPath = detailPath6;
-    }
-
-    this.num = num;
-    this.index = 0;
-    this.sequence;
-    
-    this.draw = function () {
-        var grd = ctx.createRadialGradient(this.x, this.y, this.radius / 2, this.x, this.y, this.radius);
-        grd.addColorStop(0, 'hsla(180, 100%, 75%, 1)');
-        grd.addColorStop(1, 'hsla(180, 100%, 75%, 0)');
-
-        ctx.beginPath();
-        ctx.fillStyle = grd;
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-        ctx.fill();
-
-        var followRadius = 1;
-        if (this.sequence.length > 0) {
-            for (var i = 0; i < this.sequence.length; i += 2) {
-                var grd2 = ctx.createRadialGradient(this.detailPath[this.sequence[i]], this.detailPath[this.sequence[i + 1]], followRadius / 2, this.detailPath[this.sequence[i]], this.detailPath[this.sequence[i + 1]], followRadius);
-                grd2.addColorStop(0, 'hsla(180, 100%, 75%, 1)');
-                grd2.addColorStop(1, 'hsla(180, 100%, 75%, 0)');
-
-                ctx.fillStyle = grd2;
-                ctx.arc(this.detailPath[this.sequence[i]], this.detailPath[this.sequence[i + 1]], followRadius, 0, Math.PI * 2, false);
-                ctx.fill();
-                if(i<this.sequence.length/2){
-                    followRadius += 1;
-                }else{
-                    followRadius -= 1;
-                }
-            }
-        }
-    }
-
-    this.update = function () {
-        this.x = this.detailPath[this.index];
-        this.y = this.detailPath[this.index + 1];
-        this.sequence = [];
-        if (this.index < this.detailPath.length - 2) {
-            for (var i = this.index + 10; i > this.index - 10; i -= 2) {
-                if (i >= 0 && i < this.detailPath.length) {
-                    this.sequence.push(i);
-                    this.sequence.push(i + 1);
-                }
-            }
-            this.draw();
-            this.index += 2;
-        } else {
-            // mainPage.drawSideLine();
-            this.index = 0;
-            if(num==1){
-                cooldown = false;
-                createPath();
-                this.detailPath = detailPath;
-            }else if(num ==2){
-                this.detailPath = detailPath2;
-            }else if(num==3){
-                this.detailPath = detailPath3;
-            }
-
-            if(num==4){
-                cooldown2 = false;
-                createPath();
-                this.detailPath = detailPath4;
-            }else if(num ==5){
-                this.detailPath = detailPath5;
-            }else if(num==6){
-                this.detailPath = detailPath6;
-            }
-            // this.detailPath = detailPath;    
-            // circle = new Circle(0, 0, 1, 1, strokeWidth, detailPath);  
-
-        }
-    }
-}
-
-var animate = function () {
-    if(cooldown){
-        requestAnimationFrame(animate);
-        ctx.clearRect(0, 0, screenWidth, screenHeight);
-        circle.update();
-        circle2.update();
-        circle3.update();  
-        if(cooldown2){
-            circle4.update();
-            circle5.update();
-            circle6.update();  
-        }else{
-            setTimeout(function(){
-                cooldown2 = true;
-            }, 1000);
-        }
-    }else{
-        setTimeout(function(){
-            cooldown = true;
-        }, 1000);
-        if(cooldown2){
-            requestAnimationFrame(animate);
-            ctx.clearRect(0, 0, screenWidth, screenHeight);
-            circle4.update();
-            circle5.update();
-            circle6.update();  
-        }else{
-            setTimeout(animate, 1000);
-        }
-    }
-}
-
 var symmetryH = function (points) {
     for (var i = 0; i < points.length; i++) {
         if (i % 2 == 0) {
@@ -265,84 +132,6 @@ var symmetryH = function (points) {
         }
     }
     return points;
-}
-
-var createPath = function () {
-    var leftDirection = Math.floor(Math.random()*Math.floor(2));
-
-    // console.log(leftDirection);
-    // console.log(rightDirection);
-    if(leftDirection==0){   //leftCener
-        startX = chipMainOffset.left - chipMainBorder;
-        startY = screenHeight - chipMainOffset.top - 4*deltaChipMainX;
-        
-        directionH = -1;
-        directionV = 1;
-    }else{//leftBottom
-        startX = chipMainOffset.left - chipMainBorder;
-        startY = chipMainOffset.top + chipMainHeight;
-        
-        directionH = -1;
-        directionV = 1;
-    }
-
-    var pathPoints = [];
-    pathPoints.push(startX, startY);
-    startCreatePath(pathPoints, startX, startY, directionH, directionV);
-    pathPoints = reverse(pathPoints);
-
-    var pathPoints2 = [];
-    var pathPoints3 = [];
-    for (var i = 0; i < pathPoints.length; i++) {
-        if (i % 2 == 1) {
-            pathPoints2.push(pathPoints[i] - deltaChipMainX);
-            pathPoints3.push(pathPoints[i] - 2 * deltaChipMainX);
-        } else {
-            pathPoints2.push(pathPoints[i]);
-            pathPoints3.push(pathPoints[i]);
-        }
-    }
-
-    detailPath = calcWaypoints(pathPoints);
-    detailPath2 = calcWaypoints(pathPoints2);
-    detailPath3 = calcWaypoints(pathPoints3);
-
-    var rightDirection = Math.floor(Math.random()*Math.floor(2));
-
-    if(rightDirection==0){  //rightCenter
-        startX = screenWidth - chipMainOffset.left+chipMainBorder;
-        startY = screenHeight - chipMainOffset.top - 4*deltaChipMainX;
-
-        directionH = 1;
-        directionV = 1;
-    }else{//rightBottom
-        startX = screenWidth - chipMainOffset.left+chipMainBorder;
-        startY = chipMainOffset.top + chipMainHeight;
-        
-        directionH = 1;
-        directionV = 1;
-    }
-
-    var pathPoints4 = [];
-    pathPoints4.push(startX, startY);
-    startCreatePath(pathPoints4, startX, startY, directionH, directionV);
-    pathPoints4 = reverse(pathPoints4);
-
-    var pathPoints5 = [];
-    var pathPoints6 = [];
-    for (var i = 0; i < pathPoints4.length; i++) {
-        if (i % 2 == 1) {
-            pathPoints5.push(pathPoints4[i] - deltaChipMainX);
-            pathPoints6.push(pathPoints4[i] - 2 * deltaChipMainX);
-        } else {
-            pathPoints5.push(pathPoints4[i]);
-            pathPoints6.push(pathPoints4[i]);
-        }
-    }
-
-    detailPath4 = calcWaypoints(pathPoints4);
-    detailPath5 = calcWaypoints(pathPoints5);
-    detailPath6 = calcWaypoints(pathPoints6);    
 }
 
 var reverse = function (points) {
@@ -354,71 +143,6 @@ var reverse = function (points) {
         reversePoints.unshift(x);
     }
     return reversePoints;
-}
-
-var startCreatePath = function (points, currX, currY, directionH, directionV) {
-    var length = 100;
-    var moveX = Math.random() > 0.5 ? true : false;
-    var moveY = Math.random() > 0.5 ? true : false;
-    var end = false;
-    var zeroX = 0;
-    var zeroY = 0;
-
-    if (!moveX && !moveY) {
-        moveX = true;
-        moveY = true;
-    }
-
-    if(moveX && moveY){
-        length *= Math.sqrt(2)/2;
-    }
-
-    if (moveX) {
-        var nextX = currX + directionH * length;
-        if (nextX > 0 && nextX < screenWidth) {
-            currX = nextX;
-        } else {
-            if (directionH > 0) {
-                zeroX = screenWidth - currX;
-                currX = screenWidth;
-            } else {
-                zeroX = currX;
-                currX = 0;
-            }
-            end = true;
-        }
-    }
-
-    if (moveY) {
-        var nextY = currY + directionV * length;
-        if (nextY > 0 && nextY < screenHeight) {
-            currY = nextY;
-        } else {
-            if (directionV > 0) {
-                zeroY = screenHeight - currY;
-                currY = screenHeight;
-            } else {
-                zeroY = currY;
-                currY = 0;
-            }
-            end = true;
-        }
-    }
-
-    if (moveX && moveY) {
-        if (zeroX > 0) {
-            currY = currY + directionV * length - zeroX;
-        }
-
-        if (zeroY > 0) {
-            currX = currX - directionH * length - zeroY;
-        }
-    }
-
-    if (!end) {
-        points.push(currX, currY);
-        startCreatePath(points, currX, currY, directionH, directionV);
-    }
 }
 
 var drawProjectLine = function(){
@@ -444,17 +168,6 @@ var mainPage = {
 
         this.drawTopLine();
         // this.drawSideLine();
-    },
-
-    drawSideLine: function () {
-        createPath();
-        circle = new Circle(0, 0, 1, 1, strokeWidth, 1);
-        circle2 = new Circle(0, 0, 1, 1, strokeWidth, 2);
-        circle3 = new Circle(0, 0, 1, 1, strokeWidth, 3);
-        circle4 = new Circle(0, 0, 1, 1, strokeWidth, 4);
-        circle5 = new Circle(0, 0, 1, 1, strokeWidth, 5);
-        circle6 = new Circle(0, 0, 1, 1, strokeWidth, 6);
-        setTimeout(animate, 3000);
     },
 
     drawTopLine: function () {
