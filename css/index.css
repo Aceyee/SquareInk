@@ -1,3 +1,8 @@
+/*
+z-index:
+1: chip
+-10:canvas
+*/
 body{
     /* background-color: black; */
     background:radial-gradient(#022B2F, black);
@@ -11,6 +16,9 @@ body{
 #chipProject{
     width: 10rem; 
     height: 10rem; 
+    top: 50%;
+    left: 20%;
+    transform: translate(-50%,0);
 }
 
 .absolutePosition{
@@ -25,9 +33,7 @@ body{
     border-radius: 2rem;
     animation: show 1000ms ease forwards;
     animation-delay: 2s;
-}
-
-.chipProject{
+    z-index: 1;
 }
 
 .chipTitle{

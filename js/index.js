@@ -19,6 +19,17 @@ var chipMainWidth;
 var chipMainHeight;
 var deltaChipMainX;
 
+var chipProject;
+var chipProjectOffset;
+var chipProjectBorder;
+var chipProjectLeft;
+var chipProjectRight;
+var chipProjectTop;
+var chipProjectBot;
+var chipProjectWidth;
+var chipProjectHeight;
+var deltaChipProject;
+
 var division = 100;
 var circle;
 var circle2;
@@ -410,11 +421,23 @@ var startCreatePath = function (points, currX, currY, directionH, directionV) {
     }
 }
 
+var drawProjectLine = function(){
+    // alert('adasda');
+}
+
 var mainPage = {
     onCreate: function () {
         screenWidth = $(window).width();
         screenHeight = $(window).height();
         var c = document.getElementById("myCanvas");
+        chipProject = document.getElementById("chipProject");
+        setTimeout(function(){
+            chipProject.addEventListener("mouseover",function(){
+                drawProjectLine();
+            });
+        }, 3000);
+
+        
         c.setAttribute('width', screenWidth);
         c.setAttribute('height', screenHeight);
         ctx = c.getContext("2d");
