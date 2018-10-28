@@ -6,11 +6,15 @@ body{
 #chipMain{
     width: 20rem; 
     height: 20rem; 
+    
+}
+
+.chipContainer{
     background-color: transparent;
     color: transparent;
     border-style: double;
-    border-width: 0.5rem;
-    border-radius: 5rem;
+    border-width: 0.2rem;
+    border-radius: 2rem;
     animation: show 1000ms ease forwards;
     animation-delay: 2s;
 }

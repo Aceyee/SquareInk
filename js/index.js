@@ -42,6 +42,7 @@ var drawTopSecond = function (svg, points, dash, deltaChipMainX, shiftDirection,
         newElement.setAttribute("cx", points[lastIndex - 1]);
         newElement.setAttribute("cy", points[lastIndex] - moveCircleDirection * strokeWidth);
         newElement.setAttribute("r", strokeWidth);
+        newElement.setAttribute("stroke-width", strokeWidth/2);
         svg.appendChild(newElement);
 
         /*deprecated */
@@ -68,6 +69,7 @@ var drawTopThird = function (svg, points, dash, moveCircleDirection) {
     newElement.setAttribute("cx", points[lastIndex - 1] + 0.5 * Math.sqrt(2) * moveCircleDirection * strokeWidth);
     newElement.setAttribute("cy", points[lastIndex] + 0.5 * Math.sqrt(2) * strokeWidth);
     newElement.setAttribute("r", strokeWidth);
+    newElement.setAttribute("stroke-width", strokeWidth/2);
     svg.appendChild(newElement);
 }
 
@@ -418,7 +420,7 @@ var mainPage = {
         ctx = c.getContext("2d");
 
         this.drawTopLine();
-        this.drawSideLine();
+        // this.drawSideLine();
     },
 
     drawSideLine: function () {
@@ -609,7 +611,7 @@ var mainPage = {
             middlePointX, LeftTopY - 5 * deltaChipMainX,
             topX3, topY3];
         points3 = reverse(points3);
-        dash = LeftTopY - 4 * deltaChipMainX + Math.sqrt(2) * (2 + 3) * deltaChipMainX;
+        dash = LeftTopY - (2 + 3) * deltaChipMainX + Math.sqrt(2) * (2 + 3) * deltaChipMainX;
         drawTopThird(svg, points3, dash, 1);
         points3 = symmetryH(points3);
         drawTopThird(svg, points3, dash, -1);
