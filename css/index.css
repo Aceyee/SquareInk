@@ -113,6 +113,25 @@ svg .draw{
     margin: 0 auto;
 }
 
+#arrowBtns{
+    position: absolute;
+    top:50%;
+    transform: translateY(-50%);
+    width: 20%;
+    height: 100%;;
+    background-color: blue;
+}
+
+#actionBtns{
+    position: absolute;
+    left: 80%;
+    top:50%;
+    transform: translateY(-50%);
+    width: 20%;
+    height: 100%;;
+    background-color: red;
+}
+
 #myCanvas{
     width: 100%;
     height: 100%;
