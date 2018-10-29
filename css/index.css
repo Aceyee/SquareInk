@@ -143,6 +143,12 @@ svg .draw{
     width: 4rem;
     height: 4rem;
     background-color: transparent;
+    text-align: center;
+}
+
+.btnText{
+    color: transparent;
+    animation: btnTextFlash 8000ms linear infinite;
 }
 
 .arrowBtn:hover{
@@ -216,6 +222,18 @@ svg .draw{
 }
 @-moz-keyframes animate{
     to{stroke-dashoffset: 0;}
+}
+
+@keyframes btnTextFlash{
+    0% {
+        color: transparent;
+    }
+    20% {
+        color: aqua;
+    }
+    40%{
+        color: transparent;
+    }
 }
 
 @keyframes flash{
