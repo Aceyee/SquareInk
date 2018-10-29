@@ -7,7 +7,6 @@ z-index:
 body{
     /* background-color: black; */
     margin: 0;
-    overflow:hidden;
 }
 
 #block1{
@@ -118,6 +117,8 @@ svg .draw{
 
 #slideContainer{
     position: relative;
+    border-radius: 1rem;
+    overflow: hidden;
     top: 50%;
     transform: translateY(-50%);
     width: 60%;
@@ -147,6 +148,10 @@ svg .draw{
 }
 
 .btnText{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     color: transparent;
     animation: btnTextFlash 8000ms linear infinite;
 }
@@ -206,6 +211,10 @@ svg .draw{
     transform: translateY(-50%);
     width: 20%;
     height: 100%;;
+}
+
+.modal-backdrop{
+    z-index: -1;
 }
 
 #myCanvas{
