@@ -72,6 +72,17 @@ body{
     z-index: 1;
 }
 
+.switchContainer{
+    background-color: transparent;
+    color: transparent;
+    border-style: double;
+    border-width: 0.2rem;
+    border-radius: 2rem;
+    animation: show 1000ms ease forwards;
+    animation-delay: 2s;
+    z-index: 1;
+}
+
 .chipTitle{
     position: absolute;
 }
@@ -119,8 +130,60 @@ svg .draw{
     transform: translateY(-50%);
     width: 20%;
     height: 100%;;
-    background-color: blue;
 }
+#btnA{
+    transform: translate(50%);
+}
+
+#btnB{
+    transform: translate(-50%,100%);
+}
+
+#btnX{
+    transform: translate(-50%,-100%);
+}
+
+#btnY{
+    transform: translate(-150%);
+}
+
+.circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    border-style:solid;
+    border-color: aqua;
+    font-size: 1.5rem;
+    color: aqua;
+    line-height: 4rem;
+    text-align: center;
+    background: transparent
+}
+
+#base {
+    background: red;
+    display: inline-block;
+    height: 55px;
+    margin-left: 20px;
+    margin-top: 55px;
+    position: relative;
+    width: 100px;
+  }
+  #base:before {
+    border-bottom: 35px solid red;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    content: "";
+    height: 0;
+    left: 0;
+    position: absolute;
+    top: -35px;
+    width: 0;
+  }
 
 #actionBtns{
     position: absolute;
@@ -129,7 +192,6 @@ svg .draw{
     transform: translateY(-50%);
     width: 20%;
     height: 100%;;
-    background-color: red;
 }
 
 #myCanvas{
