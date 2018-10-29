@@ -324,10 +324,11 @@ var mainPage = {
         LeftTopY += deltaChipMainX;
         var middlePointX = LeftTopX - 2 * deltaChipMainX;
         var middlePointY = LeftTopY - 2 * deltaChipMainX;
+        var lengthBetween = LeftTopY - 2*2*deltaChipMainX;
 
         var points3 = [LeftTopX, LeftTopY,
             middlePointX, middlePointY,
-            middlePointX, LeftTopY - 4 * deltaChipMainX,
+            middlePointX, middlePointY-lengthBetween,
             topX3, topY3];
         points3 = reverse(points3);
         dash = LeftTopY - 4 * deltaChipMainX + 2 * Math.sqrt(2) * 2 * deltaChipMainX;
@@ -344,7 +345,7 @@ var mainPage = {
 
         var points3 = [LeftTopX, LeftTopY,
             middlePointX, middlePointY,
-            middlePointX, LeftTopY - 5 * deltaChipMainX,
+            middlePointX, middlePointY-lengthBetween,
             topX3, topY3];
         points3 = reverse(points3);
         dash = LeftTopY - (2 + 3) * deltaChipMainX + Math.sqrt(2) * (2 + 3) * deltaChipMainX;
