@@ -215,7 +215,7 @@ var mainPage = {
         deltaChipMainX = chipMainWidth / count;
 
         /*Bottom Left Circuit*/
-        var botLeftX = chipMainLeft - deltaChipMainX;
+        var botLeftX = chipMainLeft;
         var botY = screenHeight;
 
         var middlePointX = botLeftX;
@@ -230,7 +230,7 @@ var mainPage = {
         drawTopSecond(svg, points, dash, deltaChipMainX, 1, 1);*/
 
         /*Left Bottom Circuit */
-        var LeftBotX = chipMainOffset.left - chipMainBorder;
+        var LeftBotX = chipMainOffset.left - 0.5 * chipMainBorder;    
         var LeftBotY = chipMainOffset.top + chipMainHeight;
         /*
         for (var i = 0; i < 3; i++) {
@@ -255,8 +255,8 @@ var mainPage = {
         svg.appendChild(newElement);*/
 
         /*Bottom Center Circuit */
-        var points = [chipMainLeft + deltaChipMainX * 4, screenHeight,
-        chipMainLeft + deltaChipMainX * 4, chipMainBot];
+        var points = [LeftBotX + 4* deltaChipMainX, screenHeight,
+            LeftBotX + 4*deltaChipMainX, chipMainBot];
         drawTopSecond(svg, points, screenHeight - chipMainBot, deltaChipMainX, 1, 1);
 
         /*Bottom Right Circuit*/

@@ -20,6 +20,14 @@ body{
     height: 20rem; 
 }
 
+#chipMain p{
+    position: relative;
+    top: 75%;
+    color: transparent;
+    animation: flash 2000ms linear infinite;
+    animation-delay: 2000ms;
+}
+
 #chipProject{
     width: 8rem; 
     height: 8rem; 
@@ -35,9 +43,11 @@ body{
 }
 
 #project{
-    width: 90%;
-    height: 90%;
+    margin-top: 2%;
+    margin-left: 2%;
 
+    width: 70%;
+    height: 90%;
 }
 
 .absolutePosition{
@@ -102,6 +112,15 @@ svg .draw{
 }
 @-moz-keyframes animate{
     to{stroke-dashoffset: 0;}
+}
+
+@keyframes flash{
+    0% {
+        color: transparent;
+    }
+    50% {
+        color: aqua;
+    }
 }
 
 @keyframes show{
