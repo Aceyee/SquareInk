@@ -145,6 +145,10 @@ svg .draw{
     background-color: transparent;
 }
 
+.arrowBtn:hover{
+    background-color: aqua;
+}
+
 #btnLeft{
     transform: translate(-150%, -50%);
 }
