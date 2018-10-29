@@ -49,10 +49,16 @@ body{
 #project{
     width: 90%;
     height: 80%;
+    overflow: hidden;
 }
 
 .absolutePosition{
     position: absolute;
+}
+
+.centerH{
+    left: 50%;
+    transform: translate(-50%,0);
 }
 
 .chipContainer{
