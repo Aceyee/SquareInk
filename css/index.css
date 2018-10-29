@@ -132,26 +132,26 @@ svg .draw{
     height: 100%;;
 }
 #btnA{
-    transform: translate(50%);
+    transform: translate(50%, -50%);
 }
-
 #btnB{
-    transform: translate(-50%,100%);
+    transform: translate(-50%, 50%);
 }
 
 #btnX{
-    transform: translate(-50%,-100%);
+    transform: translate(-50%,-150%);
 }
 
 #btnY{
-    transform: translate(-150%);
+    transform: translate(-150%, -50%);
 }
+
+
 
 .circle {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
     width: 4rem;
     height: 4rem;
     border-radius: 50%;
@@ -163,27 +163,6 @@ svg .draw{
     text-align: center;
     background: transparent
 }
-
-#base {
-    background: red;
-    display: inline-block;
-    height: 55px;
-    margin-left: 20px;
-    margin-top: 55px;
-    position: relative;
-    width: 100px;
-  }
-  #base:before {
-    border-bottom: 35px solid red;
-    border-left: 50px solid transparent;
-    border-right: 50px solid transparent;
-    content: "";
-    height: 0;
-    left: 0;
-    position: absolute;
-    top: -35px;
-    width: 0;
-  }
 
 #actionBtns{
     position: absolute;

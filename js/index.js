@@ -174,9 +174,9 @@ var setScrollAnimation = function(){
 
 var mainPage = {
     onCreate: function () {
-        $(document).ready(function(){
-            $(this).scrollTop(0);
-        });
+        // $(document).ready(function(){
+        //     $(this).scrollTop(0);
+        // });
         screenWidth = $(window).width();
         screenHeight = $(window).height();
         var c = document.getElementById("myCanvas");
