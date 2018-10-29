@@ -131,6 +131,33 @@ svg .draw{
     width: 20%;
     height: 100%;;
 }
+
+.arrowBtn{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10%;
+    border-style:solid;
+    border-color: aqua;
+    width: 4rem;
+    height: 4rem;
+    background-color: transparent;
+}
+
+#btnLeft{
+    transform: translate(-150%, -50%);
+}
+#btnUp{
+    transform: translate(-50%,-150%);
+}
+#btnRight{
+    transform: translate(50%, -50%);
+}
+#btnDown{
+    transform: translate(-50%, 50%);
+}
+
 #btnA{
     transform: translate(50%, -50%);
 }
@@ -145,8 +172,6 @@ svg .draw{
 #btnY{
     transform: translate(-150%, -50%);
 }
-
-
 
 .circle {
     position: absolute;
