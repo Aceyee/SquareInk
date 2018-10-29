@@ -149,7 +149,7 @@ var drawProjectLine = function(){
     // alert('adasda');
 }
 
-var scrollAnimation = function(){
+var setScrollAnimation = function(){
     $("a").on('click', function(event) {
         // Make sure this.hash has a value before overriding default behavior
         if (this.hash !== "") {
@@ -174,16 +174,19 @@ var scrollAnimation = function(){
 
 var mainPage = {
     onCreate: function () {
+        $(document).ready(function(){
+            $(this).scrollTop(0);
+        });
         screenWidth = $(window).width();
         screenHeight = $(window).height();
         var c = document.getElementById("myCanvas");
-        scrollAnimation();
-        chipProject = document.getElementById("chipProject");
-        setTimeout(function(){
-            chipProject.addEventListener("mouseover",function(){
-                drawProjectLine();
-            });
-        }, 3000);
+        setScrollAnimation();
+        // chipProject = document.getElementById("chipProject");
+        // setTimeout(function(){
+        //     chipProject.addEventListener("mouseover",function(){
+        //         drawProjectLine();
+        //     });
+        // }, 3000);
 
         
         c.setAttribute('width', screenWidth);
