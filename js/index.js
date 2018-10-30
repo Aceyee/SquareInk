@@ -172,26 +172,32 @@ var setScrollAnimation = function () {
     });
 }
 
-var setModal = function () {
-    var modal = document.getElementById('myModal');
+var setModalGrid = function(){
+    return "This p element has index: ";
+}
 
-    // Get the button that opens the modal
-    var btn = document.getElementById("item-grid");
+var setModal = function () {
+    var grid = setModalGrid();
+    var modal = document.getElementById('myModal');
 
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
 
-    // When the user clicks on the button, open the modal 
-    btn.onclick = function () {
+    $(".carousel-item").click(function(){
+        // console.log(this.id);
         modal.style.display = "block";
-        span.style.display = "block";        
-    }
+        span.style.display = "block"; 
+        // document.getElementById("projectitem").innerHTML='<object type="text/html" data="page-grid.html" ></object>';
+        $("#projectitem").load("page-grid.html");
+        // $('#'+this.id).html(function(n){
+        //     return "This p element has index: " + n;
+        // });
+    });
 
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function () {
+    $(".close").click(function(){
         modal.style.display = "none";
-        span.style.display = "none";        
-    }
+        span.style.display = "none";     
+    });
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
@@ -209,6 +215,7 @@ var mainPage = {
         screenWidth = $(window).width();
         screenHeight = $(window).height();
         var c = document.getElementById("myCanvas");
+        
         setScrollAnimation();
         setModal();
         // chipProject = document.getElementById("chipProject");
