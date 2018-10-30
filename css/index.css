@@ -217,6 +217,15 @@ svg .draw{
     z-index: -1;
 }
 
+
+#block3{
+    top:200%;
+    width: 100%;
+    height: 100%;
+    background:radial-gradient(#022B2F, black);
+    z-index: 0;
+}
+
 #myCanvas{
     width: 100%;
     height: 100%;
