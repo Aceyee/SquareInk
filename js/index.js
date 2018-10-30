@@ -184,11 +184,10 @@ var setModal = function () {
     var span = document.getElementsByClassName("close")[0];
 
     $(".carousel-item").click(function(){
-        // console.log(this.id);
         modal.style.display = "block";
         span.style.display = "block"; 
         // document.getElementById("projectitem").innerHTML='<object type="text/html" data="page-grid.html" ></object>';
-        $("#projectitem").load("page-grid.html");
+        $("#projectitem").load("page_grid.html");
         // $('#'+this.id).html(function(n){
         //     return "This p element has index: " + n;
         // });

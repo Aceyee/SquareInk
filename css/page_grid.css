@@ -1,0 +1,14 @@
+#page_grid{
+    background: linear-gradient(#9AE1F3, #F938E4);
+    height: auto;
+    width: 100%;
+    text-align: center;
+}
+
+#page_grid h3{
+    margin: 2rem;  
+}
+
+#page_grid img{
+    height: 80%;  
+}

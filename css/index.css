@@ -235,9 +235,8 @@ svg .draw{
     background-color: #fefefe;
     margin: 0 auto; 
     border: 1px solid #888;
-    height: 200%;
+    height: auto;
     width: 100%;
-    overflow-y: hidden;
 }
 
 /* The Close Button */
