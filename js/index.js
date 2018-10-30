@@ -47,7 +47,7 @@ var drawTopSecond = function (svg, points, dash, deltaChipMainX, shiftDirection,
         newElement.setAttribute("cx", points[lastIndex - 1]);
         newElement.setAttribute("cy", points[lastIndex] - moveCircleDirection * strokeWidth);
         newElement.setAttribute("r", strokeWidth);
-        newElement.setAttribute("stroke-width", strokeWidth/2);
+        newElement.setAttribute("stroke-width", strokeWidth / 2);
         svg.appendChild(newElement);
 
         /*deprecated */
@@ -74,7 +74,7 @@ var drawTopThird = function (svg, points, dash, moveCircleDirection) {
     newElement.setAttribute("cx", points[lastIndex - 1] + 0.5 * Math.sqrt(2) * moveCircleDirection * strokeWidth);
     newElement.setAttribute("cy", points[lastIndex] + 0.5 * Math.sqrt(2) * strokeWidth);
     newElement.setAttribute("r", strokeWidth);
-    newElement.setAttribute("stroke-width", strokeWidth/2);
+    newElement.setAttribute("stroke-width", strokeWidth / 2);
     svg.appendChild(newElement);
 }
 
@@ -145,31 +145,58 @@ var reverse = function (points) {
     return reversePoints;
 }
 
-var drawProjectLine = function(){
+var drawProjectLine = function () {
     // alert('adasda');
 }
 
-var setScrollAnimation = function(){
-    $("a").on('click', function(event) {
+var setScrollAnimation = function () {
+    $("a").on('click', function (event) {
         // Make sure this.hash has a value before overriding default behavior
         if (this.hash !== "") {
-          // Prevent default anchor click behavior
-          event.preventDefault();
-    
-          // Store hash
-          var hash = this.hash;
-    
-          // Using jQuery's animate() method to add smooth page scroll
-          // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
-          $('html, body').animate({
-            scrollTop: $(hash).offset().top
-          }, 500, function(){
-       
-            // Add hash (#) to URL when done scrolling (default click behavior)
-            window.location.hash = hash;
-          });
+            // Prevent default anchor click behavior
+            event.preventDefault();
+
+            // Store hash
+            var hash = this.hash;
+
+            // Using jQuery's animate() method to add smooth page scroll
+            // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+            $('html, body').animate({
+                scrollTop: $(hash).offset().top
+            }, 500, function () {
+
+                // Add hash (#) to URL when done scrolling (default click behavior)
+                window.location.hash = hash;
+            });
         } // End if
-      });
+    });
+}
+
+var setModal = function () {
+    var modal = document.getElementById('myModal');
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on the button, open the modal 
+    btn.onclick = function () {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
 }
 
 var mainPage = {
@@ -181,6 +208,7 @@ var mainPage = {
         screenHeight = $(window).height();
         var c = document.getElementById("myCanvas");
         setScrollAnimation();
+        setModal();
         // chipProject = document.getElementById("chipProject");
         // setTimeout(function(){
         //     chipProject.addEventListener("mouseover",function(){
@@ -188,7 +216,7 @@ var mainPage = {
         //     });
         // }, 3000);
 
-        
+
         c.setAttribute('width', screenWidth);
         c.setAttribute('height', screenHeight);
         ctx = c.getContext("2d");
@@ -215,7 +243,7 @@ var mainPage = {
         deltaChipMainX = chipMainWidth / count;
 
         /*Bottom Left Circuit*/
-        var botLeftX = chipMainOffset.left - 0.5 * chipMainBorder;  ;
+        var botLeftX = chipMainOffset.left - 0.5 * chipMainBorder;;
         var botY = screenHeight;
 
         var middlePointX = botLeftX;
@@ -230,7 +258,7 @@ var mainPage = {
         drawTopSecond(svg, points, dash, deltaChipMainX, 1, 1);*/
 
         /*Left Bottom Circuit */
-        var LeftBotX = chipMainOffset.left - chipMainBorder;    
+        var LeftBotX = chipMainOffset.left - chipMainBorder;
         var LeftBotY = chipMainOffset.top + chipMainHeight;
         /*
         for (var i = 0; i < 3; i++) {
@@ -255,8 +283,8 @@ var mainPage = {
         svg.appendChild(newElement);*/
 
         /*Bottom Center Circuit */
-        var points = [botLeftX + 4* deltaChipMainX, screenHeight,
-            botLeftX + 4*deltaChipMainX, chipMainBot];
+        var points = [botLeftX + 4 * deltaChipMainX, screenHeight,
+        botLeftX + 4 * deltaChipMainX, chipMainBot];
         drawTopSecond(svg, points, screenHeight - chipMainBot, deltaChipMainX, 1, 1);
 
         /*Bottom Right Circuit*/
@@ -351,11 +379,11 @@ var mainPage = {
         LeftTopY += deltaChipMainX;
         var middlePointX = LeftTopX - 2 * deltaChipMainX;
         var middlePointY = LeftTopY - 2 * deltaChipMainX;
-        var lengthBetween = LeftTopY - 2*2*deltaChipMainX;
+        var lengthBetween = LeftTopY - 2 * 2 * deltaChipMainX;
 
         var points3 = [LeftTopX, LeftTopY,
             middlePointX, middlePointY,
-            middlePointX, middlePointY-lengthBetween,
+            middlePointX, middlePointY - lengthBetween,
             topX3, topY3];
         points3 = reverse(points3);
         dash = LeftTopY - 4 * deltaChipMainX + 2 * Math.sqrt(2) * 2 * deltaChipMainX;
@@ -372,7 +400,7 @@ var mainPage = {
 
         var points3 = [LeftTopX, LeftTopY,
             middlePointX, middlePointY,
-            middlePointX, middlePointY-lengthBetween,
+            middlePointX, middlePointY - lengthBetween,
             topX3, topY3];
         points3 = reverse(points3);
         dash = LeftTopY - (2 + 3) * deltaChipMainX + Math.sqrt(2) * (2 + 3) * deltaChipMainX;
