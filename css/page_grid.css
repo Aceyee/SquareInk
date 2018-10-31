@@ -9,6 +9,14 @@
     margin: 2rem;  
 }
 
+#page_grid h5{
+    margin: 1rem;  
+}
+
+#page_grid p{
+    margin-bottom: 0;  
+}
+
 #page_grid img{
     height: 80%;  
 }

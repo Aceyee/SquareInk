@@ -172,30 +172,43 @@ var setScrollAnimation = function () {
     });
 }
 
-var setModalGrid = function(){
-    return "This p element has index: ";
+var getPageName = function (id) {
+    console.log(id);
+    if (id == "item_grid") {
+        return "page_grid.html";
+    } else if (id == "item_squareink") {
+        return "page_squareink.html";
+    } else if (id == "item_imdb") {
+        return "page_imdb.html";
+    } else if (id == "item_natureforce") {
+        return "page_natureforce.html";
+    }else{
+        return null;
+    }
 }
 
 var setModal = function () {
-    var grid = setModalGrid();
     var modal = document.getElementById('myModal');
 
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
 
-    $(".carousel-item").click(function(){
+    $(".carousel-item").click(function () {
         modal.style.display = "block";
-        span.style.display = "block"; 
+        span.style.display = "block";
+        var pageName = getPageName(this.id);
         // document.getElementById("projectitem").innerHTML='<object type="text/html" data="page-grid.html" ></object>';
-        $("#projectitem").load("page_grid.html");
+        if (pageName != null) {
+            $("#projectitem").load(pageName);
+        }
         // $('#'+this.id).html(function(n){
         //     return "This p element has index: " + n;
         // });
     });
 
-    $(".close").click(function(){
+    $(".close").click(function () {
         modal.style.display = "none";
-        span.style.display = "none";     
+        span.style.display = "none";
     });
 
     // When the user clicks anywhere outside of the modal, close it
@@ -214,7 +227,7 @@ var mainPage = {
         screenWidth = $(window).width();
         screenHeight = $(window).height();
         var c = document.getElementById("myCanvas");
-        
+
         setScrollAnimation();
         setModal();
         // chipProject = document.getElementById("chipProject");
