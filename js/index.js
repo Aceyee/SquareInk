@@ -220,9 +220,9 @@ var setModal = function () {
 
 var mainPage = {
     onCreate: function () {
-        // $(document).ready(function(){
-        //     $(this).scrollTop(0);
-        // });
+        $(document).ready(function(){
+            $(this).scrollTop(0);
+        });
         screenWidth = $(window).width();
         screenHeight = $(window).height();
         var c = document.getElementById("myCanvas");
@@ -385,6 +385,7 @@ var mainPage = {
         var middlePointX = topRightX;
         var middlePointY = LeftTopY - deltaChipMainX;
 
+        // alert(screenHeight);
         var points1 = [topRightX, topY2,
             middlePointX, middlePointY,
             LeftTopX, LeftTopY]
@@ -405,6 +406,10 @@ var mainPage = {
             middlePointX, middlePointY,
             middlePointX, middlePointY - lengthBetween,
             topX3, topY3];
+
+        for(var q=0; q<points3.length; q+=2){
+            console.log(points3[q]+" "+points3[q+1]);
+        }
         points3 = reverse(points3);
         dash = LeftTopY - 4 * deltaChipMainX + 2 * Math.sqrt(2) * 2 * deltaChipMainX;
         drawTopThird(svg, points3, dash, 1);
