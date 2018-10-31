@@ -5,6 +5,7 @@
     text-align: center;
 }
 
+
 #page_grid h3{
     margin: 2rem;  
 }
@@ -14,9 +15,15 @@
 }
 
 #page_grid p{
-    margin-bottom: 0;  
+    text-align:left;
+    margin: 1rem;  
 }
 
 #page_grid img{
     height: 80%;  
+}
+
+.pageBody{
+    width: 80%;
+    margin: 0 auto;
 }
