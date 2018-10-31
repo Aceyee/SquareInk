@@ -173,7 +173,6 @@ var setScrollAnimation = function () {
 }
 
 var getPageName = function (id) {
-    console.log(id);
     if (id == "item_grid") {
         return "page_grid.html";
     } else if (id == "item_squareink") {

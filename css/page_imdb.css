@@ -1,0 +1,23 @@
+#page_imdb{
+    color: #005283;
+    background: linear-gradient(#f9da32, #f9e032);
+    height: auto;
+    width: 100%;
+    text-align: center;
+}
+
+#page_imdb h3{
+    margin: 2rem;  
+}
+
+#page_imdb h5{
+    margin: 1rem;  
+}
+
+#page_imdb p{
+    margin-bottom: 0;  
+}
+
+#page_imdb img{
+    height: 80%;  
+}

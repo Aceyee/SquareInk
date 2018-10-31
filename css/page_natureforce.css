@@ -1,0 +1,23 @@
+#page_natureforce{
+    background: linear-gradient(-35deg, rgba(145, 107, 99, 0.5) 15%, rgba(184, 186, 111, 0.5) 25%, transparent 60%), linear-gradient(10deg, #916b63 9%, #b8ba6f 30%, #ed7c94 45%, #23529a 65%);
+    height: auto;
+    width: 100%;
+    text-align: center;
+    color:white;
+}
+
+#page_natureforce h3{
+    margin: 2rem;  
+}
+
+#page_natureforce h5{
+    margin: 1rem;  
+}
+
+#page_natureforce p{
+    margin-bottom: 0;  
+}
+
+#page_natureforce img{
+    height: 80%;  
+}
