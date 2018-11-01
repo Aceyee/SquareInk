@@ -36,11 +36,9 @@ body{
 }
 
 #chipProject{
-    width: 8rem; 
-    height: 8rem; 
-    top: 50%;
-    left: 20%;
-    transform: translate(-50%,0);
+    width: 90%;
+    height: 80%;
+    overflow: hidden;
 }
 
 #block2{
@@ -49,12 +47,6 @@ body{
     height: 100%;
     background:radial-gradient(#022B2F, black);
     z-index: 0;
-}
-
-#project{
-    width: 90%;
-    height: 80%;
-    overflow: hidden;
 }
 
 .absolutePosition{

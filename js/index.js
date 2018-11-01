@@ -199,7 +199,7 @@ var setModal = function () {
         // document.getElementById("projectitem").innerHTML='<object type="text/html" data="page-grid.html" ></object>';
         if (pageName != null) {
             $("#projectitem").load(pageName);
-            $("#projectitem").scrollTop(0);
+            // $("#projectitem").scrollTop(0);
         }
         // $('#'+this.id).html(function(n){
         //     return "This p element has index: " + n;
@@ -248,6 +248,8 @@ var mainPage = {
 
     drawTopLine: function () {
         var svg = document.getElementsByTagName('svg')[0]; //Get svg element
+        var svg1 = document.getElementsByTagName('svg')[1]; //Get svg element
+
 
         chipMainBorder = 25;
         chipMainOffset = $('#chipMain').offset();
@@ -258,6 +260,9 @@ var mainPage = {
         chipMainRight = screenWidth - chipMainLeft;
         chipMainTop = chipMainOffset.top - chipMainBorder;
         chipMainBot = screenHeight - chipMainTop;
+
+        chipProjectOffset = $('#chipProject').offset();
+        chipProjectTop = chipProjectOffset.top;
 
         // var d = 20;
         var count = 9;
@@ -307,6 +312,10 @@ var mainPage = {
         var points = [botLeftX + 4 * deltaChipMainX, screenHeight,
         botLeftX + 4 * deltaChipMainX, chipMainBot];
         drawTopSecond(svg, points, screenHeight - chipMainBot, deltaChipMainX, 1, 1);
+
+        var points = [botLeftX + 4 * deltaChipMainX, 0,
+            botLeftX + 4 * deltaChipMainX, chipProjectTop - screenHeight-chipMainBorder];
+        drawTopSecond(svg1, points, chipProjectTop - screenHeight-chipMainBorder, deltaChipMainX, 1, -1);
 
         /*Bottom Right Circuit*/
         var botX2 = screenWidth - botLeftX;
