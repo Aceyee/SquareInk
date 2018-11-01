@@ -1,11 +1,6 @@
 #page_squareink{
     color: white;
-    /* background: linear-gradient(#9AE1F3, #F938E4); */
     background:radial-gradient(#022B2F, black);
-    /* background: linear-gradient(-20deg, rgba(26, 0, 192, 0.4) 40%, rgba(215, 0, 67, 0.4)), linear-gradient(60deg, #1a00c0 10%, #d70043); */
-    /* background: linear-gradient(-45deg, rgba(237, 124, 148, 0.3) 20%, rgba(35, 82, 154, 0.3) 70%), linear-gradient(10deg, #916b63 7%, #b8ba6f 20%, #ed7c94 40%, #23529a 60%); */
-    /* background: linear-gradient(-35deg, rgba(145, 107, 99, 0.5) 15%, rgba(184, 186, 111, 0.5) 25%, transparent 60%), linear-gradient(10deg, #916b63 9%, #b8ba6f 30%, #ed7c94 45%, #23529a 65%); */
-
     height: auto;
     width: 100%;
     text-align: center;
@@ -20,9 +15,15 @@
 }
 
 #page_squareink p{
+    text-align:left;
     margin: 0;  
 }
 
 #page_squareink img{
     height: 80%;  
+}
+
+.pageBody{
+    width: 80%;
+    margin: 0 auto;
 }
