@@ -199,6 +199,7 @@ var setModal = function () {
         // document.getElementById("projectitem").innerHTML='<object type="text/html" data="page-grid.html" ></object>';
         if (pageName != null) {
             $("#projectitem").load(pageName);
+            $("#projectitem").scrollTop(0);
         }
         // $('#'+this.id).html(function(n){
         //     return "This p element has index: " + n;
@@ -407,9 +408,6 @@ var mainPage = {
             middlePointX, middlePointY - lengthBetween,
             topX3, topY3];
 
-        for(var q=0; q<points3.length; q+=2){
-            console.log(points3[q]+" "+points3[q+1]);
-        }
         points3 = reverse(points3);
         dash = LeftTopY - 4 * deltaChipMainX + 2 * Math.sqrt(2) * 2 * deltaChipMainX;
         drawTopThird(svg, points3, dash, 1);
