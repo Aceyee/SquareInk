@@ -40,13 +40,19 @@
                     <h5>Map Generator Algorithm</h5>
                     <p>&middot;Initiailize a <b>Random</b> point as the start point. Mark this point as visited</p>
                     <p>&middot;Use while loops, every turn generate a <b>Random</b> feasible point as the next point until there is no feasible point</p>  
-                    
-                    <h5>Adjacency and Border Detection</h5>
-                    <p>Declare a 2D array to keep track of current grid status</p>                  
-                    <p>If a point is inside the 2D array, it is feasible</p>
+                    <p>&middot;Move to this point, mark it as visited. Continue Executing while loops</p>
+                    <p>&middot;If thers is no more feasible point, break while loop and return the result</p>
 
+                    
                     <h5>Modified Euler Path Theory</h5>
-                    <p></p>
+                    <p>&middot;Declare a 2D <b>ArrayList</b> as a <b>Stack</b> to keep track of visited points</p>
+                    <p>&middot;If a point is visited, push this point to <b>Stack</b>, which is an <b>ArrayList</b></p>
+
+                    <h5>Adjacency and Border Detection</h5>
+                    <p>&middot;Declare a 2D <b>ArrayList</b> to keep track of current grid status</p>                  
+                    <p>&middot;If a point's coordinates(i, j) is inside the array's boundary, it is feasible</p>
+                    <p>&middot;If a point is not in the <b>Stack</b>, it is feasible</p>
+                    <p>&middot;If a point is not visited, it is feasible</p>
                 </div>
             </div>
         </div>
