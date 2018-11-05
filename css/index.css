@@ -69,7 +69,7 @@ body{
     z-index: 1;
 }
 
-.switchContainer{
+.projectContainer{
     background-color: transparent;
     color: transparent;
     border-style: double;
@@ -256,6 +256,14 @@ svg .draw{
     height: 100%;
     background:radial-gradient(#022B2F, black);
     z-index: 0;
+}
+
+#btn-send{
+    position: absolute;
+    bottom:10%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align:center;
 }
 
 #myCanvas{

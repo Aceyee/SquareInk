@@ -15,9 +15,15 @@
 }
 
 #page_imdb p{
+    text-align:left;
     margin-bottom: 0;  
 }
 
 #page_imdb img{
     height: 80%;  
+}
+
+.pageBody{
+    width: 80%;
+    margin: 0 auto;
 }

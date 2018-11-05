@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <link rel="stylesheet" href="/lib/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" href="/css/page_grid.css">
@@ -28,13 +28,15 @@
                 </div>
             </a>
 
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" class="absolutePosition absoluteCenter"></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet"
+                class="absolutePosition absoluteCenter"></svg>
             <canvas id="myCanvas" class="absolutePosition absoluteCenter">
         </div>
 
         <div id="block2" class="absolutePosition">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" class="absolutePosition absoluteCenter"></svg>
-            <div id="chipProject" class="switchContainer absolutePosition absoluteCenter">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet"
+                class="absolutePosition absoluteCenter"></svg>
+            <div id="chipProject" class="projectContainer absolutePosition absoluteCenter">
                 <div class="absolutePosition centerH">
                     <h1 style="color: aqua">PROJECTS</h1>
                 </div>
@@ -65,26 +67,27 @@
                     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                         <div class="carousel-inner">
                             <div id="item_grid" class="carousel-item active">
-                                <a  href="#block2">
+                                <a href="#block2">
                                     <img class="d-block w-100" src="image/grid.png" alt="First slide">
                                 </a>
                             </div>
                             <div id="item_squareink" class="carousel-item">
-                                <a  href="#block2">
+                                <a href="#block2">
                                     <img class="w-100" src="image/squareink.png" alt="Second slide">
                                 </a>
 
                             </div>
                             <div id="item_imdb" class="carousel-item">
-                                <a  href="#block2">
+                                <a href="#block2">
                                     <img class="w-100" src="image/imdb.png" alt="Third slide">
                                 </a>
                             </div>
+                            <!--                             
                             <div id="item_natureforce" class="carousel-item">
                                 <a  href="#block2">
                                     <img class="w-100" src="image/natureforce.png" alt="Forth slide">
                                 </a>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -101,19 +104,48 @@
                 <div id="myModal" class="modal absolutePosition absoluteCenter">
                     <div class="modal-content">
                         <div id="projectitem">
-                            
+
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
         <div id="block3" class="absolutePosition">
+            <div id="chipProject" class="projectContainer absolutePosition absoluteCenter">
+                <div class="absolutePosition centerH">
+                    <h1 style="color: aqua">Message</h1>
+                </div>
+                <div class="content content-message" data-spy="scroll" data-target="#message" data-offset="0">
+                    <div id="corkboard">
+                        <div id="message">
+                        
+                        </div>
+                    </div>
+            
+                    <div id="btn-send">
+                        <div class="collapse" id="collapseExample">
+                            <div class="card card-body">
+                                <form method="post" action="/php/send.php">
+                                    <div>
+                                        Your Name: <input type="text" name="username" maxlength="20"> <br /><br />
+                                        Message:   <textarea type="text" name="message" rows="4" cols="50"></textarea>
+                                    </div>
+                                    <input type="submit" value="Submit">
+                                </form>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                            Leave a Message
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </body>
 <script>
     mainPage.onCreate();
+    message.onCreate();
 </script>
 
 </html>

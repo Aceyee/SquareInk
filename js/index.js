@@ -199,11 +199,8 @@ var setModal = function () {
         // document.getElementById("projectitem").innerHTML='<object type="text/html" data="page-grid.html" ></object>';
         if (pageName != null) {
             $("#projectitem").load(pageName);
-            // $("#projectitem").scrollTop(0);
+            $("#myModal").scrollTop(0);
         }
-        // $('#'+this.id).html(function(n){
-        //     return "This p element has index: " + n;
-        // });
     });
 
     $(".close").click(function () {
@@ -458,5 +455,45 @@ var mainPage = {
             }
         }
         return (waypoints);
+    }
+}
+
+var message = {
+    onCreate: function () {
+        message.loadMessage();
+        message.setStayOnPage();
+    },
+
+    loadMessage:function(){
+        $.ajax({
+            type: 'POST',
+            url: '/php/load.php',
+            dataType: 'json',
+            success: function (data) {
+                $.each(data.Message, function (index, user) {
+                    $('#message').append('<div class="card border-primary mb-3" style="max-width: 18rem;">'
+                        + '<div class="card-header">'
+                        +   '<div class="float-left">' + user.username + '</div>'
+                        +   '<div class="float-right">' + user.date + '</div>'
+                        +'</div>'
+                        +'<div class="card-body text-primary">'
+                        +   '<p class="card-text">'+user.message+'</p>'
+                        +'</div>'
+                    +'</div>');
+                });
+            }
+        });
+    },
+
+    setStayOnPage: function () {
+        $(document).ready(function () {
+            var $form = $('form');
+            $form.submit(function () {
+                $.post($(this).attr('action'), $(this).serialize(), function (response) {
+                    // do something here on success
+                }, 'json');
+                return false;
+            });
+        });
     }
 }
