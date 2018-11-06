@@ -4,14 +4,12 @@ z-index:
 0: bg gradient
 -10:canvas
 */
-body{
-    /* background-color: black; */
-    margin: 0;
+html{
+    background: #00090C;
+
 }
 
 #blocks{
-    background: #022B2F;
-    position: absolute;
     height: 100%;
     width: 100%;
 }
