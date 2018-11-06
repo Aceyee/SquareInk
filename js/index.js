@@ -471,12 +471,12 @@ var message = {
             dataType: 'json',
             success: function (data) {
                 $.each(data.Message, function (index, user) {
-                    $('#message').append('<div class="card border-primary mb-3" style="max-width: 18rem;">'
+                    $('#message').append('<div class="card mb-3 card-message" style="max-width: 18rem;">'
                         + '<div class="card-header">'
                         +   '<div class="float-left">' + user.username + '</div>'
                         +   '<div class="float-right">' + user.date + '</div>'
                         +'</div>'
-                        +'<div class="card-body text-primary">'
+                        +'<div class="card-body text-white">'
                         +   '<p class="card-text">'+user.message+'</p>'
                         +'</div>'
                     +'</div>');

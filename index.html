@@ -124,17 +124,17 @@
             
                     <div id="btn-send">
                         <div class="collapse" id="collapseExample">
-                            <div class="card card-body">
+                            <div class="card card-body card-message">
                                 <form method="post" action="/php/send.php">
-                                    <div>
+                                    <div class="text-white">
                                         Your Name: <input type="text" name="username" maxlength="20"> <br /><br />
                                         Message:   <textarea type="text" name="message" rows="4" cols="50"></textarea>
                                     </div>
-                                    <input type="submit" value="Submit">
+                                    <input class="messageBtn" type="submit" value="Submit">
                                 </form>
                             </div>
                         </div>
-                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        <button class="messageBtn" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                             Leave a Message
                         </button>
                     </div>

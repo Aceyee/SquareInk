@@ -143,6 +143,9 @@ svg .draw{
     height: 4rem;
     background-color: transparent;
     text-align: center;
+    
+    transition-duration: 0.4s;
+    -webkit-transition-duration: 0.4s; /* Safari */
 }
 
 .btnText{
@@ -257,10 +260,49 @@ svg .draw{
     background:radial-gradient(#022B2F, black);
     z-index: 0;
 }
+.content{
+    position: absolute;
+    top:10%;
+    left:10%;
+    width:80%;
+    height: 80%;
+    margin:0 auto;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border-top-left-radius:0.75rem;
+    border-bottom-left-radius:0.75rem;
+    border-top-right-radius:0.75rem;
+    border-bottom-right-radius:0.75rem;
+    color: black;
+}
+
+.card-message{
+    border-color: aqua;
+    background: #022B2F;
+}
+
+.card-header{
+    color: aqua;
+}
+
+.messageBtn{
+    background: transparent;
+    border-radius: 0.75rem;
+    border-color: aqua;
+    color: aqua;   
+    transition-duration: 0.4s;
+    -webkit-transition-duration: 0.4s; /* Safari */
+}
+
+.messageBtn:hover{
+    background: aqua;
+    color: white;   
+}
+
 
 #btn-send{
-    position: absolute;
-    bottom:10%;
+    position: fixed;
+    bottom: 0%;
     left: 50%;
     transform: translateX(-50%);
     text-align:center;
