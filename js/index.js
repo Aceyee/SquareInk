@@ -200,6 +200,11 @@ var setModal = function () {
         if (pageName != null) {
             $("#projectitem").load(pageName);
             $("#myModal").scrollTop(0);
+            $("#myModal").addClass("scrollbar scrollbar-deep-blue");
+
+            // if(pageName=="page_grid.html"){
+                // alert(pageName);
+            // }
         }
     });
 
@@ -471,7 +476,7 @@ var message = {
             dataType: 'json',
             success: function (data) {
                 $.each(data.Message, function (index, user) {
-                    $('#message').append('<div class="card mb-3 card-message" style="max-width: 18rem;">'
+                    $('#message').append('<div class="messageCard card mb-3 card-message" style="max-width: 18rem;">'
                         + '<div class="card-header">'
                         +   '<div class="float-left">' + user.username + '</div>'
                         +   '<div class="float-right">' + user.date + '</div>'
@@ -486,13 +491,17 @@ var message = {
     },
 
     setStayOnPage: function () {
-        $(document).ready(function () {
-            var $form = $('form');
-            $form.submit(function () {
-                $.post($(this).attr('action'), $(this).serialize(), function (response) {
-                    // do something here on success
-                }, 'json');
-                return false;
+        $("form").submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: $('form').attr('action'),
+                type: 'POST',
+                data : $('form').serialize(),
+                success: function(){
+                    // location.reload();
+                    $('.messageCard').remove();
+                    message.loadMessage();
+                }
             });
         });
     }

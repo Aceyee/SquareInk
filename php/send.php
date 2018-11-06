@@ -13,7 +13,7 @@ if(empty($message)){
 }else{
     $sql_query_insert = "insert into message(username, message) values('$username','$message');";
     if(mysqli_query($con, $sql_query_insert)){
-        //echo "Insert Success";
+        // echo "Insert Success";
     }else{
         echo "Data insertion error".mysqli_error($con);
     }
