@@ -500,6 +500,7 @@ var message = {
                 success: function(){
                     // location.reload();
                     $('.messageCard').remove();
+                    $('#collapseExample').removeClass('show');
                     message.loadMessage();
                 }
             });
