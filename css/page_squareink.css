@@ -1,0 +1,29 @@
+#page_squareink{
+    color: white;
+    background:radial-gradient(#022B2F, black);
+    height: auto;
+    width: 100%;
+    text-align: center;
+}
+
+#page_squareink h3{
+    margin: 2rem;  
+}
+
+#page_squareink h5{
+    margin: 1rem;  
+}
+
+#page_squareink p{
+    text-align:left;
+    margin: 0;  
+}
+
+#page_squareink img{
+    height: 80%;  
+}
+
+.pageBody{
+    width: 80%;
+    margin: 0 auto;
+}

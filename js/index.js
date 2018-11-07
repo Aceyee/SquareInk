@@ -1,333 +1,509 @@
+var strokeWidth = 5;
+var screenWidth;
+var screenHeight;
+var ctx;
+var detailPath;
+var detailPath2;
+var detailPath3;
+var detailPath4;
+var detailPath5;
+var detailPath6;
+
+var chipMainOffset;
+var chipMainBorder;
+var chipMainLeft;
+var chipMainRight;
+var chipMainTop;
+var chipMainBot;
+var chipMainWidth;
+var chipMainHeight;
+var deltaChipMainX;
+
+var chipProject;
+var chipProjectOffset;
+var chipProjectBorder;
+var chipProjectLeft;
+var chipProjectRight;
+var chipProjectTop;
+var chipProjectBot;
+var chipProjectWidth;
+var chipProjectHeight;
+var deltaChipProject;
+
+var division = 100;
+
+var drawTopSecond = function (svg, points, dash, deltaChipMainX, shiftDirection, moveCircleDirection) {
+    var lastIndex = points.length - 1;
+    for (var i = 0; i < 3; i++) {
+        var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
+        newElement.setAttribute("class", "draw");
+        newElement.setAttribute("points", points);
+        newElement.style.strokeDasharray = dash;
+        newElement.style.strokeDashoffset = dash;
+        svg.appendChild(newElement);
+
+        newElement = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
+        newElement.setAttribute("class", "socket");
+        newElement.setAttribute("cx", points[lastIndex - 1]);
+        newElement.setAttribute("cy", points[lastIndex] - moveCircleDirection * strokeWidth);
+        newElement.setAttribute("r", strokeWidth);
+        newElement.setAttribute("stroke-width", strokeWidth / 2);
+        svg.appendChild(newElement);
+
+        /*deprecated */
+        // ctx.beginPath();
+        // ctx.arc(points[lastIndex - 1], points[lastIndex] - moveCircleDirection*strokeWidth, strokeWidth, 0, 2 * Math.PI);
+        // ctx.stroke();
+        points = shiftPointsH(points, shiftDirection * deltaChipMainX);
+    }
+    // newElement.addEventListener("webkitAnimationEnd", this.myEndFunction);
+}
+
+var drawTopThird = function (svg, points, dash, moveCircleDirection) {
+    var lastIndex = points.length - 1;
+
+    var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
+    newElement.setAttribute("class", "draw");
+    newElement.setAttribute("points", points);
+    newElement.style.strokeDasharray = dash;
+    newElement.style.strokeDashoffset = dash;
+    svg.appendChild(newElement);
+
+    newElement = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
+    newElement.setAttribute("class", "socket");
+    newElement.setAttribute("cx", points[lastIndex - 1] + 0.5 * Math.sqrt(2) * moveCircleDirection * strokeWidth);
+    newElement.setAttribute("cy", points[lastIndex] + 0.5 * Math.sqrt(2) * strokeWidth);
+    newElement.setAttribute("r", strokeWidth);
+    newElement.setAttribute("stroke-width", strokeWidth / 2);
+    svg.appendChild(newElement);
+}
+
+var shiftPointsH = function (points, deltaChipMainX) {
+    for (var i = 0; i < points.length; i++) {
+        if (i % 2 == 0) {
+            points[i] += deltaChipMainX;
+        }
+    }
+    return points;
+}
+
+var calcWaypoints = function (vertices) {
+    var waypoints = [];
+    var end = false;
+    for (var i = 0; i < vertices.length - 2; i += 2) {
+        var pt1X = vertices[i];
+        var pt1Y = vertices[i + 1];
+
+        var pt2X = vertices[i + 2];
+        var pt2Y = vertices[i + 3];
+
+        var dx = pt2X - pt1X;
+        var dy = pt2Y - pt1Y;
+
+        for (var j = 0; j < division; j++) {
+            var x = pt1X + dx * j / division;
+            if (x < 0) {
+                x = 0;
+                end = true;
+            }
+            waypoints.push(x);
+            var y = pt1Y + dy * j / division;
+            if (y < 0) {
+                y = 0;
+                end = true;
+            }
+            waypoints.push(y);
+            if (end) {
+                break;
+            }
+
+        }
+        if (end) {
+            break;
+        }
+    }
+    return (waypoints);
+}
+
+var symmetryH = function (points) {
+    for (var i = 0; i < points.length; i++) {
+        if (i % 2 == 0) {
+            points[i] = screenWidth - points[i];
+        }
+    }
+    return points;
+}
+
+var reverse = function (points) {
+    var reversePoints = [];
+    for (var i = 0; i < points.length - 1; i += 2) {
+        var x = points[i];
+        var y = points[i + 1];
+        reversePoints.unshift(y);
+        reversePoints.unshift(x);
+    }
+    return reversePoints;
+}
+
+var drawProjectLine = function () {
+    // alert('adasda');
+}
+
+var setScrollAnimation = function () {
+    $("a").on('click', function (event) {
+        // Make sure this.hash has a value before overriding default behavior
+        if (this.hash !== "") {
+            // Prevent default anchor click behavior
+            event.preventDefault();
+
+            // Store hash
+            var hash = this.hash;
+
+            // Using jQuery's animate() method to add smooth page scroll
+            // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+            $('html, body').animate({
+                scrollTop: $(hash).offset().top
+            }, 500, function () {
+
+                // Add hash (#) to URL when done scrolling (default click behavior)
+                window.location.hash = hash;
+            });
+        } // End if
+    });
+}
+
+var getPageName = function (id) {
+    if (id == "item_grid") {
+        return "page_grid.html";
+    } else if (id == "item_squareink") {
+        return "page_squareink.html";
+    } else if (id == "item_imdb") {
+        return "page_imdb.html";
+    } else if (id == "item_natureforce") {
+        return "page_natureforce.html";
+    }else{
+        return null;
+    }
+}
+
+var setModal = function () {
+    var modal = document.getElementById('myModal');
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    $(".carousel-item").click(function () {
+        modal.style.display = "block";
+        span.style.display = "block";
+        var pageName = getPageName(this.id);
+        // document.getElementById("projectitem").innerHTML='<object type="text/html" data="page-grid.html" ></object>';
+        if (pageName != null) {
+            $("#projectitem").load(pageName);
+            $("#myModal").scrollTop(0);
+            $("#myModal").addClass("scrollbar scrollbar-deep-blue");
+
+            // if(pageName=="page_grid.html"){
+                // alert(pageName);
+            // }
+        }
+    });
+
+    $(".close").click(function () {
+        modal.style.display = "none";
+        span.style.display = "none";
+    });
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+}
+
 var mainPage = {
     onCreate: function () {
-        var screenWidth = $(window).width();
-        var screenHeight = $(window).height();
-
-        var chipMainBorder = 50;
-        var chipMainOffset = $('#chipMain').offset();
-        var chipMainWidth = $('#chipMain').width();
-        var chipMainHeight = $('#chipMain').height();
-
-        var chipMainX1 = chipMainOffset.left;
-        var chipMainX2 = screenWidth - chipMainOffset.left;
-        var chipMainY1 = chipMainOffset.top + chipMainHeight + chipMainBorder;
-        var chipMainY2 = chipMainY1;
-
-        var svg = document.getElementsByTagName('svg')[0]; //Get svg element
-
-
+        $(document).ready(function(){
+            $(this).scrollTop(0);
+        });
+        screenWidth = $(window).width();
+        screenHeight = $(window).height();
         var c = document.getElementById("myCanvas");
+
+        setScrollAnimation();
+        setModal();
+        // chipProject = document.getElementById("chipProject");
+        // setTimeout(function(){
+        //     chipProject.addEventListener("mouseover",function(){
+        //         drawProjectLine();
+        //     });
+        // }, 3000);
+
+
         c.setAttribute('width', screenWidth);
         c.setAttribute('height', screenHeight);
-        var ctx = c.getContext("2d");
-        ctx.strokeStyle = "aqua";
-        var strokeWidth = 5;
+        ctx = c.getContext("2d");
 
+        this.drawTopLine();
+        // this.drawSideLine();
+    },
 
-        // alert(c.width);
-
-
-        var d = 20;
-        /*Bottom Circuit*/
-
-        var botX1 = chipMainX1 - d;
-        var botY1 = screenHeight;
-
-        var count = 9;
-        var deltaChipMainX = chipMainWidth / count;
-        var deltaX = screenWidth / count;
-        var middlePointX = botX1;
-        var middlePointY = botY1 - (botY1 - chipMainY1 - d) / 2;
-
+    drawTopLine: function () {
         var svg = document.getElementsByTagName('svg')[0]; //Get svg element
+        var svg1 = document.getElementsByTagName('svg')[1]; //Get svg element
 
-        var points = [botX1, botY1,
+
+        chipMainBorder = 25;
+        chipMainOffset = $('#chipMain').offset();
+        chipMainWidth = $('#chipMain').width();
+        chipMainHeight = $('#chipMain').height();
+
+        chipMainLeft = chipMainOffset.left;
+        chipMainRight = screenWidth - chipMainLeft;
+        chipMainTop = chipMainOffset.top - chipMainBorder;
+        chipMainBot = screenHeight - chipMainTop;
+
+        chipProjectOffset = $('#chipProject').offset();
+        chipProjectTop = chipProjectOffset.top;
+
+        // var d = 20;
+        var count = 9;
+        deltaChipMainX = chipMainWidth / count;
+
+        /*Bottom Left Circuit*/
+        var botLeftX = chipMainOffset.left - 0.5 * chipMainBorder;;
+        var botY = screenHeight;
+
+        var middlePointX = botLeftX;
+        var middlePointY = botY - (botY - chipMainBot - deltaChipMainX) / 2;
+        var dash = (botY - middlePointY) + (Math.sqrt(2) * deltaChipMainX) + ((middlePointY - deltaChipMainX) - chipMainBot);
+
+        /*
+        var points = [botLeftX, botY,
             middlePointX, middlePointY,
             middlePointX + d, middlePointY - d,
-            chipMainX1, chipMainY1];
-        var lastIndex = points.length - 1;
-        var dash = (botY1 - middlePointY) + (Math.sqrt(2) * d) + ((middlePointY - d) - chipMainY1);
-        // alert(dash);
+            chipMainLeft, chipMainBot];
+        drawTopSecond(svg, points, dash, deltaChipMainX, 1, 1);*/
 
-        var newElement;
+        /*Left Bottom Circuit */
+        var LeftBotX = chipMainOffset.left - chipMainBorder;
+        var LeftBotY = chipMainOffset.top + chipMainHeight;
+        /*
         for (var i = 0; i < 3; i++) {
-            newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
-            newElement.setAttribute("class", "draw");
-            newElement.setAttribute("points", points);
-            newElement.style.strokeDasharray = dash;
-            newElement.style.strokeDashoffset = dash;
+            var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
+            newElement.setAttribute("class", "socket");
+            newElement.setAttribute("cx", LeftBotX);
+            newElement.setAttribute("cy", LeftBotY - deltaChipMainX * i);
+            newElement.setAttribute("r", strokeWidth);
             svg.appendChild(newElement);
+        }*/
 
-            ctx.beginPath();
-            ctx.arc(points[lastIndex - 1], points[lastIndex] - strokeWidth, strokeWidth, 0, 2 * Math.PI);
-            ctx.stroke();
 
-            points = this.shiftPointsH(points, deltaChipMainX);
-        }
+        // for (var i = 0; i < pathPoints.length; i++) {
+        //     // console.log(pathPoints[i]);
+        // }
+        /*
+        var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
+        newElement.setAttribute("class", "draw");
+        newElement.setAttribute("points", pathPoints);
+        // newElement.style.strokeDasharray = 1000;
+        // newElement.style.strokeDashoffset = 1000;
+        svg.appendChild(newElement);*/
 
-        var botX2 = screenWidth - botX1;
-        var botY2 = botY1;
+        /*Bottom Center Circuit */
+        var points = [botLeftX + 4 * deltaChipMainX, screenHeight,
+        botLeftX + 4 * deltaChipMainX, chipMainBot];
+        drawTopSecond(svg, points, screenHeight - chipMainBot, deltaChipMainX, 1, 1);
+
+        var points = [botLeftX + 4 * deltaChipMainX, 0,
+            botLeftX + 4 * deltaChipMainX, chipProjectTop - screenHeight-chipMainBorder];
+        drawTopSecond(svg1, points, chipProjectTop - screenHeight-chipMainBorder, deltaChipMainX, 1, -1);
+
+        /*Bottom Right Circuit*/
+        var botX2 = screenWidth - botLeftX;
+        var botY2 = botY;
+        /*
         middlePointX = screenWidth - middlePointX;
         points = [botX2, botY2,
             middlePointX, middlePointY,
             middlePointX - d, middlePointY - d,
-            chipMainX2, chipMainY2
+            chipMainRight, chipMainY2
         ];
+        drawBotLeft(svg, points, dash, deltaChipMainX, -1, 1);
+        */
+
+        /* Right Bottom Circuit*/
+        /*
+        var RightBotX = screenWidth-LeftBotX;
+        var RightBotY = LeftBotY;
         for (var i = 0; i < 3; i++) {
-            newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
-            newElement.setAttribute("class", "draw");
-            newElement.setAttribute("points", points);
-            newElement.style.strokeDasharray = dash;
-            newElement.style.strokeDashoffset = dash;
+            var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
+            newElement.setAttribute("class", "socket");
+            newElement.setAttribute("cx", RightBotX);
+            newElement.setAttribute("cy", RightBotY-deltaChipMainX*i);
+            newElement.setAttribute("r", strokeWidth);
             svg.appendChild(newElement);
+        }*/
 
-            ctx.beginPath();
-            ctx.arc(points[lastIndex - 1], points[lastIndex] - strokeWidth, strokeWidth, 0, 2 * Math.PI);
-            ctx.stroke();
-
-            points = this.shiftPointsH(points, -1 * deltaChipMainX);
-        }
-
-        newElement.addEventListener("webkitAnimationEnd", this.myEndFunction);
-
-
-        /*Top Circuit*/
-        var topX1 = chipMainX1 - d;
+        /*Top Left Circuit*/
+        var topLeftX = chipMainLeft - deltaChipMainX;
         var topY1 = 0;
-        var chipMainTopY1 = chipMainOffset.top - d;
+        var chipMainTopY1 = chipMainOffset.top - chipMainBorder;
+        var middlePointX = topLeftX;
+        var middlePointY = (chipMainOffset.top - chipMainBorder) / 2;
 
-        var middlePointX = topX1;
-        var middlePointY = (chipMainOffset.top - d) / 2;
-        // var middlePointY = (botY1 - chipMainY1 - d) / 2;
-
-
-        var points = [topX1, topY1,
+        var points = [topLeftX, topY1,
             middlePointX, middlePointY,
-            middlePointX + d, middlePointY + d,
-            chipMainX1, chipMainTopY1];
-        // var dash = (botY1 - middlePointY)+(Math.sqrt(2)*d)+( (middlePointY - d)-chipMainY1);
-        // alert(dash);
+            middlePointX + deltaChipMainX, middlePointY + deltaChipMainX,
+            chipMainLeft, chipMainTopY1];
 
-        var newElement;
-        for (var i = 0; i < 3; i++) {
-            newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
-            newElement.setAttribute("class", "draw");
-            newElement.setAttribute("points", points);
-            newElement.style.strokeDasharray = dash;
-            newElement.style.strokeDashoffset = dash;
-            svg.appendChild(newElement);
+        drawTopSecond(svg, points, dash, deltaChipMainX, 1, -1);
 
-            ctx.beginPath();
-            ctx.arc(points[lastIndex - 1], points[lastIndex] + strokeWidth, strokeWidth, 0, 2 * Math.PI);
-            ctx.stroke();
-
-            points = this.shiftPointsH(points, deltaChipMainX);
-        }
+        var LeftTopX = LeftBotX;
+        var LeftTopY = screenHeight - LeftBotY;
 
 
-        var topX2 = screenWidth - topX1;
+        /*Top right Circuit*/
+        var topRightX = screenWidth - topLeftX;
         var topY2 = 0;
         var chipMainTopY2 = chipMainTopY1;
 
-        var middlePointX = topX2;
-        var middlePointY = (chipMainOffset.top - d) / 2;
-        // var middlePointY = (botY1 - chipMainY1 - d) / 2;
+        var middlePointX = topRightX;
+        var middlePointY = (chipMainOffset.top - chipMainBorder) / 2;
 
-
-        var points = [topX2, topY2,
+        var points = [topRightX, topY2,
             middlePointX, middlePointY,
-            middlePointX - d, middlePointY + d,
-            chipMainX2, chipMainTopY2];
-        // var dash = (botY1 - middlePointY)+(Math.sqrt(2)*d)+( (middlePointY - d)-chipMainY1);
-        // alert(dash);
+            middlePointX - deltaChipMainX, middlePointY + deltaChipMainX,
+            chipMainRight, chipMainTopY2];
 
-        var newElement;
+        drawTopSecond(svg, points, dash, deltaChipMainX, -1, -1);
+
+        /*Right Top Circuit*/
+        var RightTopX = screenWidth - LeftTopX;
+        var RightTopY = LeftTopY;
+
+        /*
         for (var i = 0; i < 3; i++) {
-            newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
-            newElement.setAttribute("class", "draw");
-            newElement.setAttribute("points", points);
-            newElement.style.strokeDasharray = dash;
-            newElement.style.strokeDashoffset = dash;
+            var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
+            newElement.setAttribute("class", "socket");
+            newElement.setAttribute("cx", RightTopX);
+            newElement.setAttribute("cy", RightTopY + deltaChipMainX * i);
+            newElement.setAttribute("r", strokeWidth);
             svg.appendChild(newElement);
+        }*/
 
-            ctx.beginPath();
-            ctx.arc(points[lastIndex - 1], points[lastIndex] + strokeWidth, strokeWidth, 0, 2 * Math.PI);
-            ctx.stroke();
+        var topRightX = LeftTopX - deltaChipMainX;
+        var topY2 = 0;
+        var middlePointX = topRightX;
+        var middlePointY = LeftTopY - deltaChipMainX;
 
-            points = this.shiftPointsH(points, -1 * deltaChipMainX);
-        }
+        // alert(screenHeight);
+        var points1 = [topRightX, topY2,
+            middlePointX, middlePointY,
+            LeftTopX, LeftTopY]
+
+        dash = (middlePointY - topY2) + Math.sqrt(2) * deltaChipMainX;
+        drawTopThird(svg, points1, dash, 1);
+        points1 = symmetryH(points1);
+        drawTopThird(svg, points1, dash, -1);
+
+        var topX3 = LeftTopX - 4 * deltaChipMainX;
+        var topY3 = 0;
+        LeftTopY += deltaChipMainX;
+        var middlePointX = LeftTopX - 2 * deltaChipMainX;
+        var middlePointY = LeftTopY - 2 * deltaChipMainX;
+        var lengthBetween = LeftTopY - 2 * 2 * deltaChipMainX;
+
+        var points3 = [LeftTopX, LeftTopY,
+            middlePointX, middlePointY,
+            middlePointX, middlePointY - lengthBetween,
+            topX3, topY3];
+
+        points3 = reverse(points3);
+        dash = LeftTopY - 4 * deltaChipMainX + 2 * Math.sqrt(2) * 2 * deltaChipMainX;
+        drawTopThird(svg, points3, dash, 1);
+
+        points3 = symmetryH(points3);
+        drawTopThird(svg, points3, dash, -1);
+
+        var topX3 = LeftTopX - 5 * deltaChipMainX;
+        var topY3 = 0;
+        LeftTopY += deltaChipMainX;
+        var middlePointX = LeftTopX - 3 * deltaChipMainX;
+        var middlePointY = LeftTopY - 3 * deltaChipMainX;
+
+        var points3 = [LeftTopX, LeftTopY,
+            middlePointX, middlePointY,
+            middlePointX, middlePointY - lengthBetween,
+            topX3, topY3];
+        points3 = reverse(points3);
+        dash = LeftTopY - (2 + 3) * deltaChipMainX + Math.sqrt(2) * (2 + 3) * deltaChipMainX;
+        drawTopThird(svg, points3, dash, 1);
+        points3 = symmetryH(points3);
+        drawTopThird(svg, points3, dash, -1);
     },
 
-    onCreate2: function () {
-        /* super inefficient right now, could be improved */
-        var c = document.getElementById('myCanvas'),
-            ctx = c.getContext('2d'),
-            cw = c.width = 400,
-            ch = c.height = 300,
-            rand = function (a, b) { return ~~((Math.random() * (b - a + 1)) + a); },
-            dToR = function (degrees) {
-                return degrees * (Math.PI / 180);
-            },
-            circle = {
-                x: (cw / 2) + 5,
-                y: (ch / 2) + 22,
-                radius: 90,
-                speed: 2,
-                rotation: 0,
-                angleStart: 270,
-                angleEnd: 90,
-                hue: 220,
-                thickness: 18,
-                blur: 25
-            },
-            particles = [],
-            particleMax = 100,
-            updateCircle = function () {
-                if (circle.rotation < 360) {
-                    circle.rotation += circle.speed;
-                } else {
-                    circle.rotation = 0;
-                }
-            },
-            renderCircle = function () {
-                ctx.save();
-                ctx.translate(circle.x, circle.y);
-                ctx.rotate(dToR(circle.rotation));
-                ctx.beginPath();
-                ctx.arc(0, 0, circle.radius, dToR(circle.angleStart), dToR(circle.angleEnd), true);
-                ctx.lineWidth = circle.thickness;
-                ctx.strokeStyle = gradient1;
-                ctx.stroke();
-                ctx.restore();
-            },
-            renderCircleBorder = function () {
-                ctx.save();
-                ctx.translate(circle.x, circle.y);
-                ctx.rotate(dToR(circle.rotation));
-                ctx.beginPath();
-                ctx.arc(0, 0, circle.radius + (circle.thickness / 2), dToR(circle.angleStart), dToR(circle.angleEnd), true);
-                ctx.lineWidth = 2;
-                ctx.strokeStyle = gradient2;
-                ctx.stroke();
-                ctx.restore();
-            },
-            renderCircleFlare = function () {
-                ctx.save();
-                ctx.translate(circle.x, circle.y);
-                ctx.rotate(dToR(circle.rotation + 185));
-                ctx.scale(1, 1);
-                ctx.beginPath();
-                ctx.arc(0, circle.radius, 30, 0, Math.PI * 2, false);
-                ctx.closePath();
-                var gradient3 = ctx.createRadialGradient(0, circle.radius, 0, 0, circle.radius, 30);
-                gradient3.addColorStop(0, 'hsla(330, 50%, 50%, .35)');
-                gradient3.addColorStop(1, 'hsla(330, 50%, 50%, 0)');
-                ctx.fillStyle = gradient3;
-                ctx.fill();
-                ctx.restore();
-            },
-            renderCircleFlare2 = function () {
-                ctx.save();
-                ctx.translate(circle.x, circle.y);
-                ctx.rotate(dToR(circle.rotation + 165));
-                ctx.scale(1.5, 1);
-                ctx.beginPath();
-                ctx.arc(0, circle.radius, 25, 0, Math.PI * 2, false);
-                ctx.closePath();
-                var gradient4 = ctx.createRadialGradient(0, circle.radius, 0, 0, circle.radius, 25);
-                gradient4.addColorStop(0, 'hsla(30, 100%, 50%, .2)');
-                gradient4.addColorStop(1, 'hsla(30, 100%, 50%, 0)');
-                ctx.fillStyle = gradient4;
-                ctx.fill();
-                ctx.restore();
-            },
-            createParticles = function () {
-                if (particles.length < particleMax) {
-                    particles.push({
-                        x: (circle.x + circle.radius * Math.cos(dToR(circle.rotation - 85))) + (rand(0, circle.thickness * 2) - circle.thickness),
-                        y: (circle.y + circle.radius * Math.sin(dToR(circle.rotation - 85))) + (rand(0, circle.thickness * 2) - circle.thickness),
-                        vx: (rand(0, 100) - 50) / 1000,
-                        vy: (rand(0, 100) - 50) / 1000,
-                        radius: rand(1, 6) / 2,
-                        alpha: rand(10, 20) / 100
-                    });
-                }
-            },
-            updateParticles = function () {
-                var i = particles.length;
-                while (i--) {
-                    var p = particles[i];
-                    p.vx += (rand(0, 100) - 50) / 750;
-                    p.vy += (rand(0, 100) - 50) / 750;
-                    p.x += p.vx;
-                    p.y += p.vy;
-                    p.alpha -= .01;
-
-                    if (p.alpha < .02) {
-                        particles.splice(i, 1)
-                    }
-                }
-            },
-            renderParticles = function () {
-                var i = particles.length;
-                while (i--) {
-                    var p = particles[i];
-                    ctx.beginPath();
-                    ctx.fillRect(p.x, p.y, p.radius, p.radius);
-                    ctx.closePath();
-                    ctx.fillStyle = 'hsla(0, 0%, 100%, ' + p.alpha + ')';
-                }
-            },
-            clear = function () {
-                ctx.globalCompositeOperation = 'destination-out';
-                ctx.fillStyle = 'rgba(0, 0, 0, .1)';
-                ctx.fillRect(0, 0, cw, ch);
-                ctx.globalCompositeOperation = 'lighter';
-            }
-        loop = function () {
-            clear();
-            updateCircle();
-            renderCircle();
-            renderCircleBorder();
-            renderCircleFlare();
-            renderCircleFlare2();
-            createParticles();
-            updateParticles();
-            renderParticles();
-        }
-
-        /* Append Canvas */
-        //document.body.appendChild(c);
-
-        /* Set Constant Properties */
-        ctx.shadowBlur = circle.blur;
-        ctx.shadowColor = 'hsla(' + circle.hue + ', 80%, 60%, 1)';
-        ctx.lineCap = 'round'
-
-        var gradient1 = ctx.createLinearGradient(0, -circle.radius, 0, circle.radius);
-        gradient1.addColorStop(0, 'hsla(' + circle.hue + ', 60%, 50%, .25)');
-        gradient1.addColorStop(1, 'hsla(' + circle.hue + ', 60%, 50%, 0)');
-
-        var gradient2 = ctx.createLinearGradient(0, -circle.radius, 0, circle.radius);
-        gradient2.addColorStop(0, 'hsla(' + circle.hue + ', 100%, 50%, 0)');
-        gradient2.addColorStop(.1, 'hsla(' + circle.hue + ', 100%, 100%, .7)');
-        gradient2.addColorStop(1, 'hsla(' + circle.hue + ', 100%, 50%, 0)');
-
-        /* Loop It, Loop It Good */
-        setInterval(loop, 16);
-
-    },
-
-    myEndFunction: function () {
-        // alert("end");
-    },
-
-    shiftPointsH: function (points, deltaChipMainX) {
-        for (var i = 0; i < points.length; i++) {
-            if (i % 2 == 0) {
-                points[i] += deltaChipMainX;
+    calcWaypoints: function (vertices) {
+        var waypoints = [];
+        for (var i = 1; i < vertices.length; i++) {
+            var pt0 = vertices[i - 1];
+            var pt1 = vertices[i];
+            var dx = pt1.x - pt0.x;
+            var dy = pt1.y - pt0.y;
+            for (var j = 0; j < 100; j++) {
+                var x = pt0.x + dx * j / 100;
+                var y = pt0.y + dy * j / 100;
+                waypoints.push({
+                    x: x,
+                    y: y
+                });
             }
         }
-        return points;
+        return (waypoints);
+    }
+}
+
+var message = {
+    onCreate: function () {
+        message.loadMessage();
+        message.setStayOnPage();
+    },
+
+    loadMessage:function(){
+        $.ajax({
+            type: 'POST',
+            url: '/php/load.php',
+            dataType: 'json',
+            success: function (data) {
+                $.each(data.Message, function (index, user) {
+                    $('#message').append('<div class="messageCard card mb-3 card-message" style="max-width: 18rem;">'
+                        + '<div class="card-header">'
+                        +   '<div class="float-left">' + user.username + '</div>'
+                        +   '<div class="float-right">' + user.date + '</div>'
+                        +'</div>'
+                        +'<div class="card-body text-white">'
+                        +   '<p class="card-text">'+user.message+'</p>'
+                        +'</div>'
+                    +'</div>');
+                });
+            }
+        });
+    },
+
+    setStayOnPage: function () {
+        $("form").submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: $('form').attr('action'),
+                type: 'POST',
+                data : $('form').serialize(),
+                success: function(){
+                    // location.reload();
+                    $('.messageCard').remove();
+                    $('#collapseExample').removeClass('show');
+                    message.loadMessage();
+                }
+            });
+        });
     }
 }

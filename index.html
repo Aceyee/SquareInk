@@ -1,30 +1,152 @@
+<!DOCTYPE html>
 <html>
 
 <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/lib/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/index.css">
-    <script src="/js/index.js"></script>
+    <link rel="stylesheet" href="/css/page_grid.css">
+    <link rel="stylesheet" href="/css/page_imdb.css">
+    <link rel="stylesheet" href="/css/page_squareink.css">
+    <link rel="stylesheet" href="/css/page_natureforce.css">
+    <link rel="stylesheet" href="/css/scrollbar.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
     <script src="/lib/js/jquery-3.2.1.min.js"></script>
-
+    <script src="/lib/js/bootstrap.min.js"></script>
+    <script src="/js/index.js"></script>
 </head>
 
-<body>
-    <div id="chipContent" class="absoluteCenter" align="center">
-        <div id="chipMain">
-            <div class="chipTitle absoluteCenter">
-                <h1>SQUAREINK</h1>
+<body class="scrollbar scrollbar-tempting-azure">
+    <div id="blocks">
+        <div id="block1" class="absolutePosition">
+            <a href="#block2">
+                <div id="chipMain" class="chipContainer absolutePosition absoluteCenter" align="center">
+                    <div class="absolutePosition absoluteCenter">
+                        <h1>SQUAREINK</h1>
+                    </div>
+                    <p>Click Here To Browse</p>
+                </div>
+            </a>
+
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet"
+                class="absolutePosition absoluteCenter"></svg>
+            <canvas id="myCanvas" class="absolutePosition absoluteCenter">
+        </div>
+
+        <div id="block2" class="absolutePosition">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet"
+                class="absolutePosition absoluteCenter"></svg>
+            <div id="chipProject" class="projectContainer absolutePosition absoluteCenter">
+                <div class="absolutePosition centerH">
+                    <h1 style="color: aqua">PROJECTS</h1>
+                </div>
+
+                <div id="arrowBtns">
+                    <a href="">
+                        <div id="btnLeft" class="arrowBtn" href="#carouselExampleControls" data-slide="prev">
+                            <p class="btnText">Prev</p>
+                        </div>
+                    </a>
+                    <a href="#block1">
+                        <div id="btnUp" class="arrowBtn">
+                            <p class="btnText">Top</p>
+                        </div>
+                    </a>
+                    <a href="">
+                        <div id="btnRight" class="arrowBtn" href="#carouselExampleControls" data-slide="next">
+                            <p class="btnText">Next</p>
+                        </div>
+                    </a>
+                    <a href="#block3">
+                        <div id="btnDown" class="arrowBtn">
+                            <p class="btnText">Bottom</p>
+                        </div>
+                    </a>
+                </div>
+                <div id="slideContainer">
+                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div id="item_grid" class="carousel-item active">
+                                <a href="#block2">
+                                    <img class="d-block w-100" src="image/grid.png" alt="First slide">
+                                </a>
+                            </div>
+                            <div id="item_squareink" class="carousel-item">
+                                <a href="#block2">
+                                    <img class="w-100" src="image/squareink.png" alt="Second slide">
+                                </a>
+
+                            </div>
+                            <div id="item_imdb" class="carousel-item">
+                                <a href="#block2">
+                                    <img class="w-100" src="image/imdb.png" alt="Third slide">
+                                </a>
+                            </div>
+                            <!--                             
+                            <div id="item_natureforce" class="carousel-item">
+                                <a  href="#block2">
+                                    <img class="w-100" src="image/natureforce.png" alt="Forth slide">
+                                </a>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <div id="actionBtns">
+                    <div id="btnA" class="circle">A</div>
+                    <div id="btnB" class="circle">B</div>
+                    <div id="btnX" class="circle">X</div>
+                    <div id="btnY" class="circle">Y</div>
+                </div>
+            </div>
+            <!-- <button id="myBtn">Open Modal</button> -->
+            <div>
+                <span class="close">&times;</span>
+                <div id="myModal" class="modal absolutePosition absoluteCenter ">
+                    <div class="modal-content">
+                        <div id="projectitem">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="block3" class="absolutePosition">
+            <div id="chipProject" class="projectContainer absolutePosition absoluteCenter ">
+                <div class="absolutePosition centerH">
+                    <h1 style="color: aqua">Message</h1>
+                </div>
+                <div class="content content-message scrollbar scrollbar-tempting-azure" data-spy="scroll" data-target="#message" data-offset="0">
+                    <div id="corkboard">
+                        <div id="message">
+                        
+                        </div>
+                    </div>
+            
+                    <div id="btn-send">
+                        <div class="collapse" id="collapseExample">
+                            <div class="card card-body card-message">
+                                <form method="post" action="/php/send.php">
+                                    <div class="text-white">
+                                        Your Name: <input type="text" name="username" maxlength="20"> <br /><br />
+                                        Message:   <textarea type="text" name="message" rows="4" cols="50"></textarea>
+                                    </div>
+                                    <input class="messageBtn" type="submit" value="Submit">
+                                </form>
+                            </div>
+                        </div>
+                        <button class="messageBtn" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                            Leave a Message
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
-    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" class="absoluteCenter">
-        <!-- <polyline class="draw" stroke-width="1" id="e1_polyline" points="168 123 187 378 261 375 279 248 367 247 380 370 477 387 527 268 534 150 566 355 616 364 653 338 647 110 580 116 570 220 538 113 502 122 473 260 452 320 416 313 391 185 296 191 248 215 239 321 224 318 194 125 188 123"
-        /> -->
-    </svg>
-    <canvas id="myCanvas" class="absoluteCenter">
-
 </body>
 <script>
     mainPage.onCreate();
+    message.onCreate();
 </script>
 
 </html>

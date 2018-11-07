@@ -1,0 +1,136 @@
+<div id="page_imdb">
+    <div>
+        <h1>IMDb Movies Top 250 Predictor</h1>
+    </div>
+    <div class="pageBody">
+        <h3>&middot;Introduction&middot;</h3>
+        <div>
+            <div>
+                <p>
+                    This report investigates the movie users’ reviews from Internet Movie Database (abbreviated as
+                    IMDb), and further analyzes the movie reviews from Top250 and Bottom 100 movie lists. By using the
+                    Top250 and Bottom 100 movie lists as the training sets, we can predict a new movie as whether it
+                    will make into Top250 or Bottom 100, based on its existing reviews. [1.1]
+                    The Internet Movie Database (abbreviated as IMDb) is an online database of information related to
+                    films including cast, production crew, fictional characters, plot summaries and reviews. The IMDb
+                    invites the registered users to rate the movies on a scale of one to ten and write reviews to share
+                    their thinkings. The Top 250 movie list is a listing of top 250 of all-time based on the user’s
+                    ratings. And the Bottom 100 movie list is assembled through a similar process. However, in our
+                    project, we decide to analyze the user reviews of IMDb movies to do the text categorization and
+                    sentiment analysis research.
+                    For this specific project, we decide to adapt Naive Bayes(NB), Support Vector Machine (SVM) and
+                    multi-layer perceptron algorithms. The following sections of this report will detail the data
+                    collection, data mining methodology, the results and evaluations.
+                </p>
+            </div>
+        </div>
+
+        <h3>&middot;Data Collection&middot;</h3>
+        <div>
+            <div>
+                <h5>Data structure analysis </h5>
+                <p>a) This procedure is to analyze the data structure programmed in a low-level technical language,
+                    specifically HTML. In this study, data structure corresponds to the user review pages of IMDb.
+                    These pages are basically programmed in HTML. We need to analyze these pages and translate them
+                    into high-level plain language by the following procedures</p>
+
+                <p>b) Inspect the source code: By opening an IMDb user review URL, press F12 button</p>
+
+                <p>c) Index each content: By moving mouse onto different divisions tags, identify the content for
+                    reviews.</p>
+
+                <p>d) Simplify the structure: Shorten the HTML structure, as shown in Figure 2.1.</p>
+
+                <p>e) Explain in plain language: Inside the division with id “tn15 content”, each paragraph is an
+                    review. These paragraphs are the targets to collect information from.</p>
+
+                <h5>Raw data collection</h5>
+                <p>This procedure is to collect the useful contents (e.g. contents for reviews) in HTML structure and
+                    eliminate useless contents (e.g. contents for navigation bars). Basically, we need to collect
+                    reviews from 350 movies and for each movie we collect 100 reviews if it reaches this number. If a
+                    movie does not reach 100 reviews, we will collect all its reviews.
+
+                    We wrote a python script to scrape the content of each page. The extensive libraries we included
+                    are BeautifulSoup and IMDbpy. The python script is shown in Figure 2.2
+                </p>
+
+                <h5>Data stemming </h5>
+                <p>This procedure is to filter and eliminate redundant words (e.g. “the”, “and”) and reduce the data
+                    size for better performance and accuracy. The generated .txt files contain quantities of useless
+                    words such as word “the”, “and”. Thus we designed an algorithm to eliminate these word.
+                    In the same python script, we would import a stopword.txt. By comparing each word in the generated
+                    .txt files, the useless words would be cut. The size of the .txt files would reduced by around 55%.
+                </p>
+
+                <h5>Training data generation </h5>
+                <p>This procedure is to generate the ARFF files required for the data mining process in Weka, based on
+                    the same set that classifier is trained on. In total, the training data set contains: 29,686
+                    reviews: 24,767 reviews are classified as “positive”, and 4,919 reviews are classified as
+                    “negative”. In Section 3, we will study how data stemming influence the accuracy by comparing the
+                    result with/without data stemming.
+                </p>
+
+                <h5>Testing data generation </h5>
+                <p>This procedure is to generate the ARFF files required for the data mining process in Weka. Two
+                    movies are tested. The first one is The Seventh Seal, which is already in Top 250. The second one
+                    is new coming out movie Beauty and Beast with 100 reviews.
+                </p>
+            </div>
+        </div>
+        <h3>&middot;Naïve Bayes text classification&middot;</h3>
+        <div>
+            <h5>Testing data generation </h5>
+            <p>Naive Bayes classifier is a simple model for classification. It is simple and works well on text
+                classification. It is a probabilistic classifier based on applying Bayes' theorem with strong
+                independence assumptions. This is the simplest form of Bayesian Network, in which all attributes are
+                independent given the value of the class variable. This is called conditional independence. It assumes
+                each feature is conditional independent to other features given the class. A Naive Bayes classifier is
+                a technique that applies to a certain class of problems, namely those that phrased as associating an
+                object with a discrete category. From numerical based approach group, Naive Bayes has several
+                advantages such as simple, fast and high accuracy.
+            </p>
+            <p>Naïve Bayes’ Flow Chart:</p>
+            <p>The Bayes’ theorem for conditional probability, For a given data point x and class C:
+                P (C / x) = P(x/C)/P(x)
+                Furthermore, by making the assumption, we can estimate the probability of x as follows:
+                P (C / x) = P(C).∏P(xi/C)
+            </p>
+        </div>
+
+        <h3>&middot;Support Vector Machine Text Classification&middot;</h3>
+        <div>
+            <p>Apart from Naive Bayes, we used Support Vector Machine (SVM) in order to predict the ratings for a given
+                movie comment. The SVM is a popular technique for classification. And because of the high generation
+                performance, SVM has become an effective tool pattern recognition, machine learning and data mining.
+                For
+                this project, instead of using the SVM for a binary classifier, we used it for the text classifiers.
+                There
+                are two method applied to our study: one-vs.-all and one-vs.-one using the linear kernel.
+            </p>
+            <p>By using the Weka, we imported our positive and negative data set into the Weka, and converted them into
+                the text classifiers.</p>
+            <p>We approached to this project by dividing into k classes C1,C2,C3, … , Ck, and the one-vs.-all method
+                trains k models. [3.2.1] Each model trains a binary classifier considering all points in a class Ci as
+                positive examples. And all points in the remaining k-1 classes Ck, k =/= j, as the negative examples.
+                During the testing, each sample is tested against each of these models. As for class Ci, it creates the
+                greatest separation from the decision boundary for that specific data point, which is chosen as its
+                class.
+
+
+            </p>
+
+            <p>
+                On contrast, we also applied one-vs.-one method. We trained k*(k-1)/2 models, and tested each sample
+                against each other.[3.2.2] A test point get considered a vote for a class k is every time when it get
+                placed into a that class.Therefore, the training sample is classified as belonging to the class with
+                the most votes.[3.2.3]
+            </p>
+
+        </div>
+        <h3>&middot;Evaluation&middot;</h3>
+        <p>For this project, we decided to use data mining method including naive bayes and support vector machine. We
+            run the basic training data though the naive bayes and SMO functions and get the result of the accuracy of
+            84.51% and 97.34%.
+        </p>
+    </div>
+</div>
