@@ -2,12 +2,6 @@ var strokeWidth = 5;
 var screenWidth;
 var screenHeight;
 var ctx;
-var detailPath;
-var detailPath2;
-var detailPath3;
-var detailPath4;
-var detailPath5;
-var detailPath6;
 
 var chipMainOffset;
 var chipMainBorder;
@@ -56,7 +50,6 @@ var drawTopSecond = function (svg, points, dash, deltaChipMainX, shiftDirection,
         // ctx.stroke();
         points = shiftPointsH(points, shiftDirection * deltaChipMainX);
     }
-    // newElement.addEventListener("webkitAnimationEnd", this.myEndFunction);
 }
 
 var drawTopThird = function (svg, points, dash, moveCircleDirection) {
@@ -85,44 +78,6 @@ var shiftPointsH = function (points, deltaChipMainX) {
         }
     }
     return points;
-}
-
-var calcWaypoints = function (vertices) {
-    var waypoints = [];
-    var end = false;
-    for (var i = 0; i < vertices.length - 2; i += 2) {
-        var pt1X = vertices[i];
-        var pt1Y = vertices[i + 1];
-
-        var pt2X = vertices[i + 2];
-        var pt2Y = vertices[i + 3];
-
-        var dx = pt2X - pt1X;
-        var dy = pt2Y - pt1Y;
-
-        for (var j = 0; j < division; j++) {
-            var x = pt1X + dx * j / division;
-            if (x < 0) {
-                x = 0;
-                end = true;
-            }
-            waypoints.push(x);
-            var y = pt1Y + dy * j / division;
-            if (y < 0) {
-                y = 0;
-                end = true;
-            }
-            waypoints.push(y);
-            if (end) {
-                break;
-            }
-
-        }
-        if (end) {
-            break;
-        }
-    }
-    return (waypoints);
 }
 
 var symmetryH = function (points) {
@@ -442,25 +397,6 @@ var mainPage = {
         points3 = symmetryH(points3);
         drawTopThird(svg, points3, dash, -1);
     },
-
-    calcWaypoints: function (vertices) {
-        var waypoints = [];
-        for (var i = 1; i < vertices.length; i++) {
-            var pt0 = vertices[i - 1];
-            var pt1 = vertices[i];
-            var dx = pt1.x - pt0.x;
-            var dy = pt1.y - pt0.y;
-            for (var j = 0; j < 100; j++) {
-                var x = pt0.x + dx * j / 100;
-                var y = pt0.y + dy * j / 100;
-                waypoints.push({
-                    x: x,
-                    y: y
-                });
-            }
-        }
-        return (waypoints);
-    }
 }
 
 var message = {
