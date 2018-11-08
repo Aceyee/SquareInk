@@ -8,7 +8,6 @@
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-
         gtag('config', 'UA-86138497-2');
     </script>
     <meta charset="utf-8" />
@@ -26,8 +25,12 @@
     <script src="/js/index.js"></script>
 </head>
 
+<!-- Customized scrollbar on whole page view -->
+
 <body class="scrollbar scrollbar-tempting-azure">
+    <!-- Three blocks included -->
     <div id="blocks">
+        <!-- Block1 is designed based on circuit board and combinated animations of lines, circles, and polygons -->
         <div id="block1" class="absolutePosition">
             <a href="#block2">
                 <div id="chipMain" class="chipContainer absolutePosition absoluteCenter" align="center">
@@ -43,6 +46,7 @@
             <canvas id="myCanvas" class="absolutePosition absoluteCenter">
         </div>
 
+        <!-- Block2 is designed based on Nintendo Switch with buttons and a screen for slides -->
         <div id="block2" class="absolutePosition">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet"
                 class="absolutePosition absoluteCenter"></svg>
@@ -51,28 +55,34 @@
                     <h1 style="color: aqua">PROJECTS</h1>
                 </div>
 
+                <!-- Arrow buttons include 4 buttons: up, down, left, and right  -->
                 <div id="arrowBtns">
+                    <!-- Left button controls slide: go to previous slide -->
                     <a href="">
                         <div id="btnLeft" class="arrowBtn" href="#carouselExampleControls" data-slide="prev">
                             <p class="btnText">Prev</p>
                         </div>
                     </a>
+                    <!-- Up button controls page slide: go to top-->
                     <a href="#block1">
                         <div id="btnUp" class="arrowBtn">
                             <p class="btnText">Top</p>
                         </div>
                     </a>
+                    <!-- Right button controls slide: go to next slide -->
                     <a href="">
                         <div id="btnRight" class="arrowBtn" href="#carouselExampleControls" data-slide="next">
                             <p class="btnText">Next</p>
                         </div>
                     </a>
+                    <!-- Down button controls page slide: go to bottom-->
                     <a href="#block3">
                         <div id="btnDown" class="arrowBtn">
                             <p class="btnText">Bottom</p>
                         </div>
                     </a>
                 </div>
+                <!-- Central screen for slides, which display projects. Adapted from bootstrap -->
                 <div id="slideContainer">
                     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                         <div class="carousel-inner">
@@ -92,15 +102,10 @@
                                     <img class="w-100" src="image/imdb.png" alt="Third slide">
                                 </a>
                             </div>
-                            <!--                             
-                            <div id="item_natureforce" class="carousel-item">
-                                <a  href="#block2">
-                                    <img class="w-100" src="image/natureforce.png" alt="Forth slide">
-                                </a>
-                            </div> -->
                         </div>
                     </div>
                 </div>
+                <!-- Decorations. Currently no functions for these buttons -->
                 <div id="actionBtns">
                     <div id="btnA" class="circle">A</div>
                     <div id="btnB" class="circle">B</div>
@@ -108,43 +113,50 @@
                     <div id="btnY" class="circle">Y</div>
                 </div>
             </div>
-            <!-- <button id="myBtn">Open Modal</button> -->
+
+            <!-- Modal component, load projects dynamically -->
             <div>
                 <span class="close">&times;</span>
                 <div id="myModal" class="modal absolutePosition absoluteCenter ">
+                    <!-- Content window for display projects -->
                     <div class="modal-content">
                         <div id="projectitem">
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Block3 is designed based on chatting application with functions such as loadMessage() and leaveMessage -->
         <div id="block3" class="absolutePosition">
             <div id="chipProject" class="projectContainer absolutePosition absoluteCenter ">
                 <div class="absolutePosition centerH">
                     <h1 style="color: aqua">Message</h1>
                 </div>
-                <div class="content content-message scrollbar scrollbar-tempting-azure" data-spy="scroll" data-target="#message" data-offset="0">
+                <!-- Content window contains a message board and a leaveMessage button -->
+                <div class="content content-message scrollbar scrollbar-tempting-azure" 
+                    data-spy="scroll" data-target="#message" data-offset="0">
                     <div id="corkboard">
+                        <!-- Display messages, which are dynamically loaded from database -->
                         <div id="message">
-                        
                         </div>
                     </div>
-            
+
+                    <!-- Collapse button -->
                     <div id="btn-send">
                         <div class="collapse" id="collapseExample">
                             <div class="card card-body card-message">
                                 <form method="post" action="/php/send.php">
                                     <div class="text-white">
                                         Your Name: <input type="text" name="username" maxlength="20"> <br /><br />
-                                        Message:   <textarea type="text" name="message" rows="4" cols="50"></textarea>
+                                        Message: <textarea type="text" name="message" rows="4" cols="50"></textarea>
                                     </div>
                                     <input class="messageBtn" type="submit" value="Submit">
                                 </form>
                             </div>
                         </div>
-                        <button class="messageBtn" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        <button class="messageBtn" type="button" data-toggle="collapse" data-target="#collapseExample"
+                            aria-expanded="false" aria-controls="collapseExample">
                             Leave a Message
                         </button>
                     </div>
@@ -157,5 +169,4 @@
     mainPage.onCreate();
     message.onCreate();
 </script>
-
 </html>
