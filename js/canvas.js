@@ -38,7 +38,7 @@ var drawBottomSide = {
 /* method for drawing polygons on left side */
 var drawLeftSide = {
     /* include three polygon lines, draw them separately in three methods*/
-    draw:function(){
+    draw: function () {
         this.draw1();
         this.draw2();
         this.draw3();
@@ -105,7 +105,7 @@ var drawLeftSide = {
 /* method for drawing polygons on right side */
 var drawRightSide = {
     /* include three polygon lines, draw them separately in three methods*/
-    draw:function(){
+    draw: function () {
         this.draw1();
         this.draw2();
         this.draw3();
@@ -134,7 +134,7 @@ var drawRightSide = {
 /* method for drawing polygons on top side */
 var drawTopSide = {
     /* include six polygon lines, draw them separately in three methods*/
-    draw:function(){
+    draw: function () {
         this.draw1();
         this.draw2();
         this.draw3();
@@ -175,28 +175,27 @@ var drawTopSide = {
         this.dash3 = this.dash2;
         draw4Vertices(svg1, this.points3, this.dash3, 0, 1, 1);
     },
-    
+
     /* here call symmetry horzontal function to get the points in a easier way */
-    draw4:function(){
+    draw4: function () {
         this.points4 = symmetryH(this.points1);
 
         this.dash4 = this.dash1;
         draw4Vertices(svg1, this.points4, this.dash4, 0, 1, 1);
     },
-    draw5:function(){
+    draw5: function () {
         this.points5 = shiftPointsH(this.points2, deltaChipMainX);
 
         this.dash5 = this.dash2;
         draw4Vertices(svg1, this.points5, this.dash5, 0, 1, 1);
     },
-    draw6:function(){
+    draw6: function () {
         this.points6 = shiftPointsH(this.points3, deltaChipMainX);
 
         this.dash6 = this.dash3;
         draw4Vertices(svg1, this.points6, this.dash6, 0, 1, 1);
     }
 }
-
 
 drawBottomSide.draw();
 drawLeftSide.draw();

@@ -40,6 +40,12 @@ html{
     overflow: hidden;
 }
 
+#chipMessage{
+    width: 90%;
+    height: 80%;
+    overflow: hidden;
+}
+
 #block2{
     top:100%;
     width: 100%;
