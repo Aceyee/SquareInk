@@ -23,7 +23,6 @@ var deltaChipMainX = chipMain.width / division;
 
 /* create new Chip class: chipMessage*/
 var chipMessage = new Chip('chipMessage', 2);
-// alert(chipMessage.top);
 
 /* method for drawing polygons on bottom side */
 var drawBottomSide = {
@@ -42,7 +41,6 @@ var drawBottomSide = {
 /* method for drawing polygons on top side */
 var drawTopSide = {
     draw: function () {
-        // alert(chipMessage.top);
         var dash = chipMessage.top - chipMessage.border;
         var points = [screenWidth / 2 - deltaChipMainX, 0,
         screenWidth / 2 - deltaChipMainX, chipMessage.top - chipMessage.border];

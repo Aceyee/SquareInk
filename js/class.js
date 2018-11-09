@@ -26,7 +26,7 @@ class Chip {
     }
 
     /* getRelativeOffset get the border position of each chip. */
-    // left, right, top, and bottom
+    // Relative to Parent, not to screen. left, right, top, and bottom
     getRelativeOffset(offset = this.offset, marginTopFix = this.marginTopFix) {
         this.left = offset.left;
         this.right = screenWidth - this.left;
