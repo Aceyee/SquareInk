@@ -14,10 +14,8 @@ class Chip {
 
     getOffsetDetail(offset = this.offset, border = this.border) {
         this.left = offset.left;
-        // this.left = offset.left - border;
         this.right = screenWidth - this.left;
         this.top = offset.top;
-        // this.top = offset.top - border;
         this.bottom = screenHeight - this.top;
         this.getCorner();
     }
