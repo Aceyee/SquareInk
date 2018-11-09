@@ -128,5 +128,42 @@ var drawTopSide = {
         this.dash1 = y3 + Math.sqrt(2) * deltaChipMainX + deltaChipMainX;
         draw4Vertices(svg1, this.points1, this.dash1, 0, 1, 1);
     },
+
+    //Note: here the points1 already changed due to object oriented
+    draw2: function () {
+        this.points2 = shiftPointsH(this.points1, deltaChipMainX);
+
+        this.dash2 = this.dash1;
+        draw4Vertices(svg1, this.points2, this.dash2, 0, 1, 1);
+    },
+    draw3: function () {
+        this.points3 = shiftPointsH(this.points2, deltaChipMainX);
+
+        this.dash3 = this.dash2;
+        draw4Vertices(svg1, this.points3, this.dash3, 0, 1, 1);
+    },
+    draw4:function(){
+        this.points4 = symmetryH(this.points1);
+
+        this.dash4 = this.dash1;
+        draw4Vertices(svg1, this.points4, this.dash4, 0, 1, 1);
+    },
+    draw5:function(){
+        this.points5 = shiftPointsH(this.points2, deltaChipMainX);
+
+        this.dash5 = this.dash2;
+        draw4Vertices(svg1, this.points5, this.dash5, 0, 1, 1);
+    },
+    draw6:function(){
+        this.points6 = shiftPointsH(this.points3, deltaChipMainX);
+
+        this.dash6 = this.dash3;
+        draw4Vertices(svg1, this.points6, this.dash6, 0, 1, 1);
+    }
 }
 drawTopSide.draw();
+drawTopSide.draw2();
+drawTopSide.draw3();
+drawTopSide.draw4();
+drawTopSide.draw5();
+drawTopSide.draw6();
