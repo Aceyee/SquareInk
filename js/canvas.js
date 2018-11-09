@@ -15,7 +15,7 @@ var strokeWidth = 5;
 var svg1 = document.getElementById("svg1"); // get svg1 element
 
 /* create new Chip class: chipMain*/
-var chipMain = new Chip('chipMain');
+var chipMain = new Chip('chipMain', 0);
 
 /* divide the width by 9 for drawing socket (circle) */
 var division = 9;
