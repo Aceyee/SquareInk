@@ -120,13 +120,14 @@ var drawLeftSide={
         var x3 = x2;
         var y3 = 0;
 
-        var points = [x3, y3,
+        this.points1 = [x3, y3,
             x2, y2,
             x1, y1]
 
-        dash = y2 + Math.sqrt(2) * deltaChipMainX;
-        draw3Vertices(svg1, points, dash, 1);
+        this.dash1 = y2 + Math.sqrt(2) * deltaChipMainX;
+        draw3Vertices(svg1, this.points1, this.dash1, 1);
     },
+
     draw2:function(){
         var x1 = chipMain.left-chipMain.border;
         var y1 = chipMain.top+deltaChipMainX;
@@ -137,13 +138,13 @@ var drawLeftSide={
         var x4 = x3 - 2 * deltaChipMainX;
         var y4 = 0;
 
-        var points = [x4, y4,
+        this.points2 = [x4, y4,
             x3, y3,
             x2, y2,
             x1, y1];
 
-        dash = 2 * Math.sqrt(2) * 2 * deltaChipMainX + y2-y3;
-        draw4Vertices(svg1, points, dash, 1);
+        this.dash2 = 2 * Math.sqrt(2) * 2 * deltaChipMainX + y2-y3;
+        draw4Vertices(svg1, this.points2, this.dash2, 1);
     },
 
     draw3:function(){
@@ -156,24 +157,39 @@ var drawLeftSide={
         var x4 = x3 - 2 * deltaChipMainX;
         var y4 = 0;
 
-        var points = [x4, y4,
+        this.points3= [x4, y4,
             x3, y3,
             x2, y2,
             x1, y1];
 
-        dash = (2+3) * Math.sqrt(2) * deltaChipMainX + y2-y3;
-        draw4Vertices(svg1, points, dash, 1);
+        this.dash3 = (2+3) * Math.sqrt(2) * deltaChipMainX + y2-y3;
+        draw4Vertices(svg1, this.points3, this.dash3, 1);
     }
 }
 drawLeftSide.draw();
 drawLeftSide.draw2();
 drawLeftSide.draw3();
 
-// var drawRightSide={
-//     draw:function(){
-//         var points = drawLeftSide.points1;
-//         points = reverse(points);
-//         draw4Vertices(svg1, points, 500, 1);
-//     }
-// };
-// drawRightSide.draw();
+var drawRightSide={
+    draw:function(){
+        this.points1 = drawLeftSide.points1;
+        this.dash1 = drawLeftSide.dash1;
+        this.points1 = symmetryH(this.points1);
+        draw4Vertices(svg1, this.points1, this.dash1, -1);
+    },
+    draw2:function(){
+        this.points2 = drawLeftSide.points2;
+        this.dash2 = drawLeftSide.dash2;
+        this.points2 = symmetryH(this.points2);
+        draw4Vertices(svg1, this.points2, this.dash2, -1);
+    },
+    draw3:function(){
+        this.points3 = drawLeftSide.points3;
+        this.dash3 = drawLeftSide.dash3;
+        this.points3 = symmetryH(this.points3);
+        draw4Vertices(svg1, this.points3, this.dash3, -1);
+    }
+};
+drawRightSide.draw();
+drawRightSide.draw2();
+drawRightSide.draw3();
