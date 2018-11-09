@@ -1,9 +1,8 @@
-/*  
-    Name: utils.js  
-    Author: Zihan Ye
-    Date: 2018-11-08
-    Description: provided helper functions for canvas
-*/
+/**
+ *  Name: utils.js 
+ *  Author: Zihan Ye
+ *  Description: provided helper functions for canvas
+ */
 
 /* draw2Vertices() will draw a polygon that contains 2 vertices only */
 var draw2Vertices = function (svg, points, dash, moveCircleDirection) {
