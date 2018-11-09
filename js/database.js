@@ -1,3 +1,10 @@
+/**
+ *  Name: database.js
+ *  Author: Zihan Ye
+ *  Description: Connect to MySQL database using AJAX
+ *
+ */
+
 var message = {
     onCreate: function () {
         message.loadMessage();
@@ -33,7 +40,6 @@ var message = {
                 type: 'POST',
                 data : $('form').serialize(),
                 success: function(){
-                    // location.reload();
                     $('.messageCard').remove();
                     $('#collapseExample').removeClass('show');
                     message.loadMessage();
