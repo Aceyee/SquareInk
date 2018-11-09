@@ -120,7 +120,6 @@ var drawLeftSide={
         var x3 = x2;
         var y3 = 0;
 
-        // alert(screenHeight);
         var points = [x3, y3,
             x2, y2,
             x1, y1]
@@ -134,7 +133,7 @@ var drawLeftSide={
         var x2 = x1 - 2*deltaChipMainX;
         var y2 = y1 - 2*deltaChipMainX;
         var x3 = x2;
-        var y3 = y2 - 2 * deltaChipMainX;
+        var y3 = 2 * deltaChipMainX;
         var x4 = x3 - 2 * deltaChipMainX;
         var y4 = 0;
 
@@ -146,13 +145,14 @@ var drawLeftSide={
         dash = 2 * Math.sqrt(2) * 2 * deltaChipMainX + y2-y3;
         draw4Vertices(svg1, points, dash, 1);
     },
+
     draw3:function(){
         var x1 = chipMain.left-chipMain.border;
         var y1 = chipMain.top+2*deltaChipMainX;
         var x2 = x1 - 3*deltaChipMainX;
         var y2 = y1 - 3*deltaChipMainX;
         var x3 = x2;
-        var y3 = y2 - 2 * deltaChipMainX;
+        var y3 = 2 * deltaChipMainX;
         var x4 = x3 - 2 * deltaChipMainX;
         var y4 = 0;
 
@@ -168,3 +168,12 @@ var drawLeftSide={
 drawLeftSide.draw();
 drawLeftSide.draw2();
 drawLeftSide.draw3();
+
+// var drawRightSide={
+//     draw:function(){
+//         var points = drawLeftSide.points1;
+//         points = reverse(points);
+//         draw4Vertices(svg1, points, 500, 1);
+//     }
+// };
+// drawRightSide.draw();
