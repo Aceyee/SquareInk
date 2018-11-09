@@ -2,7 +2,7 @@
  *  Name: class.js
  *  Author: Zihan Ye
  *  Description: Create helper classes such as Chip and Point
- *      for easier conductions
+ *      for easier conductions. JavaScript 6
  */
 
 /* Chip class is used to calculate and store the positions and offsets

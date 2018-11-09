@@ -1,19 +1,50 @@
-/*
-z-index:
-1: chip modal
-0: bg gradient
--10:canvas
-*/
-html{
-    background: #00090C;
+/*  Name: index.css
+ *  Author: Zihan Ye
+ *  Description: style sheets for main page
+ */
 
-}
+/*
+ *  z-index:
+ *  1: chip modal
+ *  0: bg gradient
+ *  -10:canvas
+ */
+html{ background: #00090C; }
 
 #blocks{
     height: 100%;
     width: 100%;
 }
 
+#myCanvas{
+    width: 100%;
+    height: 100%;
+}
+
+.absoluteCenter{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+svg{
+    width:100%;
+    height: 100%;
+    z-index:-10;
+}
+
+svg .draw{
+    stroke: aqua;
+    stroke-width: 3px;
+    fill: transparent;
+    animation: animate 2s ease-out forwards;
+    /* -moz-animation: animate 2s ease 1; */
+    /* -webkit-animation: animate 2s ease 1; */
+}
+
+
+
+/****************************** BLOCK 1 ***********************************/
 #block1{
     width: 100%;
     height: 100%;
@@ -34,24 +65,19 @@ html{
     animation-delay: 2000ms;
 }
 
-#chipProject{
-    width: 90%;
-    height: 80%;
-    overflow: hidden;
-}
-
-#chipMessage{
-    width: 90%;
-    height: 80%;
-    overflow: hidden;
-}
-
+/****************************** BLOCK 2 ***********************************/
 #block2{
     top:100%;
     width: 100%;
     height: 100%;
     background:radial-gradient(#022B2F, black);
     z-index: 0;
+}
+
+#chipProject{
+    width: 90%;
+    height: 80%;
+    overflow: hidden;
 }
 
 .absolutePosition{
@@ -85,9 +111,7 @@ html{
     z-index: 1;
 }
 
-.chipTitle{
-    position: absolute;
-}
+.chipTitle{ position: absolute; }
 
 .socket{
     fill: transparent;
@@ -95,27 +119,20 @@ html{
     animation-delay: 1.6s;
 }
 
-.absoluteCenter{
+.circle {
+    position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
-}
-
-svg{
-    width:100%;
-    height: 100%;
-    z-index:-10;
-}
-
-svg .draw{
-    stroke: aqua;
-    stroke-width: 3px;
-    fill: transparent;
-    /* animation: animate 2s ease infinite; */
-    animation: animate 2s ease-out forwards;
-    /* -moz-animation: animate 2s ease 1; */
-    /* -webkit-animation: animate 2s ease 1; */
-
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    border-style:solid;
+    border-color: aqua;
+    font-size: 1.5rem;
+    color: aqua;
+    line-height: 4rem;
+    text-align: center;
+    background: transparent;
 }
 
 #slideContainer{
@@ -162,53 +179,17 @@ svg .draw{
     animation: btnTextFlash 8000ms linear infinite;
 }
 
-.arrowBtn:hover{
-    background-color: aqua;
-}
+.arrowBtn:hover{background-color: aqua;}
 
-#btnLeft{
-    transform: translate(-150%, -50%);
-}
-#btnUp{
-    transform: translate(-50%,-150%);
-}
-#btnRight{
-    transform: translate(50%, -50%);
-}
-#btnDown{
-    transform: translate(-50%, 50%);
-}
+#btnLeft{transform: translate(-150%, -50%);}
+#btnUp{transform: translate(-50%,-150%);}
+#btnRight{transform: translate(50%, -50%);}
+#btnDown{transform: translate(-50%, 50%);}
 
-#btnA{
-    transform: translate(50%, -50%);
-}
-#btnB{
-    transform: translate(-50%, 50%);
-}
-
-#btnX{
-    transform: translate(-50%,-150%);
-}
-
-#btnY{
-    transform: translate(-150%, -50%);
-}
-
-.circle {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 4rem;
-    height: 4rem;
-    border-radius: 50%;
-    border-style:solid;
-    border-color: aqua;
-    font-size: 1.5rem;
-    color: aqua;
-    line-height: 4rem;
-    text-align: center;
-    background: transparent
-}
+#btnA{transform: translate(50%, -50%);}
+#btnB{transform: translate(-50%, 50%);}
+#btnX{transform: translate(-50%,-150%);}
+#btnY{transform: translate(-150%, -50%);}
 
 #actionBtns{
     position: absolute;
@@ -258,10 +239,7 @@ svg .draw{
     cursor: pointer;
 }
 
-
-
-
-
+/****************************** BLOCK 3 ***********************************/
 #block3{
     top:200%;
     width: 100%;
@@ -269,8 +247,12 @@ svg .draw{
     background:radial-gradient(#022B2F, black);
     z-index: 0;
 }
-
     
+#chipMessage{
+    width: 90%;
+    height: 80%;
+    overflow: hidden;
+}
 
 .content{
     position: absolute;
@@ -293,9 +275,7 @@ svg .draw{
     background: #022B2F;
 }
 
-.card-header{
-    color: aqua;
-}
+.card-header{color: aqua;}
 
 .messageBtn{
     background: transparent;
@@ -311,7 +291,6 @@ svg .draw{
     color: white;   
 }
 
-
 #btn-send{
     position: fixed;
     bottom: 0%;
@@ -320,21 +299,11 @@ svg .draw{
     text-align:center;
 }
 
-#myCanvas{
-    width: 100%;
-    height: 100%;
-}
+@keyframes animate{to{stroke-dashoffset: 0;}}
 
-@keyframes animate{
-    to{stroke-dashoffset: 0;}
-}
+@-webkit-keyframes animate{to{stroke-dashoffset: 0;}}
 
-@-webkit-keyframes animate{
-    to{stroke-dashoffset: 0;}
-}
-@-moz-keyframes animate{
-    to{stroke-dashoffset: 0;}
-}
+@-moz-keyframes animate{ to{stroke-dashoffset: 0; }}
 
 @keyframes btnTextFlash{
     0% {
