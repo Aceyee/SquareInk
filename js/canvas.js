@@ -1,16 +1,29 @@
-/* canvas.js */
-/* draw lines, circles, and poligons on canvas element */
+/**
+ *  Name: canvas.js
+ *  Author: Zihan Ye
+ *  Description: draw lines, circles, and poligons on canvas element
+ */
 
+/* get screen height and screen width*/
 var screenWidth = $(window).width();
 var screenHeight = $(window).height();
+
+/* set stroke width for drawing */
 var strokeWidth = 5;
+
+/* get the svg element on block1*/
 var svg1 = document.getElementById("svg1"); // get svg1 element
 
+/* create new Chip class: chipMain*/
 var chipMain = new Chip('chipMain');
+
+/* divide the width by 9 for drawing socket (circle) */
 var division = 9;
 var deltaChipMainX = chipMain.width / division;
 
+/* method for drawing polygons on bottom side */
 var drawBottomSide = {
+    /* include three straght lines, use for loop to draw line, and shift X to draw next */
     draw: function () {
         var dash = screenHeight - chipMain.bottom - chipMain.border;
         var points = [screenWidth / 2 - deltaChipMainX, screenHeight,
@@ -22,10 +35,17 @@ var drawBottomSide = {
     }
 }
 
-drawBottomSide.draw();
-
+/* method for drawing polygons on left side */
 var drawLeftSide = {
-    draw: function () {
+    /* include three polygon lines, draw them separately in three methods*/
+    draw:function(){
+        this.draw1();
+        this.draw2();
+        this.draw3();
+    },
+    /* for each draw method, decide the way points one by one, 
+        and then push these (x,y)'s to an array*/
+    draw1: function () {
         var x1 = chipMain.left - chipMain.border;
         var y1 = chipMain.top;
         var x2 = x1 - deltaChipMainX;
@@ -80,12 +100,18 @@ var drawLeftSide = {
     }
 }
 
-drawLeftSide.draw();
-drawLeftSide.draw2();
-drawLeftSide.draw3();
 
+
+/* method for drawing polygons on right side */
 var drawRightSide = {
-    draw: function () {
+    /* include three polygon lines, draw them separately in three methods*/
+    draw:function(){
+        this.draw1();
+        this.draw2();
+        this.draw3();
+    },
+    /* here call symmetry horzontal function to get the points in a easier way */
+    draw1: function () {
         this.points1 = drawLeftSide.points1;
         this.dash1 = drawLeftSide.dash1;
         this.points1 = symmetryH(this.points1);
@@ -105,12 +131,18 @@ var drawRightSide = {
     }
 };
 
-drawRightSide.draw();
-drawRightSide.draw2();
-drawRightSide.draw3();
-
+/* method for drawing polygons on top side */
 var drawTopSide = {
-    draw: function () {
+    /* include six polygon lines, draw them separately in three methods*/
+    draw:function(){
+        this.draw1();
+        this.draw2();
+        this.draw3();
+        this.draw4();
+        this.draw5();
+        this.draw6();
+    },
+    draw1: function () {
         var x1 = chipMain.left;
         var y1 = chipMain.top - chipMain.border;
         var x2 = x1;
@@ -130,6 +162,7 @@ var drawTopSide = {
     },
 
     //Note: here the points1 already changed due to object oriented
+    /* here shift the privous set of points to obtain next set of points */
     draw2: function () {
         this.points2 = shiftPointsH(this.points1, deltaChipMainX);
 
@@ -142,6 +175,8 @@ var drawTopSide = {
         this.dash3 = this.dash2;
         draw4Vertices(svg1, this.points3, this.dash3, 0, 1, 1);
     },
+    
+    /* here call symmetry horzontal function to get the points in a easier way */
     draw4:function(){
         this.points4 = symmetryH(this.points1);
 
@@ -161,9 +196,9 @@ var drawTopSide = {
         draw4Vertices(svg1, this.points6, this.dash6, 0, 1, 1);
     }
 }
+
+
+drawBottomSide.draw();
+drawLeftSide.draw();
+drawRightSide.draw();
 drawTopSide.draw();
-drawTopSide.draw2();
-drawTopSide.draw3();
-drawTopSide.draw4();
-drawTopSide.draw5();
-drawTopSide.draw6();
