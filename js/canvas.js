@@ -176,3 +176,62 @@ drawBottomSide.draw();
 drawLeftSide.draw();
 drawRightSide.draw();
 drawTopSide.draw();
+
+var canvas = document.getElementById('canvas1');
+var c = canvas.getContext('2d');
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+cannonballs = [];
+
+function Cannonball(x, y, radius, color) {
+  this.x = x;
+  this.y = y;
+  this.radius = radius;
+  this.color = color;
+
+  this.init = function () {
+    // Initialize the cannonballs start coordinates (from muzzle of cannon)
+    this.x = 0;
+    this.y = 0;
+
+    // Translate relative to canvas positioning
+    // this.x = this.x + (canvas.width / 2);
+    // this.y = this.y + (canvas.height);	
+  };
+
+  this.update = function () {
+    this.draw();
+  };
+
+  this.draw = function () {
+    c.save();
+    c.beginPath();
+    c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+    c.shadowColor = this.color;
+    c.shadowBlur = 5;
+    c.shadowOffsetX = 0;
+    c.shadowOffsetY = 0;
+    c.fillStyle = this.color;
+    c.fill();
+    c.closePath();
+    c.restore();
+  };
+
+  this.init();
+}
+
+function animate() {
+  window.requestAnimationFrame(animate);
+
+  //   c.fillStyle = "rgba(18, 18, 18, 0.2)";
+  //   c.fillRect(0, 0, canvas.width, canvas.height);		
+  c.clearRect(0, 0, canvas.width, canvas.height);
+
+  for (let i = 0; i < 10; i++) {
+    cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 4, "white"));
+  }
+  cannonballs[0].update();
+}
+animate();
