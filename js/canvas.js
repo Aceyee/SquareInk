@@ -25,14 +25,26 @@ var deltaChipMainX = chipMain.width / division;
 var drawBottomSide = {
   /* include three straght lines, use for loop to draw line, and shift X to draw next */
   draw: function () {
-    var dash = screenHeight - chipMain.bottom - chipMain.border;
+   this.draw1();
+   this.draw2();
+   this.draw3();
+  },
+  draw1:function(){
+    this.dash = screenHeight - chipMain.bottom - chipMain.border;
     var p1 = new Point(screenWidth / 2 - deltaChipMainX, screenHeight);
     var p2 = new Point(screenWidth / 2 - deltaChipMainX, chipMain.bottom + chipMain.border);
-    var points = [p1, p2];
-    for (var count = 0; count < 3; count++) {
-      draw2Vertices(svg1, points, dash, 1);
-      points = shiftPointsH(points, deltaChipMainX);
-    }
+    this.points1 = [p1, p2];
+    draw2Vertices(svg1, this.points1, this.dash, 1);
+  },
+  draw2:function(){
+    this.points2 = this.points1.slice();
+    this.points2 = shiftPointsH(this.points2, deltaChipMainX);
+    draw2Vertices(svg1, this.points2, this.dash, 1);
+  },
+  draw3:function(){
+    this.points3 = this.points2.slice();
+    this.points3 = shiftPointsH(this.points3, deltaChipMainX);
+    draw2Vertices(svg1, this.points3, this.dash, 1);
   }
 }
 
