@@ -29,8 +29,9 @@ var drawBottomSide = {
     /* include three straght lines, use for loop to draw line, and shift X to draw next */
     draw: function () {
         var dash = screenHeight - chipProject.bottom - chipProject.border;
-        var points = [screenWidth / 2 - deltaChipMainX, screenHeight,
-        screenWidth / 2 - deltaChipMainX, chipProject.bottom + chipProject.border];
+        var p1 = new Point(screenWidth / 2 - deltaChipMainX, screenHeight);
+        var p2 = new Point(screenWidth / 2 - deltaChipMainX, chipProject.bottom + chipProject.border);
+        var points = [p1, p2];
         for (var count = 0; count < 3; count++) {
             draw2Vertices(svg2, points, dash, 1);
             points = shiftPointsH(points, deltaChipMainX);
@@ -42,8 +43,9 @@ var drawBottomSide = {
 var drawTopSide = {
     draw: function () {
         var dash = chipProject.top - chipProject.border;
-        var points = [screenWidth / 2 - deltaChipMainX, 0,
-        screenWidth / 2 - deltaChipMainX, chipProject.top - chipProject.border];
+        var p1 = new Point(screenWidth / 2 - deltaChipMainX, 0);
+        var p2 = new Point(screenWidth / 2 - deltaChipMainX, chipProject.top - chipProject.border);
+        var points = [p1, p2];
         for (var count = 0; count < 3; count++) {
             draw2Vertices(svg2, points, dash, -1);
             points = shiftPointsH(points, deltaChipMainX);

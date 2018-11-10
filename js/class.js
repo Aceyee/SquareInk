@@ -52,6 +52,6 @@ class Point {
     }
 
     toString() {
-        return this.x + " " + this.y;
+        return this.x + "," + this.y;
     }
 }

@@ -26,8 +26,9 @@ var drawBottomSide = {
   /* include three straght lines, use for loop to draw line, and shift X to draw next */
   draw: function () {
     var dash = screenHeight - chipMain.bottom - chipMain.border;
-    var points = [screenWidth / 2 - deltaChipMainX, screenHeight,
-    screenWidth / 2 - deltaChipMainX, chipMain.bottom + chipMain.border];
+    var p1 = new Point(screenWidth / 2 - deltaChipMainX, screenHeight);
+    var p2 = new Point(screenWidth / 2 - deltaChipMainX, chipMain.bottom + chipMain.border);
+    var points = [p1, p2];
     for (var count = 0; count < 3; count++) {
       draw2Vertices(svg1, points, dash, 1);
       points = shiftPointsH(points, deltaChipMainX);
@@ -46,56 +47,37 @@ var drawLeftSide = {
   /* for each draw method, decide the way points one by one, 
       and then push these (x,y)'s to an array*/
   draw1: function () {
-    var x1 = chipMain.left - chipMain.border;
-    var y1 = chipMain.top;
-    var x2 = x1 - deltaChipMainX;
-    var y2 = y1 - deltaChipMainX;
-    var x3 = x2;
-    var y3 = 0;
+    var p1 = new Point(chipMain.left - chipMain.border, chipMain.top);
+    var p2 = new Point(p1.x - deltaChipMainX, p1.y - deltaChipMainX);
+    var p3 = new Point(p2.x, 0);
 
-    this.points1 = [x3, y3,
-      x2, y2,
-      x1, y1]
+    this.points1 = [p3, p2, p1];
 
-    this.dash1 = y2 + Math.sqrt(2) * deltaChipMainX;
+    this.dash1 = p2.y + Math.sqrt(2) * deltaChipMainX;
     draw3Vertices(svg1, this.points1, this.dash1, 1);
   },
 
   draw2: function () {
-    var x1 = chipMain.left - chipMain.border;
-    var y1 = chipMain.top + deltaChipMainX;
-    var x2 = x1 - 2 * deltaChipMainX;
-    var y2 = y1 - 2 * deltaChipMainX;
-    var x3 = x2;
-    var y3 = 2 * deltaChipMainX;
-    var x4 = x3 - 2 * deltaChipMainX;
-    var y4 = 0;
+    var p1 = new Point(chipMain.left - chipMain.border, chipMain.top + deltaChipMainX);
+    var p2 = new Point(p1.x - 2 * deltaChipMainX, p1.y - 2 * deltaChipMainX);
+    var p3 = new Point(p2.x, 2 * deltaChipMainX);
+    var p4 = new Point(p3.x - 2*deltaChipMainX, 0);
 
-    this.points2 = [x4, y4,
-      x3, y3,
-      x2, y2,
-      x1, y1];
+    this.points2 = [p4, p3, p2, p1];
 
-    this.dash2 = 2 * Math.sqrt(2) * 2 * deltaChipMainX + y2 - y3;
+    this.dash2 = 2 * Math.sqrt(2) * 2 * deltaChipMainX + p2.y - p3.y;
     draw4Vertices(svg1, this.points2, this.dash2, 1, 1, 0.5 * Math.sqrt(2));
   },
 
   draw3: function () {
-    var x1 = chipMain.left - chipMain.border;
-    var y1 = chipMain.top + 2 * deltaChipMainX;
-    var x2 = x1 - 3 * deltaChipMainX;
-    var y2 = y1 - 3 * deltaChipMainX;
-    var x3 = x2;
-    var y3 = 2 * deltaChipMainX;
-    var x4 = x3 - 2 * deltaChipMainX;
-    var y4 = 0;
+    var p1 = new Point(chipMain.left - chipMain.border, chipMain.top + 2 * deltaChipMainX);
+    var p2 = new Point(p1.x - 3 * deltaChipMainX, p1.y - 3 * deltaChipMainX);
+    var p3 = new Point(p2.x, 2 * deltaChipMainX);
+    var p4 = new Point(p3.x - 2*deltaChipMainX, 0);
 
-    this.points3 = [x4, y4,
-      x3, y3,
-      x2, y2,
-      x1, y1];
+    this.points3 = [p4, p3, p2, p1];
 
-    this.dash3 = (2 + 3) * Math.sqrt(2) * deltaChipMainX + y2 - y3;
+    this.dash3 = (2 + 3) * Math.sqrt(2) * deltaChipMainX + p2.y - p3.y;
     draw4Vertices(svg1, this.points3, this.dash3, 1, 1, 0.5 * Math.sqrt(2));
   }
 }
@@ -143,21 +125,14 @@ var drawTopSide = {
     this.draw6();
   },
   draw1: function () {
-    var x1 = chipMain.left;
-    var y1 = chipMain.top - chipMain.border;
-    var x2 = x1;
-    var y2 = y1 - deltaChipMainX;
-    var x3 = x2 - deltaChipMainX;
-    var y3 = y2 - deltaChipMainX;
-    var x4 = x3;
-    var y4 = 0;
+    var p1 = new Point(chipMain.left, chipMain.top - chipMain.border);
+    var p2 = new Point(p1.x, p1.y - deltaChipMainX);
+    var p3 = new Point(p2.x - deltaChipMainX, p2.y - deltaChipMainX);
+    var p4 = new Point(p3.x, 0);
 
-    this.points1 = [x4, y4,
-      x3, y3,
-      x2, y2,
-      x1, y1];
+    this.points1 = [p4, p3, p2, p1];
 
-    this.dash1 = y3 + Math.sqrt(2) * deltaChipMainX + deltaChipMainX;
+    this.dash1 = p3.y + Math.sqrt(2) * deltaChipMainX + deltaChipMainX;
     draw4Vertices(svg1, this.points1, this.dash1, 0, 1, 1);
   },
 
