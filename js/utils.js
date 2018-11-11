@@ -13,13 +13,14 @@ var draw2Vertices = function (svg, points, dash, moveCircleDirection) {
     newElement.setAttribute("points", points);
     newElement.style.strokeDasharray = dash;
     newElement.style.strokeDashoffset = dash;
+
     svg.appendChild(newElement);
 
     // draw socket/circle
     newElement = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
     newElement.setAttribute("class", "socket");
-    newElement.setAttribute("cx", points[lastIndex - 1]);
-    newElement.setAttribute("cy", points[lastIndex] - moveCircleDirection * strokeWidth);
+    newElement.setAttribute("cx", points[lastIndex].x);
+    newElement.setAttribute("cy", points[lastIndex].y - moveCircleDirection * strokeWidth);
     newElement.setAttribute("r", strokeWidth);
     newElement.setAttribute("stroke-width", strokeWidth / 2);
     svg.appendChild(newElement);
@@ -40,8 +41,8 @@ var draw3Vertices = function (svg, points, dash, moveCircleDirection) {
     // draw socket/circle
     newElement = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
     newElement.setAttribute("class", "socket");
-    newElement.setAttribute("cx", points[lastIndex - 1] + 0.5 * Math.sqrt(2) * moveCircleDirection * strokeWidth);
-    newElement.setAttribute("cy", points[lastIndex] + 0.5 * Math.sqrt(2) * strokeWidth);
+    newElement.setAttribute("cx", points[lastIndex].x + 0.5 * Math.sqrt(2) * moveCircleDirection * strokeWidth);
+    newElement.setAttribute("cy", points[lastIndex].y + 0.5 * Math.sqrt(2) * strokeWidth);
     newElement.setAttribute("r", strokeWidth);
     newElement.setAttribute("stroke-width", strokeWidth / 2);
     svg.appendChild(newElement);
@@ -62,8 +63,8 @@ var draw4Vertices = function (svg, points, dash, moveCircleH, moveCircleV, slope
     // draw socket/circle
     newElement = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
     newElement.setAttribute("class", "socket");
-    newElement.setAttribute("cx", points[lastIndex - 1] + moveCircleH * strokeWidth * slopeFix);
-    newElement.setAttribute("cy", points[lastIndex] + moveCircleV * strokeWidth * slopeFix);
+    newElement.setAttribute("cx", points[lastIndex].x + moveCircleH * strokeWidth * slopeFix);
+    newElement.setAttribute("cy", points[lastIndex].y + moveCircleV * strokeWidth * slopeFix);
     newElement.setAttribute("r", strokeWidth);
     newElement.setAttribute("stroke-width", strokeWidth / 2);
     svg.appendChild(newElement);
@@ -72,9 +73,7 @@ var draw4Vertices = function (svg, points, dash, moveCircleH, moveCircleV, slope
 /* shiftPointsH() shifts points horizontally, given length */
 var shiftPointsH = function (points, length) {
     for (var i = 0; i < points.length; i++) {
-        if (i % 2 == 0) {
-            points[i] += length;
-        }
+        points[i].x += length;
     }
     return points;
 }
@@ -82,9 +81,7 @@ var shiftPointsH = function (points, length) {
 /* symmetryH() symmetry points horizontally, by the screen width*/
 var symmetryH = function (points) {
     for (var i = 0; i < points.length; i++) {
-        if (i % 2 == 0) {
-            points[i] = screenWidth - points[i];
-        }
+        points[i].x = screenWidth - points[i].x;
     }
     return points;
 }
@@ -101,4 +98,17 @@ var reverse = function (points) {
         reversePoints.unshift(x);
     }
     return reversePoints;
+}
+
+var copyPoints = function(points){
+    var copiedPoints = [];
+    for(let i=0; i<points.length; i++){
+        var p = new Point(points[i].x, points[i].y);
+        copiedPoints.push(p);
+    }
+    return copiedPoints;
+}
+
+var distance = function(p1, p2){
+    return Math.sqrt(Math.pow(p1.x-p2.x, 2) + Math.pow(p1.y-p2.y, 2));
 }
