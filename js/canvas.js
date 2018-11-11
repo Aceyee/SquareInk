@@ -27,7 +27,7 @@ var dashArray = [];
 
 const second = 2;
 const fps = 60;
-const distance = second * fps;
+const lambda = second * fps;
 
 
 /* method for drawing polygons on bottom side */
@@ -314,6 +314,7 @@ function Cannonball(x, y, radius, color, points, dash) {
   this.points = points;
   this.dash = dash;
   this.destroy = false;
+  
 
   this.init = function () {
     // Initialize the cannonballs start coordinates (from muzzle of cannon)
@@ -321,14 +322,19 @@ function Cannonball(x, y, radius, color, points, dash) {
     this.lastIndex = points.length - 1;
     this.x = points[0].x;
     this.y = points[0].y;
+    this.d = distance(points[this.currIndex + 1], points[this.currIndex]);
+    this.dx = (points[this.currIndex + 1].x - points[this.currIndex].x) * (this.dash/this.d) / lambda;
+    this.dy = (points[this.currIndex + 1].y - points[this.currIndex].y) * (this.dash/this.d)/ lambda;
   };
 
   this.update = function () {
     if(this.currIndex<this.lastIndex){
       if (Math.abs(this.x - points[this.currIndex+1].x > 1 ||
         Math.abs(this.y - points[this.currIndex+1].y) > 1)){
-        this.dx = (points[this.currIndex + 1].x - points[this.currIndex].x) / distance;
-        this.dy = (points[this.currIndex + 1].y - points[this.currIndex].y) / distance;
+          //nothing
+        this.d = distance(points[this.currIndex + 1], points[this.currIndex]);
+        this.dx = (points[this.currIndex + 1].x - points[this.currIndex].x) *(this.dash/this.d) / lambda;
+        this.dy = (points[this.currIndex + 1].y - points[this.currIndex].y) *(this.dash/this.d)/ lambda;
       } else{
         this.currIndex++;
       }
