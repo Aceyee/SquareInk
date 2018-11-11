@@ -18,10 +18,15 @@ var dashArray = [];
 const second = 2;
 const fps = 60;
 const lambda = second * fps;
-const period = 20;
+const period = 40;
 const gravity = 0.5;
-const bounceTimes = 2;
-const explosionParts = 2;
+const bounceTimes = 1;
+const explosionParts = 10;
+const balanceResistance = 1;
+const resistance = 0.1;
+
+const cannonballColor = "aqua";
+const particleColor = "aqua";
 
 /******************************* SVG Draw *********************************/
 
@@ -223,14 +228,18 @@ var explosions = [];
 
 var end = false;
 var count = 0;
+  
+c.fillStyle = "rgba(1, 1, 1, 0.2)";
+
 function animate() {
   window.requestAnimationFrame(animate);
-
-  c.clearRect(0, 0, canvas.width, canvas.height);
+  c.fillRect(0, 0, canvas.width, canvas.height);
+  
+  // c.clearRect(0, 0, canvas.width, canvas.height);
 
   if (!end) {
     for (let i = 0; i < pointsArray.length; i++) {
-      cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, "white", pointsArray[i], dashArray[i]));
+      cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArray[i], dashArray[i]));
     }
   }
   end = true;

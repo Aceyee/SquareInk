@@ -70,24 +70,31 @@ class Particle {
 
     update() {
         if (this.y + this.radius + this.dy > canvas.height) {
-            this.dy = -(this.dy) / 2;
+            this.dy = -(this.dy) / 5;
             this.timeToLive--;
         }
 
         if (this.x + this.radius + this.dx > canvas.width || this.x - this.radius + this.dx < 0) {
             this.dx = -this.dx;
         }
+        if(this.dx > balanceResistance){
+            this.dx -= resistance;
+        }else if(this.dx<-balanceResistance ){
+            this.dx += resistance;
+        }
         this.dy += gravity * this.mass;
         this.x += this.dx;
         this.y += this.dy;
+        
         this.draw();
     };
 
-    draw() {
+    draw() {      
+         
         c.save();
         c.beginPath();
         c.arc(this.x, this.y, 2, 0, Math.PI * 2, false);
-        c.shadowColor = this.color;
+        c.shadowColor = "white";
         c.shadowBlur = 10;
         c.shadowOffsetX = 0;
         c.shadowOffsetY = 0;
@@ -108,15 +115,15 @@ class Explosion {
     }
     init() {
         for (var i = 0; i < explosionParts; i++) {
-            var dx = (Math.random() * 6) - 3;
+            var dx = (Math.random() * 8) - 4;
             var dy = (Math.random() * 6) - 3;
 
             // var hue = (255 / 5) * i;
             // var color = "hsl(" + hue + ", 100%, 50%)";
             // var randomColorIndex = Math.floor(Math.random() * this.source.particleColors.length);
             // var randomParticleColor = this.source.particleColors[randomColorIndex];
-            var randomParticleColor = "aqua";
-            this.particles.push(new Particle(this.source.x, this.source.y, dx, dy, 1, randomParticleColor));
+            // var randomParticleColor = particleColor;
+            this.particles.push(new Particle(this.source.x, this.source.y, dx, dy, 1, particleColor));
         }
         // Create ring once explosion is instantiated
         // this.rings.push(new Ring(this.source, "blue"));
@@ -175,10 +182,11 @@ class Cannonball {
                 //nothing
             } else {
                 this.currIndex += 1;
-                this.d = distance(points[this.currIndex + 1], points[this.currIndex]);
-                this.dx = (points[this.currIndex + 1].x - points[this.currIndex].x) * (this.dash / this.d) / lambda;
-                this.dy = (points[this.currIndex + 1].y - points[this.currIndex].y) * (this.dash / this.d) / lambda;
-            
+                if(this.currIndex<this.lastIndex){
+                    this.d = distance(points[this.currIndex + 1], points[this.currIndex]);
+                    this.dx = (points[this.currIndex + 1].x - points[this.currIndex].x) * (this.dash / this.d) / lambda;
+                    this.dy = (points[this.currIndex + 1].y - points[this.currIndex].y) * (this.dash / this.d) / lambda;
+                }
             }
         } else {
             this.destroy = true;
