@@ -28,7 +28,8 @@ var dashArray = [];
 const second = 2;
 const fps = 60;
 const lambda = second * fps;
-
+const period = 20;
+const gravity = 0.5;
 
 /* method for drawing polygons on bottom side */
 var drawBottomSide = {
@@ -50,15 +51,15 @@ var drawBottomSide = {
   draw2: function () {
     this.points2 = copyPoints(this.points1);
     this.points2 = shiftPointsH(this.points2, deltaChipMainX);
-    // pointsArray.push(this.points2);
-    // dashArray.push(this.dash);
+    pointsArray.push(this.points2);
+    dashArray.push(this.dash);
     draw2Vertices(svg1, this.points2, this.dash, 1);
   },
   draw3: function () {
     this.points3 = copyPoints(this.points2);
     this.points3 = shiftPointsH(this.points3, deltaChipMainX);
-    // pointsArray.push(this.points3);
-    // dashArray.push(this.dash);
+    pointsArray.push(this.points3);
+    dashArray.push(this.dash);
     draw2Vertices(svg1, this.points3, this.dash, 1);
   }
 }
@@ -223,23 +224,23 @@ function Particle(x, y, dx, dy, radius, color) {
   this.dy = -dy;
   this.radius = 5;
   this.color = color;
-  this.timeToLive = 1;
-  // this.mass = 0.2;
+  this.timeToLive = 3;
+  this.mass = 0.2;
+  
 
   this.update = function () {
     if (this.y + this.radius + this.dy > canvas.height) {
-      this.dy = -this.dy;
+      this.dy = -(this.dy)/2;
+      this.timeToLive--;
     }
 
     if (this.x + this.radius + this.dx > canvas.width || this.x - this.radius + this.dx < 0) {
       this.dx = -this.dx;
     }
-    // this.dy += gravity * this.mass;
+    this.dy += gravity * this.mass;
     this.x += this.dx;
     this.y += this.dy;
     this.draw();
-
-    this.timeToLive -= 0.01;
   };
 
   this.draw = function () {
@@ -252,9 +253,7 @@ function Particle(x, y, dx, dy, radius, color) {
     c.shadowOffsetY = 0;
     c.fillStyle = this.color;
     c.fill();
-
     c.closePath();
-
     c.restore();
   };
 }
@@ -265,7 +264,7 @@ function Explosion(cannonball) {
   this.source = cannonball;
 
   this.init = function () {
-    for (var i = 0; i < 1; i++) {
+    for (var i = 0; i < 3; i++) {
 
       var dx = (Math.random() * 6) - 3;
       var dy = (Math.random() * 6) - 3;
@@ -386,7 +385,7 @@ function animate() {
 
   for (let i = 0; i < cannonballs.length; i++) {
     cannonballs[i].update();
-    if(count%10==0){
+    if(count%period==0){
       explosions.push(new Explosion(cannonballs[i]));
     }
     if (cannonballs[i].destroy) {
