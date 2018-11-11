@@ -13,6 +13,7 @@ var draw2Vertices = function (svg, points, dash, moveCircleDirection) {
     newElement.setAttribute("points", points);
     newElement.style.strokeDasharray = dash;
     newElement.style.strokeDashoffset = dash;
+
     svg.appendChild(newElement);
 
     // draw socket/circle

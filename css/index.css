@@ -37,7 +37,7 @@ svg .draw{
     stroke: aqua;
     stroke-width: 3px;
     fill: transparent;
-    animation: animate 2s ease-out forwards;
+    animation: animate 2s linear forwards;
     /* -moz-animation: animate 2s ease 1; */
     /* -webkit-animation: animate 2s ease 1; */
 }

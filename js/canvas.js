@@ -23,8 +23,11 @@ var deltaChipMainX = chipMain.width / division;
 
 // store all points in an array
 var pointsArray = [];
+var dashArray = [];
 
-
+const second = 2;
+const fps = 60;
+const distance = second * fps;
 
 
 /* method for drawing polygons on bottom side */
@@ -41,6 +44,7 @@ var drawBottomSide = {
     var p2 = new Point(screenWidth / 2 - deltaChipMainX, chipMain.bottom + chipMain.border);
     this.points1 = [p1, p2];
     pointsArray.push(this.points1);
+    dashArray.push(this.dash);
     draw2Vertices(svg1, this.points1, this.dash, 1);
   },
   draw2: function () {
@@ -214,7 +218,7 @@ function Particle(x, y, dx, dy, radius, color) {
   this.timeToLive = 1;
   // this.mass = 0.2;
 
-  this.update = function() {
+  this.update = function () {
     if (this.y + this.radius + this.dy > canvas.height) {
       this.dy = -this.dy;
     }
@@ -230,7 +234,7 @@ function Particle(x, y, dx, dy, radius, color) {
     this.timeToLive -= 0.01;
   };
 
-  this.draw = function() {
+  this.draw = function () {
     c.save();
     c.beginPath();
     c.arc(this.x, this.y, 2, 0, Math.PI * 2, false);
@@ -248,12 +252,12 @@ function Particle(x, y, dx, dy, radius, color) {
 }
 
 function Explosion(cannonball) {
-  this.particles = [];	
+  this.particles = [];
   this.rings = [];
   this.source = cannonball;
 
-  this.init = function() {
-    for (var i = 0; i < 10; i++) {
+  this.init = function () {
+    for (var i = 0; i < 1; i++) {
 
       var dx = (Math.random() * 6) - 3;
       var dy = (Math.random() * 6) - 3;
@@ -262,26 +266,24 @@ function Explosion(cannonball) {
       // var color = "hsl(" + hue + ", 100%, 50%)";
       // var randomColorIndex = Math.floor(Math.random() * this.source.particleColors.length);
       // var randomParticleColor = this.source.particleColors[randomColorIndex];
-      var randomParticleColor="white";
-
-
-        this.particles.push(new Particle(this.source.x, this.source.y, dx, dy, 1, randomParticleColor));
+      var randomParticleColor = "white";
+      this.particles.push(new Particle(this.source.x, this.source.y, dx, dy, 1, randomParticleColor));
     }
 
     // Create ring once explosion is instantiated
-      // this.rings.push(new Ring(this.source, "blue"));
+    // this.rings.push(new Ring(this.source, "blue"));
   };
 
   this.init();
 
-  this.update = function() {
+  this.update = function () {
     for (var i = 0; i < this.particles.length; i++) {
-        this.particles[i].update();
+      this.particles[i].update();
 
-        // Remove particles from scene one time to live is up
-        if (this.particles[i].timeToLive < 0) {
-          this.particles.splice(i, 1);
-        }
+      // Remove particles from scene one time to live is up
+      if (this.particles[i].timeToLive < 0) {
+        this.particles.splice(i, 1);
+      }
     }
 
     // Render rings
@@ -289,31 +291,51 @@ function Explosion(cannonball) {
       this.rings[j].update();
 
       // Remove rings from scene one time to live is up
-        if (this.rings[j].timeToLive < 0) {
-          this.rings.splice(i, 1);
-        }
+      if (this.rings[j].timeToLive < 0) {
+        this.rings.splice(i, 1);
+      }
     }
   };
 }
 
-function Cannonball(x, y, radius, color, point) {
+function Cannonball(x, y, radius, color, points, dash) {
   this.x = x;
   this.y = y;
   this.radius = radius;
   this.color = color;
-  this.point = point;
+  this.points = points;
+  this.dash = dash;
+  this.destroy = false;
 
   this.init = function () {
     // Initialize the cannonballs start coordinates (from muzzle of cannon)
-    this.x = point.x;
-    this.y = point.y;
-
-    // Translate relative to canvas positioning
-    // this.x = this.x + (canvas.width / 2);
-    // this.y = this.y + (canvas.height);	
+    this.currIndex = 0;
+    this.lastIndex = points.length - 1;
+    this.x = points[0].x;
+    this.y = points[0].y;
   };
 
   this.update = function () {
+    // if(this.currIndex<this.lastIndex){
+    //   this.dx = (points[this.currIndex].x - points[this.currIndex+1].x)/this.dash;
+    //   this.dy = (points[this.currIndex].y - points[this.currIndex+1].y)/this.dash;
+    // }else{
+    //   this.dx = 0;
+    //   this.dy = 0;
+    // }
+    // this.x += this.dx;
+    // this.y += this.dy;
+    // this.y -= 20;
+
+    if (this.x - points[this.lastIndex].x > Math.abs(1) ||
+      Math.abs(this.y - points[this.lastIndex].y) > 1) {
+      this.dx = (points[this.currIndex + 1].x - points[this.currIndex].x) / distance;
+      this.dy = (points[this.currIndex + 1].y - points[this.currIndex].y) / distance;
+    } else {
+      this.destroy = true;
+    }
+    this.y += this.dy;
+
     this.draw();
   };
 
@@ -339,25 +361,37 @@ var end = false;
 function animate() {
   window.requestAnimationFrame(animate);
 
+  // alert(svg1.getAttribute('stroke-dashoffset') );
+
   //   c.fillStyle = "rgba(18, 18, 18, 0.2)";
   //   c.fillRect(0, 0, canvas.width, canvas.height);		
   c.clearRect(0, 0, canvas.width, canvas.height);
 
   if (!end) {
     for (let i = 0; i < pointsArray.length; i++) {
-      for (let j = 0; j < pointsArray[i].length; j++) {
-        cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, "white", pointsArray[i][j]));
-      }
+      cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, "white", pointsArray[i], dashArray[i]));
     }
   }
-  end=true;
-  cannonballs[1].update();
-  explosions.push(new Explosion(cannonballs[1]));
-  explosions[0].update();
+  end = true;
 
+  for (let i = 0; i < cannonballs.length; i++) {
+    cannonballs[i].update();
+    explosions.push(new Explosion(cannonballs[i]));
+    if (cannonballs[i].destroy) {
+      cannonballs.splice(i, 1);
+    }
+    // cannonballs.splice(i, 1);
+  }
+
+  for (let i = 0; i < explosions.length; i++) {
+    explosions[i].update();
+    if (explosions[0].particles.length <= 0) {
+      explosions.splice(0, 1);
+    }
+  }
 
   // for (let i = 0; i < cannonballs.length; i++) {
-    // cannonballs[i].update();
+  // cannonballs[i].update();
   // }
 }
 animate();
