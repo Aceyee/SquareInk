@@ -11,18 +11,6 @@ var screenHeight = $(window).height();
 //set stroke width for drawing
 var strokeWidth = 5;
 
-
-/******************************* SVG Draw *********************************/
-// get the svg element on block1
-var svg1 = document.getElementById("svg1"); // get svg1 element
-
-/* create new Chip class: chipMain*/
-var chipMain = new Chip('chipMain', 0);
-
-/* divide the width by 9 for drawing socket (circle) */
-var division = 9;
-var deltaChipMainX = chipMain.width / division;
-
 // store all points in an array
 var pointsArray = [];
 var dashArray = [];
@@ -34,6 +22,18 @@ const period = 20;
 const gravity = 0.5;
 const bounceTimes = 2;
 const explosionParts = 2;
+
+/******************************* SVG Draw *********************************/
+
+// get the svg element on block1
+var svg1 = document.getElementById("svg1"); // get svg1 element
+
+/* create new Chip class: chipMain*/
+var chipMain = new Chip('chipMain', 0);
+
+/* divide the width by 9 for drawing socket (circle) */
+var division = 9;
+var deltaChipMainX = chipMain.width / division;
 
 /* method for drawing polygons on bottom side */
 var drawBottomSide = {
@@ -48,8 +48,6 @@ var drawBottomSide = {
     var p1 = new Point(screenWidth / 2 - deltaChipMainX, screenHeight);
     var p2 = new Point(screenWidth / 2 - deltaChipMainX, chipMain.bottom + chipMain.border);
     this.points1 = [p1, p2];
-    pointsArray.push(this.points1);
-    dashArray.push(this.dash);
     draw2Vertices(svg1, this.points1, this.dash, 1);
   },
   draw2: function () {
@@ -62,8 +60,6 @@ var drawBottomSide = {
   draw3: function () {
     this.points3 = copyPoints(this.points2);
     this.points3 = shiftPointsH(this.points3, deltaChipMainX);
-    pointsArray.push(this.points3);
-    dashArray.push(this.dash);
     draw2Vertices(svg1, this.points3, this.dash, 1);
   }
 }
@@ -85,8 +81,6 @@ var drawLeftSide = {
     var p3 = new Point(p2.x, 0);
     this.points1 = [p3, p2, p1];
     this.dash1 = p2.y + Math.sqrt(2) * deltaChipMainX;
-    pointsArray.push(this.points1);
-    dashArray.push(this.dash1);
     draw3Vertices(svg1, this.points1, this.dash1, 1);
   },
 
@@ -99,8 +93,8 @@ var drawLeftSide = {
     this.points2 = [p4, p3, p2, p1];
 
     this.dash2 = 2 * Math.sqrt(2) * 2 * deltaChipMainX + p2.y - p3.y;
-    // pointsArray.push(this.points2);
-    // dashArray.push(this.dash2);
+    pointsArray.push(this.points2);
+    dashArray.push(this.dash2);
     draw4Vertices(svg1, this.points2, this.dash2, 1, 1, 0.5 * Math.sqrt(2));
   },
 
@@ -133,9 +127,11 @@ var drawRightSide = {
     draw3Vertices(svg1, this.points1, this.dash1, -1, 1);
   },
   draw2: function () {
-    this.points2 = drawLeftSide.points2;
+    this.points2 = copyPoints(drawLeftSide.points2);
     this.dash2 = drawLeftSide.dash2;
     this.points2 = symmetryH(this.points2);
+    pointsArray.push(this.points2);
+    dashArray.push(this.dash2);
     draw4Vertices(svg1, this.points2, this.dash2, -1, 1, 0.5 * Math.sqrt(2));
   },
   draw3: function () {
@@ -209,7 +205,9 @@ drawBottomSide.draw();
 drawLeftSide.draw();
 drawRightSide.draw();
 drawTopSide.draw();
+
 /******************************* SVG Draw End ********************************/
+
 
 
 /******************************* Canvas Draw *********************************/

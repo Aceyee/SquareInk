@@ -118,11 +118,9 @@ class Explosion {
             var randomParticleColor = "aqua";
             this.particles.push(new Particle(this.source.x, this.source.y, dx, dy, 1, randomParticleColor));
         }
-
         // Create ring once explosion is instantiated
         // this.rings.push(new Ring(this.source, "blue"));
     };
-
 
     update() {
         for (var i = 0; i < this.particles.length; i++) {
@@ -170,16 +168,17 @@ class Cannonball {
         this.dy = (this.points[this.currIndex + 1].y - this.points[this.currIndex].y) * (this.dash / this.d) / lambda;
     };
 
-    update(points = this.points, currIndex = this.currIndex) {
-        if (currIndex < this.lastIndex) {
-            if (Math.abs(this.x - points[currIndex + 1].x > 1 ||
-                Math.abs(this.y - points[currIndex + 1].y) > 1)) {
+    update(points = this.points) {
+        if (this.currIndex < this.lastIndex) {
+            if (Math.abs(this.x - points[this.currIndex + 1].x) > 1 ||
+                Math.abs(this.y - points[this.currIndex + 1].y) > 1) {
                 //nothing
-                this.d = distance(points[currIndex + 1], points[currIndex]);
-                this.dx = (points[currIndex + 1].x - points[currIndex].x) * (this.dash / this.d) / lambda;
-                this.dy = (points[currIndex + 1].y - points[currIndex].y) * (this.dash / this.d) / lambda;
             } else {
                 this.currIndex += 1;
+                this.d = distance(points[this.currIndex + 1], points[this.currIndex]);
+                this.dx = (points[this.currIndex + 1].x - points[this.currIndex].x) * (this.dash / this.d) / lambda;
+                this.dy = (points[this.currIndex + 1].y - points[this.currIndex].y) * (this.dash / this.d) / lambda;
+            
             }
         } else {
             this.destroy = true;
