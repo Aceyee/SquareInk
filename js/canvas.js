@@ -50,16 +50,15 @@ var drawBottomSide = {
   draw2: function () {
     this.points2 = copyPoints(this.points1);
     this.points2 = shiftPointsH(this.points2, deltaChipMainX);
-
-    pointsArray.push(this.points2);
-    dashArray.push(this.dash);
+    // pointsArray.push(this.points2);
+    // dashArray.push(this.dash);
     draw2Vertices(svg1, this.points2, this.dash, 1);
   },
   draw3: function () {
     this.points3 = copyPoints(this.points2);
     this.points3 = shiftPointsH(this.points3, deltaChipMainX);
-    pointsArray.push(this.points3);
-    dashArray.push(this.dash);
+    // pointsArray.push(this.points3);
+    // dashArray.push(this.dash);
     draw2Vertices(svg1, this.points3, this.dash, 1);
   }
 }
@@ -81,6 +80,8 @@ var drawLeftSide = {
     var p3 = new Point(p2.x, 0);
     this.points1 = [p3, p2, p1];
     this.dash1 = p2.y + Math.sqrt(2) * deltaChipMainX;
+    pointsArray.push(this.points1);
+    dashArray.push(this.dash1);
     draw3Vertices(svg1, this.points1, this.dash1, 1);
   },
 
@@ -321,13 +322,19 @@ function Cannonball(x, y, radius, color, points, dash) {
   };
 
   this.update = function () {
-    if (Math.abs(this.x - points[this.lastIndex].x) > 1 ||
-      Math.abs(this.y - points[this.lastIndex].y) > 1) {
-      this.dx = (points[this.currIndex + 1].x - points[this.currIndex].x) / distance;
-      this.dy = (points[this.currIndex + 1].y - points[this.currIndex].y) / distance;
-    } else {
+    if(this.currIndex<this.lastIndex){
+      if (Math.abs(this.x - points[this.currIndex+1].x > 1 ||
+        Math.abs(this.y - points[this.currIndex+1].y) > 1)){
+        this.dx = (points[this.currIndex + 1].x - points[this.currIndex].x) / distance;
+        this.dy = (points[this.currIndex + 1].y - points[this.currIndex].y) / distance;
+      } else{
+        this.currIndex++;
+
+      }
+    }else{
       this.destroy = true;
     }
+   
     this.x += this.dx;
     this.y += this.dy;
 
@@ -372,7 +379,7 @@ function animate() {
 
   for (let i = 0; i < cannonballs.length; i++) {
     cannonballs[i].update();
-    if(count%5==0){
+    if(count%10==0){
       explosions.push(new Explosion(cannonballs[i]));
     }
     if (cannonballs[i].destroy) {
