@@ -353,6 +353,7 @@ function Cannonball(x, y, radius, color, points, dash) {
 
 // alert(pointsArray[0] +" "+ pointsArray[1]);
 var end = false;
+var count = 0;
 function animate() {
   window.requestAnimationFrame(animate);
 
@@ -371,7 +372,9 @@ function animate() {
 
   for (let i = 0; i < cannonballs.length; i++) {
     cannonballs[i].update();
-    explosions.push(new Explosion(cannonballs[i]));
+    if(count%5==0){
+      explosions.push(new Explosion(cannonballs[i]));
+    }
     if (cannonballs[i].destroy) {
       cannonballs.splice(i, 1);
     }
@@ -384,9 +387,10 @@ function animate() {
       explosions.splice(0, 1);
     }
   }
-
-  // for (let i = 0; i < cannonballs.length; i++) {
-  // cannonballs[i].update();
-  // }
+  if(count<1000){
+    count++;
+  }else{
+    count=0;
+  }
 }
 animate();
