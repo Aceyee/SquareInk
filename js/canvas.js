@@ -48,13 +48,18 @@ var drawBottomSide = {
     draw2Vertices(svg1, this.points1, this.dash, 1);
   },
   draw2: function () {
-    this.points2 = this.points1.slice();
+    this.points2 = copyPoints(this.points1);
     this.points2 = shiftPointsH(this.points2, deltaChipMainX);
+
+    pointsArray.push(this.points2);
+    dashArray.push(this.dash);
     draw2Vertices(svg1, this.points2, this.dash, 1);
   },
   draw3: function () {
-    this.points3 = this.points2.slice();
+    this.points3 = copyPoints(this.points2);
     this.points3 = shiftPointsH(this.points3, deltaChipMainX);
+    pointsArray.push(this.points3);
+    dashArray.push(this.dash);
     draw2Vertices(svg1, this.points3, this.dash, 1);
   }
 }
@@ -316,24 +321,14 @@ function Cannonball(x, y, radius, color, points, dash) {
   };
 
   this.update = function () {
-    // if(this.currIndex<this.lastIndex){
-    //   this.dx = (points[this.currIndex].x - points[this.currIndex+1].x)/this.dash;
-    //   this.dy = (points[this.currIndex].y - points[this.currIndex+1].y)/this.dash;
-    // }else{
-    //   this.dx = 0;
-    //   this.dy = 0;
-    // }
-    // this.x += this.dx;
-    // this.y += this.dy;
-    // this.y -= 20;
-
-    if (this.x - points[this.lastIndex].x > Math.abs(1) ||
+    if (Math.abs(this.x - points[this.lastIndex].x) > 1 ||
       Math.abs(this.y - points[this.lastIndex].y) > 1) {
       this.dx = (points[this.currIndex + 1].x - points[this.currIndex].x) / distance;
       this.dy = (points[this.currIndex + 1].y - points[this.currIndex].y) / distance;
     } else {
       this.destroy = true;
     }
+    this.x += this.dx;
     this.y += this.dy;
 
     this.draw();
@@ -356,7 +351,7 @@ function Cannonball(x, y, radius, color, points, dash) {
   this.init();
 }
 
-// alert(drawBottomSide.points1.length);
+// alert(pointsArray[0] +" "+ pointsArray[1]);
 var end = false;
 function animate() {
   window.requestAnimationFrame(animate);

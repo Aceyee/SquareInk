@@ -99,3 +99,12 @@ var reverse = function (points) {
     }
     return reversePoints;
 }
+
+var copyPoints = function(points){
+    var copiedPoints = [];
+    for(let i=0; i<points.length; i++){
+        var p = new Point(points[i].x, points[i].y);
+        copiedPoints.push(p);
+    }
+    return copiedPoints;
+}
