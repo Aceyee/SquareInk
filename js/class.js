@@ -1,6 +1,8 @@
 /**
- *  Name: class.js
+ *  Name: class.js 
  *  Author: Zihan Ye
+ *  Reference: Particle, Explosion, and Cannonball are adapted from:
+ *      https://christopherlis.com/projects/ 
  *  Description: Create helper classes such as Chip and Point
  *      for easier conductions. JavaScript 6
  */
@@ -65,7 +67,7 @@ class Particle {
         this.radius = radius;
         this.color = color;
         this.timeToLive = bounceTimes;
-        this.mass = Math.pow(radius, 3)/10;
+        this.mass = Math.pow(radius, 3) / 10;
     }
 
     update() {
@@ -77,19 +79,19 @@ class Particle {
         if (this.x + this.radius + this.dx > canvas.width || this.x - this.radius + this.dx < 0) {
             this.dx = -this.dx;
         }
-        if(this.dx > balanceResistance){
+        if (this.dx > balanceResistance) {
             this.dx -= resistance;
-        }else if(this.dx<-balanceResistance ){
+        } else if (this.dx < -balanceResistance) {
             this.dx += resistance;
         }
         this.dy += gravity * this.mass;
         this.x += this.dx;
         this.y += this.dy;
-        
+
         this.draw();
     };
 
-    draw() {      
+    draw() {
         c.save();
         c.beginPath();
         c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
@@ -122,11 +124,9 @@ class Explosion {
             // var randomColorIndex = Math.floor(Math.random() * this.source.particleColors.length);
             // var randomParticleColor = this.source.particleColors[randomColorIndex];
             // var randomParticleColor = particleColor;
-            var radius = Math.random() *0.8 + particleRadius;
+            var radius = Math.random() * 0.8 + particleRadius;
             this.particles.push(new Particle(this.source.x, this.source.y, dx, dy, radius, particleColor));
         }
-        // Create ring once explosion is instantiated
-        // this.rings.push(new Ring(this.source, "blue"));
     };
 
     update() {
@@ -181,7 +181,7 @@ class Cannonball {
                 //nothing
             } else {
                 this.currIndex += 1;
-                if(this.currIndex<this.lastIndex){
+                if (this.currIndex < this.lastIndex) {
                     this.d = distance(points[this.currIndex + 1], points[this.currIndex]);
                     this.dx = (points[this.currIndex + 1].x - points[this.currIndex].x) * (this.dash / this.d) / lambda;
                     this.dy = (points[this.currIndex + 1].y - points[this.currIndex].y) * (this.dash / this.d) / lambda;
