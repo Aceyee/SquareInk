@@ -11,6 +11,8 @@ var screenHeight = $(window).height();
 //set stroke width for drawing
 var strokeWidth = 5;
 
+
+/******************************* SVG Draw *********************************/
 // get the svg element on block1
 var svg1 = document.getElementById("svg1"); // get svg1 element
 
@@ -115,8 +117,6 @@ var drawLeftSide = {
   }
 }
 
-
-
 /* method for drawing polygons on right side */
 var drawRightSide = {
   /* include three polygon lines, draw them separately in three methods*/
@@ -209,6 +209,10 @@ drawBottomSide.draw();
 drawLeftSide.draw();
 drawRightSide.draw();
 drawTopSide.draw();
+/******************************* SVG Draw End ********************************/
+
+
+/******************************* Canvas Draw *********************************/
 
 var canvas = document.getElementById('canvas1');
 var c = canvas.getContext('2d');
@@ -241,7 +245,6 @@ function animate() {
     if (cannonballs[i].destroy) {
       cannonballs.splice(i, 1);
     }
-    // cannonballs.splice(i, 1);
   }
 
   for (let i = 0; i < explosions.length; i++) {
@@ -257,3 +260,4 @@ function animate() {
   }
 }
 animate();
+/******************************* Canvas Draw End *****************************/
