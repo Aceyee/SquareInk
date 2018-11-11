@@ -21,27 +21,34 @@ var chipMain = new Chip('chipMain', 0);
 var division = 9;
 var deltaChipMainX = chipMain.width / division;
 
+// store all points in an array
+var pointsArray = [];
+
+
+
+
 /* method for drawing polygons on bottom side */
 var drawBottomSide = {
   /* include three straght lines, use for loop to draw line, and shift X to draw next */
   draw: function () {
-   this.draw1();
-   this.draw2();
-   this.draw3();
+    this.draw1();
+    this.draw2();
+    this.draw3();
   },
-  draw1:function(){
+  draw1: function () {
     this.dash = screenHeight - chipMain.bottom - chipMain.border;
     var p1 = new Point(screenWidth / 2 - deltaChipMainX, screenHeight);
     var p2 = new Point(screenWidth / 2 - deltaChipMainX, chipMain.bottom + chipMain.border);
     this.points1 = [p1, p2];
+    pointsArray.push(this.points1);
     draw2Vertices(svg1, this.points1, this.dash, 1);
   },
-  draw2:function(){
+  draw2: function () {
     this.points2 = this.points1.slice();
     this.points2 = shiftPointsH(this.points2, deltaChipMainX);
     draw2Vertices(svg1, this.points2, this.dash, 1);
   },
-  draw3:function(){
+  draw3: function () {
     this.points3 = this.points2.slice();
     this.points3 = shiftPointsH(this.points3, deltaChipMainX);
     draw2Vertices(svg1, this.points3, this.dash, 1);
@@ -52,6 +59,7 @@ var drawBottomSide = {
 var drawLeftSide = {
   /* include three polygon lines, draw them separately in three methods*/
   draw: function () {
+    this.points1 = [];
     this.draw1();
     this.draw2();
     this.draw3();
@@ -62,9 +70,7 @@ var drawLeftSide = {
     var p1 = new Point(chipMain.left - chipMain.border, chipMain.top);
     var p2 = new Point(p1.x - deltaChipMainX, p1.y - deltaChipMainX);
     var p3 = new Point(p2.x, 0);
-
     this.points1 = [p3, p2, p1];
-
     this.dash1 = p2.y + Math.sqrt(2) * deltaChipMainX;
     draw3Vertices(svg1, this.points1, this.dash1, 1);
   },
@@ -73,7 +79,7 @@ var drawLeftSide = {
     var p1 = new Point(chipMain.left - chipMain.border, chipMain.top + deltaChipMainX);
     var p2 = new Point(p1.x - 2 * deltaChipMainX, p1.y - 2 * deltaChipMainX);
     var p3 = new Point(p2.x, 2 * deltaChipMainX);
-    var p4 = new Point(p3.x - 2*deltaChipMainX, 0);
+    var p4 = new Point(p3.x - 2 * deltaChipMainX, 0);
 
     this.points2 = [p4, p3, p2, p1];
 
@@ -85,7 +91,7 @@ var drawLeftSide = {
     var p1 = new Point(chipMain.left - chipMain.border, chipMain.top + 2 * deltaChipMainX);
     var p2 = new Point(p1.x - 3 * deltaChipMainX, p1.y - 3 * deltaChipMainX);
     var p3 = new Point(p2.x, 2 * deltaChipMainX);
-    var p4 = new Point(p3.x - 2*deltaChipMainX, 0);
+    var p4 = new Point(p3.x - 2 * deltaChipMainX, 0);
 
     this.points3 = [p4, p3, p2, p1];
 
@@ -192,21 +198,115 @@ drawTopSide.draw();
 var canvas = document.getElementById('canvas1');
 var c = canvas.getContext('2d');
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+canvas.width = screenWidth;
+canvas.height = screenHeight;
 
-cannonballs = [];
+var cannonballs = [];
+var explosions = [];
 
-function Cannonball(x, y, radius, color) {
+function Particle(x, y, dx, dy, radius, color) {
+  this.x = x;
+  this.y = y;
+  this.dx = dx;
+  this.dy = -dy;
+  this.radius = 5;
+  this.color = color;
+  this.timeToLive = 1;
+  // this.mass = 0.2;
+
+  this.update = function() {
+    if (this.y + this.radius + this.dy > canvas.height) {
+      this.dy = -this.dy;
+    }
+
+    if (this.x + this.radius + this.dx > canvas.width || this.x - this.radius + this.dx < 0) {
+      this.dx = -this.dx;
+    }
+    // this.dy += gravity * this.mass;
+    this.x += this.dx;
+    this.y += this.dy;
+    this.draw();
+
+    this.timeToLive -= 0.01;
+  };
+
+  this.draw = function() {
+    c.save();
+    c.beginPath();
+    c.arc(this.x, this.y, 2, 0, Math.PI * 2, false);
+    c.shadowColor = this.color;
+    c.shadowBlur = 10;
+    c.shadowOffsetX = 0;
+    c.shadowOffsetY = 0;
+    c.fillStyle = this.color;
+    c.fill();
+
+    c.closePath();
+
+    c.restore();
+  };
+}
+
+function Explosion(cannonball) {
+  this.particles = [];	
+  this.rings = [];
+  this.source = cannonball;
+
+  this.init = function() {
+    for (var i = 0; i < 10; i++) {
+
+      var dx = (Math.random() * 6) - 3;
+      var dy = (Math.random() * 6) - 3;
+
+      // var hue = (255 / 5) * i;
+      // var color = "hsl(" + hue + ", 100%, 50%)";
+      // var randomColorIndex = Math.floor(Math.random() * this.source.particleColors.length);
+      // var randomParticleColor = this.source.particleColors[randomColorIndex];
+      var randomParticleColor="white";
+
+
+        this.particles.push(new Particle(this.source.x, this.source.y, dx, dy, 1, randomParticleColor));
+    }
+
+    // Create ring once explosion is instantiated
+      // this.rings.push(new Ring(this.source, "blue"));
+  };
+
+  this.init();
+
+  this.update = function() {
+    for (var i = 0; i < this.particles.length; i++) {
+        this.particles[i].update();
+
+        // Remove particles from scene one time to live is up
+        if (this.particles[i].timeToLive < 0) {
+          this.particles.splice(i, 1);
+        }
+    }
+
+    // Render rings
+    for (var j = 0; j < this.rings.length; j++) {
+      this.rings[j].update();
+
+      // Remove rings from scene one time to live is up
+        if (this.rings[j].timeToLive < 0) {
+          this.rings.splice(i, 1);
+        }
+    }
+  };
+}
+
+function Cannonball(x, y, radius, color, point) {
   this.x = x;
   this.y = y;
   this.radius = radius;
   this.color = color;
+  this.point = point;
 
   this.init = function () {
     // Initialize the cannonballs start coordinates (from muzzle of cannon)
-    this.x = 0;
-    this.y = 0;
+    this.x = point.x;
+    this.y = point.y;
 
     // Translate relative to canvas positioning
     // this.x = this.x + (canvas.width / 2);
@@ -234,6 +334,8 @@ function Cannonball(x, y, radius, color) {
   this.init();
 }
 
+// alert(drawBottomSide.points1.length);
+var end = false;
 function animate() {
   window.requestAnimationFrame(animate);
 
@@ -241,9 +343,21 @@ function animate() {
   //   c.fillRect(0, 0, canvas.width, canvas.height);		
   c.clearRect(0, 0, canvas.width, canvas.height);
 
-  for (let i = 0; i < 10; i++) {
-    cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 4, "white"));
+  if (!end) {
+    for (let i = 0; i < pointsArray.length; i++) {
+      for (let j = 0; j < pointsArray[i].length; j++) {
+        cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, "white", pointsArray[i][j]));
+      }
+    }
   }
-  cannonballs[0].update();
+  end=true;
+  cannonballs[1].update();
+  explosions.push(new Explosion(cannonballs[1]));
+  explosions[0].update();
+
+
+  // for (let i = 0; i < cannonballs.length; i++) {
+    // cannonballs[i].update();
+  // }
 }
 animate();
