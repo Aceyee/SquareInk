@@ -94,6 +94,8 @@ var drawLeftSide = {
     this.points2 = [p4, p3, p2, p1];
 
     this.dash2 = 2 * Math.sqrt(2) * 2 * deltaChipMainX + p2.y - p3.y;
+    // pointsArray.push(this.points2);
+    // dashArray.push(this.dash2);
     draw4Vertices(svg1, this.points2, this.dash2, 1, 1, 0.5 * Math.sqrt(2));
   },
 
@@ -329,7 +331,6 @@ function Cannonball(x, y, radius, color, points, dash) {
         this.dy = (points[this.currIndex + 1].y - points[this.currIndex].y) / distance;
       } else{
         this.currIndex++;
-
       }
     }else{
       this.destroy = true;
