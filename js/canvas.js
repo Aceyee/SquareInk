@@ -15,18 +15,22 @@ var strokeWidth = 5;
 var pointsArray = [];
 var dashArray = [];
 
+/******************************* Parameters *********************************/
 const second = 2;
 const fps = 60;
 const lambda = second * fps;
-const period = 40;
+const period = 10;
 const gravity = 0.5;
 const bounceTimes = 1;
-const explosionParts = 10;
+const explosionParts = 5;
 const balanceResistance = 1;
 const resistance = 0.1;
 
 const cannonballColor = "aqua";
-const particleColor = "aqua";
+const particleColor = "orange";
+const particleRadius = 1;
+/******************************* Parameters End ******************************/
+
 
 /******************************* SVG Draw *********************************/
 

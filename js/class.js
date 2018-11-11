@@ -62,10 +62,10 @@ class Particle {
         this.y = y;
         this.dx = dx;
         this.dy = -dy;
-        this.radius = 5;
+        this.radius = radius;
         this.color = color;
         this.timeToLive = bounceTimes;
-        this.mass = 0.2;
+        this.mass = Math.pow(radius, 3)/10;
     }
 
     update() {
@@ -90,10 +90,9 @@ class Particle {
     };
 
     draw() {      
-         
         c.save();
         c.beginPath();
-        c.arc(this.x, this.y, 2, 0, Math.PI * 2, false);
+        c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
         c.shadowColor = "white";
         c.shadowBlur = 10;
         c.shadowOffsetX = 0;
@@ -123,7 +122,8 @@ class Explosion {
             // var randomColorIndex = Math.floor(Math.random() * this.source.particleColors.length);
             // var randomParticleColor = this.source.particleColors[randomColorIndex];
             // var randomParticleColor = particleColor;
-            this.particles.push(new Particle(this.source.x, this.source.y, dx, dy, 1, particleColor));
+            var radius = Math.random() *0.8 + particleRadius;
+            this.particles.push(new Particle(this.source.x, this.source.y, dx, dy, radius, particleColor));
         }
         // Create ring once explosion is instantiated
         // this.rings.push(new Ring(this.source, "blue"));
@@ -152,7 +152,6 @@ class Explosion {
 }
 
 class Cannonball {
-
     constructor(x, y, radius, color, points, dash) {
         this.x = x;
         this.y = y;
