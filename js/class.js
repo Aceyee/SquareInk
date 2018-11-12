@@ -138,9 +138,6 @@ class Explosion {
                 this.particles.splice(i, 1);
             }
         }
-        if(this.particles.length==0){
-            cooldown = true;
-        }
     };
 }
 

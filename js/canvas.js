@@ -239,7 +239,7 @@ var drawLeftCenter = {
     this.dash1 = p2.x + Math.sqrt(2) * 3 * deltaChipMainX;
     pointsArray2.push(this.points1);
     dashArray2.push(this.dash1);
-    drawVertices(svg1, this.points1, this.dash1, 1, 1, Math.sqrt(2) / 2);
+    // drawVertices(svg1, this.points1, this.dash1, 1, 1, Math.sqrt(2) / 2);
   },
 
   draw2: function () {
@@ -248,7 +248,7 @@ var drawLeftCenter = {
     this.dash2 = this.dash1;
     pointsArray2.push(this.points2);
     dashArray2.push(this.dash2);
-    drawVertices(svg1, this.points2, this.dash2, 1, 1, Math.sqrt(2) / 2);
+    // drawVertices(svg1, this.points2, this.dash2, 1, 1, Math.sqrt(2) / 2);
   },
 
   draw3: function () {
@@ -257,7 +257,7 @@ var drawLeftCenter = {
     this.dash3 = this.dash1;
     pointsArray2.push(this.points3);
     dashArray2.push(this.dash3);
-    drawVertices(svg1, this.points3, this.dash3, 1, 1, Math.sqrt(2) / 2);
+    // drawVertices(svg1, this.points3, this.dash3, 1, 1, Math.sqrt(2) / 2);
   }
 }
 
@@ -277,26 +277,32 @@ var drawLeftBottom = {
     var p3 = new Point(0, p2.y);
     this.points1 = [p3, p2, p1];
     this.dash1 = p2.x + Math.sqrt(2) * 3 * deltaChipMainX;
-    drawVertices(svg1, this.points1, this.dash1, 1, -1, Math.sqrt(2) / 2);
+    pointsArray2.push(this.points1);
+    dashArray2.push(this.dash1);
+    // drawVertices(svg1, this.points1, this.dash1, 1, -1, Math.sqrt(2) / 2);
   },
 
   draw2: function () {
     this.points2 = copyPoints(this.points1);
     this.points2 = shiftPointsV(this.points2, -deltaChipMainX);
     this.dash2 = this.dash1;
-    drawVertices(svg1, this.points2, this.dash2, 1, -1, Math.sqrt(2) / 2);
+    pointsArray2.push(this.points2);
+    dashArray2.push(this.dash2);
+    // drawVertices(svg1, this.points2, this.dash2, 1, -1, Math.sqrt(2) / 2);
   },
 
   draw3: function () {
     this.points3 = copyPoints(this.points2);
     this.points3 = shiftPointsV(this.points3, -deltaChipMainX);
     this.dash3 = this.dash1;
-    drawVertices(svg1, this.points3, this.dash3, 1, -1, Math.sqrt(2) / 2);
+    pointsArray2.push(this.points3);
+    dashArray2.push(this.dash3);
+    // drawVertices(svg1, this.points3, this.dash3, 1, -1, Math.sqrt(2) / 2);
   }
 }
 
 drawLeftCenter.draw();
-// drawLeftBottom.draw();
+drawLeftBottom.draw();
 
 /******************************* Canvas Draw *********************************/
 
@@ -308,7 +314,7 @@ canvas.height = screenHeight;
 
 var cannonballs = [];
 var explosions = [];
-var cooldown = false;
+var input = false;
 
 var end = false;
 var count = 0;
@@ -347,15 +353,21 @@ function animate() {
   }
 
   if(explosions.length<=0){
-    if(cannonballs.length<1){
+    if(cannonballs.length<3){
       cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArray2[0], dashArray2[0]));
+      cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArray2[1], dashArray2[1]));
+      cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArray2[2], dashArray2[2]));
+      input = true;
     }
-    cooldown=true;
   }
 
-  if(cooldown){
-    // drawLeftBottom.draw();
-    cooldown = false;
+  if(input){
+    if(cannonballs.length<3){
+      cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArray2[3], dashArray2[3]));
+      cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArray2[4], dashArray2[4]));
+      cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArray2[5], dashArray2[5]));
+      input = false;
+    }
   }
 
   if (count < 1000) {
