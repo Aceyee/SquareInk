@@ -95,7 +95,7 @@ class Particle {
         c.save();
         c.beginPath();
         c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-        c.shadowColor = "white";
+        c.shadowColor = particleShadowColor;
         c.shadowBlur = 10;
         c.shadowOffsetX = 0;
         c.shadowOffsetY = 0;
@@ -136,16 +136,6 @@ class Explosion {
             // Remove particles from scene one time to live is up
             if (this.particles[i].timeToLive < 0) {
                 this.particles.splice(i, 1);
-            }
-        }
-
-        // Render rings
-        for (var j = 0; j < this.rings.length; j++) {
-            this.rings[j].update();
-
-            // Remove rings from scene one time to live is up
-            if (this.rings[j].timeToLive < 0) {
-                this.rings.splice(i, 1);
             }
         }
     };

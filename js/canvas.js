@@ -12,9 +12,17 @@ var screenHeight = $(window).height();
 //set stroke width for drawing
 var strokeWidth = 5;
 
-// store all points in an array
-var pointsArray = [];
-var dashArray = [];
+// store all pre-defined points in an array
+var pointsArrayIntro = [];
+var dashArrayIntro = [];
+
+// store all dynamic points in an array
+var pointsArrayRandom = [];
+var dashArrayRandom = [];
+
+// store all reverse dynamic points in an array
+var pointsArrayRandomReverse = [];
+var dashArrayRandomReverse = [];
 
 const second = 2;
 const fps = 60;
@@ -27,7 +35,8 @@ const balanceResistance = 1;
 const resistance = 0.1;
 
 const cannonballColor = "aqua";
-const particleColor = "orange";
+const particleColor = "gold";
+const particleShadowColor = "orange";
 const particleRadius = 1;
 /******************************* Parameters End ******************************/
 
@@ -56,19 +65,19 @@ var drawBottomSide = {
     var p1 = new Point(screenWidth / 2 - deltaChipMainX, screenHeight);
     var p2 = new Point(screenWidth / 2 - deltaChipMainX, chipMain.bottom + chipMain.border);
     this.points1 = [p1, p2];
-    draw2Vertices(svg1, this.points1, this.dash, 1);
+    drawVertices(svg1, this.points1, this.dash, 0, 1, -1);
   },
   draw2: function () {
     this.points2 = copyPoints(this.points1);
     this.points2 = shiftPointsH(this.points2, deltaChipMainX);
-    pointsArray.push(this.points2);
-    dashArray.push(this.dash);
-    draw2Vertices(svg1, this.points2, this.dash, 1);
+    pointsArrayIntro.push(this.points2);
+    dashArrayIntro.push(this.dash);
+    drawVertices(svg1, this.points2, this.dash, 0, 1, -1);
   },
   draw3: function () {
     this.points3 = copyPoints(this.points2);
     this.points3 = shiftPointsH(this.points3, deltaChipMainX);
-    draw2Vertices(svg1, this.points3, this.dash, 1);
+    drawVertices(svg1, this.points3, this.dash, 0, 1, -1);
   }
 }
 
@@ -89,7 +98,7 @@ var drawLeftSide = {
     var p3 = new Point(p2.x, 0);
     this.points1 = [p3, p2, p1];
     this.dash1 = p2.y + Math.sqrt(2) * deltaChipMainX;
-    draw3Vertices(svg1, this.points1, this.dash1, 1);
+    drawVertices(svg1, this.points1, this.dash1, 1, 1, Math.sqrt(2) / 2);
   },
 
   draw2: function () {
@@ -101,9 +110,9 @@ var drawLeftSide = {
     this.points2 = [p4, p3, p2, p1];
 
     this.dash2 = 2 * Math.sqrt(2) * 2 * deltaChipMainX + p2.y - p3.y;
-    pointsArray.push(this.points2);
-    dashArray.push(this.dash2);
-    draw4Vertices(svg1, this.points2, this.dash2, 1, 1, 0.5 * Math.sqrt(2));
+    pointsArrayIntro.push(this.points2);
+    dashArrayIntro.push(this.dash2);
+    drawVertices(svg1, this.points2, this.dash2, 1, 1, Math.sqrt(2) / 2);
   },
 
   draw3: function () {
@@ -115,7 +124,7 @@ var drawLeftSide = {
     this.points3 = [p4, p3, p2, p1];
 
     this.dash3 = (2 + 3) * Math.sqrt(2) * deltaChipMainX + p2.y - p3.y;
-    draw4Vertices(svg1, this.points3, this.dash3, 1, 1, 0.5 * Math.sqrt(2));
+    drawVertices(svg1, this.points3, this.dash3, 1, 1, 0.5 * Math.sqrt(2));
   }
 }
 
@@ -132,21 +141,21 @@ var drawRightSide = {
     this.points1 = drawLeftSide.points1;
     this.dash1 = drawLeftSide.dash1;
     this.points1 = symmetryH(this.points1);
-    draw3Vertices(svg1, this.points1, this.dash1, -1, 1);
+    drawVertices(svg1, this.points1, this.dash1, -1, 1, Math.sqrt(2) / 2);
   },
   draw2: function () {
     this.points2 = copyPoints(drawLeftSide.points2);
     this.dash2 = drawLeftSide.dash2;
     this.points2 = symmetryH(this.points2);
-    pointsArray.push(this.points2);
-    dashArray.push(this.dash2);
-    draw4Vertices(svg1, this.points2, this.dash2, -1, 1, 0.5 * Math.sqrt(2));
+    pointsArrayIntro.push(this.points2);
+    dashArrayIntro.push(this.dash2);
+    drawVertices(svg1, this.points2, this.dash2, -1, 1, Math.sqrt(2) / 2);
   },
   draw3: function () {
     this.points3 = copyPoints(drawLeftSide.points3);
     this.dash3 = drawLeftSide.dash3;
     this.points3 = symmetryH(this.points3);
-    draw4Vertices(svg1, this.points3, this.dash3, -1, 1, 0.5 * Math.sqrt(2));
+    drawVertices(svg1, this.points3, this.dash3, -1, 1, 0.5 * Math.sqrt(2));
   }
 };
 
@@ -169,7 +178,7 @@ var drawTopSide = {
 
     this.points1 = [p4, p3, p2, p1];
     this.dash1 = p3.y + Math.sqrt(2) * deltaChipMainX + deltaChipMainX;
-    draw4Vertices(svg1, this.points1, this.dash1, 0, 1, 1);
+    drawVertices(svg1, this.points1, this.dash1, 0, 1, 1);
   },
 
   //Note: here the points1 already changed due to object oriented
@@ -178,13 +187,13 @@ var drawTopSide = {
     this.points2 = copyPoints(this.points1);
     this.points2 = shiftPointsH(this.points2, deltaChipMainX);
     this.dash2 = this.dash1;
-    draw4Vertices(svg1, this.points2, this.dash2, 0, 1, 1);
+    drawVertices(svg1, this.points2, this.dash2, 0, 1, 1);
   },
   draw3: function () {
     this.points3 = copyPoints(this.points2);
     this.points3 = shiftPointsH(this.points3, deltaChipMainX);
     this.dash3 = this.dash2;
-    draw4Vertices(svg1, this.points3, this.dash3, 0, 1, 1);
+    drawVertices(svg1, this.points3, this.dash3, 0, 1, 1);
   },
 
   /* here call symmetry horzontal function to get the points in a easier way */
@@ -192,19 +201,19 @@ var drawTopSide = {
     this.points4 = copyPoints(this.points1);
     this.points4 = symmetryH(this.points4);
     this.dash4 = this.dash1;
-    draw4Vertices(svg1, this.points4, this.dash4, 0, 1, 1);
+    drawVertices(svg1, this.points4, this.dash4, 0, 1, 1);
   },
   draw5: function () {
     this.points5 = copyPoints(this.points2);
     this.points5 = symmetryH(this.points5);
     this.dash5 = this.dash2;
-    draw4Vertices(svg1, this.points5, this.dash5, 0, 1, 1);
+    drawVertices(svg1, this.points5, this.dash5, 0, 1, 1);
   },
   draw6: function () {
     this.points5 = copyPoints(this.points3);
     this.points6 = symmetryH(this.points5);
     this.dash6 = this.dash3;
-    draw4Vertices(svg1, this.points6, this.dash6, 0, 1, 1);
+    drawVertices(svg1, this.points6, this.dash6, 0, 1, 1);
   }
 }
 
@@ -214,6 +223,204 @@ drawRightSide.draw();
 drawTopSide.draw();
 
 /******************************* SVG Draw End ********************************/
+
+var drawLeftCenter = {
+  // include three polygon lines, draw them separately in three methods
+  draw: function () {
+    this.points1 = [];
+    this.tripleArray = [];
+    this.tripleArrayReverse = [];
+    this.draw1();
+    this.draw2();
+    this.draw3();
+  },
+  /* for each draw method, decide the way points one by one, 
+      and then push these (x,y)'s to an array*/
+  draw1: function () {
+    var p1 = new Point(chipMain.left - chipMain.border, screenHeight / 2);
+    var p2 = new Point(p1.x - 3 * deltaChipMainX, p1.y - 3 * deltaChipMainX);
+    var p3 = new Point(0, p2.y);
+    this.points1 = [p3, p2, p1];
+    this.dash1 = p2.x + Math.sqrt(2) * 3 * deltaChipMainX;
+    this.tripleArray.push(this.points1);
+    dashArrayRandom.push(this.dash1);
+    dashArrayRandomReverse.push(this.dash1);
+    // drawVertices(svg1, this.points1, this.dash1, 1, 1, Math.sqrt(2) / 2);
+  },
+
+  draw2: function () {
+    this.points2 = copyPoints(this.points1);
+    this.points2 = shiftPointsV(this.points2, -deltaChipMainX);
+    this.dash2 = this.dash1;
+    this.tripleArray.push(this.points2);
+    // drawVertices(svg1, this.points2, this.dash2, 1, 1, Math.sqrt(2) / 2);
+  },
+
+  draw3: function () {
+    this.points3 = copyPoints(this.points1);
+    this.points3 = shiftPointsV(this.points3, deltaChipMainX);
+    this.dash3 = this.dash1;
+    this.tripleArray.push(this.points3);
+    pointsArrayRandom.push(this.tripleArray);
+
+
+    for(let i=0; i<this.tripleArray.length; i++){
+      let tempPoints = copyPoints(this.tripleArray[i]);
+      tempPoints = reverse(tempPoints);
+      this.tripleArrayReverse.push(tempPoints);
+    }
+    pointsArrayRandomReverse.push(this.tripleArrayReverse);
+    // drawVertices(svg1, this.points3, this.dash3, 1, 1, Math.sqrt(2) / 2);
+  }
+}
+
+var drawRightCenter = {
+  // include three polygon lines, draw them separately in three methods
+  draw: function () {
+    this.points1 = [];
+    this.tripleArray = [];
+    this.tripleArrayReverse = [];
+    this.draw1();
+    this.draw2();
+    this.draw3();
+  },
+  /* for each draw method, decide the way points one by one, 
+      and then push these (x,y)'s to an array*/
+  draw1: function () {
+    this.points1 = copyPoints(drawLeftCenter.points1);
+    this.points1 = symmetryH(this.points1);
+    this.dash1 = drawLeftCenter.dash1;
+    this.tripleArray.push(this.points1);
+    dashArrayRandom.push(this.dash1);
+    dashArrayRandomReverse.push(this.dash1);
+    // drawVertices(svg1, this.points1, this.dash1, 1, 1, Math.sqrt(2) / 2);
+  },
+
+  draw2: function () {
+    this.points2 = copyPoints(this.points1);
+    this.points2 = shiftPointsV(this.points2, -deltaChipMainX);
+    this.dash2 = this.dash1;
+    this.tripleArray.push(this.points2);
+    // drawVertices(svg1, this.points2, this.dash2, 1, 1, Math.sqrt(2) / 2);
+  },
+
+  draw3: function () {
+    this.points3 = copyPoints(this.points1);
+    this.points3 = shiftPointsV(this.points3, deltaChipMainX);
+    this.dash3 = this.dash1;
+    this.tripleArray.push(this.points3);
+    pointsArrayRandom.push(this.tripleArray);
+
+    for(let i=0; i<this.tripleArray.length; i++){
+      let tempPoints = copyPoints(this.tripleArray[i]);
+      tempPoints = reverse(tempPoints);
+      this.tripleArrayReverse.push(tempPoints);
+    }
+    pointsArrayRandomReverse.push(this.tripleArrayReverse);
+    // drawVertices(svg1, this.points3, this.dash3, 1, 1, Math.sqrt(2) / 2);
+  }
+}
+
+var drawLeftBottom = {
+  // include three polygon lines, draw them separately in three methods
+  draw: function () {
+    this.points1 = [];
+    this.tripleArray = [];
+    this.tripleArrayReverse = [];
+    this.draw1();
+    this.draw2();
+    this.draw3();
+  },
+  /* for each draw method, decide the way points one by one, 
+      and then push these (x,y)'s to an array*/
+  draw1: function () {
+    var p1 = new Point(chipMain.left - chipMain.border, screenHeight - chipMain.top);
+    var p2 = new Point(p1.x - 3 * deltaChipMainX, p1.y + 3 * deltaChipMainX);
+    var p3 = new Point(0, p2.y);
+    this.points1 = [p3, p2, p1];
+    this.dash1 = p2.x + Math.sqrt(2) * 3 * deltaChipMainX;
+    this.tripleArray.push(this.points1);
+    dashArrayRandom.push(this.dash1);
+    dashArrayRandomReverse.push(this.dash1);
+    // drawVertices(svg1, this.points1, this.dash1, 1, -1, Math.sqrt(2) / 2);
+  },
+
+  draw2: function () {
+    this.points2 = copyPoints(this.points1);
+    this.points2 = shiftPointsV(this.points2, -deltaChipMainX);
+    this.dash2 = this.dash1;
+    this.tripleArray.push(this.points2);
+    // drawVertices(svg1, this.points2, this.dash2, 1, -1, Math.sqrt(2) / 2);
+  },
+
+  draw3: function () {
+    this.points3 = copyPoints(this.points2);
+    this.points3 = shiftPointsV(this.points3, -deltaChipMainX);
+    this.dash3 = this.dash1;
+    this.tripleArray.push(this.points3);
+    pointsArrayRandom.push(this.tripleArray);
+
+    for(let i=0; i<this.tripleArray.length; i++){
+      let tempPoints = copyPoints(this.tripleArray[i]);
+      tempPoints = reverse(tempPoints);
+      this.tripleArrayReverse.push(tempPoints);
+    }
+    pointsArrayRandomReverse.push(this.tripleArrayReverse);
+    // drawVertices(svg1, this.points3, this.dash3, 1, -1, Math.sqrt(2) / 2);
+  }
+}
+
+var drawRightBottom = {
+  // include three polygon lines, draw them separately in three methods
+  draw: function () {
+    this.points1 = [];
+    this.tripleArray = [];
+    this.tripleArrayReverse = [];
+    this.draw1();
+    this.draw2();
+    this.draw3();
+  },
+  /* for each draw method, decide the way points one by one, 
+      and then push these (x,y)'s to an array*/
+  draw1: function () {
+    this.points1 = copyPoints(drawLeftBottom.points1);
+    this.points1 = symmetryH(this.points1);
+    this.dash1 = drawLeftBottom.dash1;
+    this.tripleArray.push(this.points1);
+    dashArrayRandom.push(this.dash1);
+    dashArrayRandomReverse.push(this.dash1);
+    // drawVertices(svg1, this.points1, this.dash1, 1, -1, Math.sqrt(2) / 2);
+  },
+
+  draw2: function () {
+    this.points2 = copyPoints(this.points1);
+    this.points2 = shiftPointsV(this.points2, -deltaChipMainX);
+    this.dash2 = this.dash1;
+    this.tripleArray.push(this.points2);
+    // drawVertices(svg1, this.points2, this.dash2, 1, -1, Math.sqrt(2) / 2);
+  },
+
+  draw3: function () {
+    this.points3 = copyPoints(this.points2);
+    this.points3 = shiftPointsV(this.points3, -deltaChipMainX);
+    this.dash3 = this.dash1;
+    this.tripleArray.push(this.points3);
+    pointsArrayRandom.push(this.tripleArray);
+
+    for(let i=0; i<this.tripleArray.length; i++){
+      let tempPoints = copyPoints(this.tripleArray[i]);
+      tempPoints = reverse(tempPoints);
+      this.tripleArrayReverse.push(tempPoints);
+    }
+    pointsArrayRandomReverse.push(this.tripleArrayReverse);
+    // drawVertices(svg1, this.points3, this.dash3, 1, -1, Math.sqrt(2) / 2);
+  }
+}
+
+drawLeftCenter.draw();
+drawLeftBottom.draw();
+drawRightCenter.draw();
+drawRightBottom.draw();
 
 /******************************* Canvas Draw *********************************/
 
@@ -225,6 +432,7 @@ canvas.height = screenHeight;
 
 var cannonballs = [];
 var explosions = [];
+var input = false;
 
 var end = false;
 var count = 0;
@@ -236,8 +444,8 @@ function animate() {
   c.fillRect(0, 0, canvas.width, canvas.height);
 
   if (!end) {
-    for (let i = 0; i < pointsArray.length; i++) {
-      cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArray[i], dashArray[i]));
+    for (let i = 0; i < pointsArrayIntro.length; i++) {
+      cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArrayIntro[i], dashArrayIntro[i]));
     }
   }
   end = true;
@@ -257,8 +465,28 @@ function animate() {
   //if all partcicles are done, delete this explosion
   for (let i = 0; i < explosions.length; i++) {
     explosions[i].update();
-    if (explosions[0].particles.length <= 0) {
-      explosions.splice(0, 1);
+    if (explosions[i].particles.length <= 0) {
+      explosions.splice(i, 1);
+    }
+  }
+
+  if (explosions.length <= 0) {
+    if (cannonballs.length < 3) {
+      let index = Math.floor(Math.random()*4);
+      cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArrayRandom[index][0], dashArrayRandom[index]));
+      cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArrayRandom[index][1], dashArrayRandom[index]));
+      cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArrayRandom[index][2], dashArrayRandom[index]));
+      input = true;
+    }
+  }
+
+  if (input) {
+    if (cannonballs.length < 3) {
+      let index = Math.floor(Math.random()*4);
+      cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArrayRandomReverse[index][0], dashArrayRandomReverse[index]));
+      cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArrayRandomReverse[index][1], dashArrayRandomReverse[index]));
+      cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArrayRandomReverse[index][2], dashArrayRandomReverse[index]));
+      input = false;
     }
   }
 
@@ -267,6 +495,12 @@ function animate() {
   } else {
     count = 0;
   }
+
+  // if (cooldown) {
+  //   setTimeout(function () {
+  //     cooldown = true;
+  //   }, 1000);
+  // }
 }
 animate();
 /******************************* Canvas Draw End *****************************/

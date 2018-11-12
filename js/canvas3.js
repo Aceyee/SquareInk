@@ -33,7 +33,7 @@ var drawBottomSide = {
         var p2 = new Point(screenWidth / 2 - deltaChipMainX, chipMessage.bottom + chipMessage.border);
         var points = [p1, p2];
         for (var count = 0; count < 3; count++) {
-            draw2Vertices(svg3, points, dash, 1);
+            drawVertices(svg3, points, dash, 0, 1, -1);
             points = shiftPointsH(points, deltaChipMainX);
         }
     }
@@ -47,7 +47,7 @@ var drawTopSide = {
         var p2 = new Point(screenWidth / 2 - deltaChipMainX, chipMessage.top - chipMessage.border);
         var points = [p1, p2];
         for (var count = 0; count < 3; count++) {
-            draw2Vertices(svg3, points, dash, -1);
+            drawVertices(svg3, points, dash, 0, -1, -1);
             points = shiftPointsH(points, deltaChipMainX);
         }
     }
