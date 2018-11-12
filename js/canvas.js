@@ -12,9 +12,15 @@ var screenHeight = $(window).height();
 //set stroke width for drawing
 var strokeWidth = 5;
 
-// store all points in an array
+// store all pre-defined points in an array
 var pointsArray = [];
+// store all dynamic points in an array
+var pointsArray2 = [];
+
 var dashArray = [];
+
+var dashArray2 = [];
+
 
 const second = 2;
 const fps = 60;
@@ -231,6 +237,8 @@ var drawLeftCenter = {
     var p3 = new Point(0, p2.y);
     this.points1 = [p3, p2, p1];
     this.dash1 = p2.x + Math.sqrt(2) * 3 * deltaChipMainX;
+    pointsArray2.push(this.points1);
+    dashArray2.push(this.dash1);
     drawVertices(svg1, this.points1, this.dash1, 1, 1, Math.sqrt(2) / 2);
   },
 
@@ -238,6 +246,8 @@ var drawLeftCenter = {
     this.points2 = copyPoints(this.points1);
     this.points2 = shiftPointsV(this.points2, -deltaChipMainX);
     this.dash2 = this.dash1;
+    pointsArray2.push(this.points2);
+    dashArray2.push(this.dash2);
     drawVertices(svg1, this.points2, this.dash2, 1, 1, Math.sqrt(2) / 2);
   },
 
@@ -245,6 +255,8 @@ var drawLeftCenter = {
     this.points3 = copyPoints(this.points1);
     this.points3 = shiftPointsV(this.points3, deltaChipMainX);
     this.dash3 = this.dash1;
+    pointsArray2.push(this.points3);
+    dashArray2.push(this.dash3);
     drawVertices(svg1, this.points3, this.dash3, 1, 1, Math.sqrt(2) / 2);
   }
 }
@@ -284,9 +296,7 @@ var drawLeftBottom = {
 }
 
 drawLeftCenter.draw();
-drawLeftBottom.draw();
-
-
+// drawLeftBottom.draw();
 
 /******************************* Canvas Draw *********************************/
 
@@ -298,6 +308,7 @@ canvas.height = screenHeight;
 
 var cannonballs = [];
 var explosions = [];
+var cooldown = false;
 
 var end = false;
 var count = 0;
@@ -330,9 +341,21 @@ function animate() {
   //if all partcicles are done, delete this explosion
   for (let i = 0; i < explosions.length; i++) {
     explosions[i].update();
-    if (explosions[0].particles.length <= 0) {
-      explosions.splice(0, 1);
+    if (explosions[i].particles.length <= 0) {
+      explosions.splice(i, 1);
     }
+  }
+
+  if(explosions.length<=0){
+    if(cannonballs.length<1){
+      cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArray2[0], dashArray2[0]));
+    }
+    cooldown=true;
+  }
+
+  if(cooldown){
+    // drawLeftBottom.draw();
+    cooldown = false;
   }
 
   if (count < 1000) {
@@ -340,6 +363,12 @@ function animate() {
   } else {
     count = 0;
   }
+
+  // if (cooldown) {
+  //   setTimeout(function () {
+  //     cooldown = true;
+  //   }, 1000);
+  // }
 }
 animate();
 /******************************* Canvas Draw End *****************************/

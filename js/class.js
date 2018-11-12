@@ -138,15 +138,8 @@ class Explosion {
                 this.particles.splice(i, 1);
             }
         }
-
-        // Render rings
-        for (var j = 0; j < this.rings.length; j++) {
-            this.rings[j].update();
-
-            // Remove rings from scene one time to live is up
-            if (this.rings[j].timeToLive < 0) {
-                this.rings.splice(i, 1);
-            }
+        if(this.particles.length==0){
+            cooldown = true;
         }
     };
 }
