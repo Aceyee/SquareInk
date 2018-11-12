@@ -495,12 +495,6 @@ function animate() {
   } else {
     count = 0;
   }
-
-  // if (cooldown) {
-  //   setTimeout(function () {
-  //     cooldown = true;
-  //   }, 1000);
-  // }
 }
 animate();
 /******************************* Canvas Draw End *****************************/
