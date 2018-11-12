@@ -20,6 +20,10 @@ var dashArrayIntro = [];
 var pointsArrayRandom = [];
 var dashArrayRandom = [];
 
+// store all reverse dynamic points in an array
+var pointsArrayRandomReverse = [];
+var dashArrayRandomReverse = [];
+
 const second = 2;
 const fps = 60;
 const lambda = second * fps;
@@ -219,11 +223,13 @@ drawRightSide.draw();
 drawTopSide.draw();
 
 /******************************* SVG Draw End ********************************/
+
 var drawLeftCenter = {
   // include three polygon lines, draw them separately in three methods
   draw: function () {
     this.points1 = [];
     this.tripleArray = [];
+    this.tripleArrayReverse = [];
     this.draw1();
     this.draw2();
     this.draw3();
@@ -238,6 +244,7 @@ var drawLeftCenter = {
     this.dash1 = p2.x + Math.sqrt(2) * 3 * deltaChipMainX;
     this.tripleArray.push(this.points1);
     dashArrayRandom.push(this.dash1);
+    dashArrayRandomReverse.push(this.dash1);
     // drawVertices(svg1, this.points1, this.dash1, 1, 1, Math.sqrt(2) / 2);
   },
 
@@ -255,6 +262,14 @@ var drawLeftCenter = {
     this.dash3 = this.dash1;
     this.tripleArray.push(this.points3);
     pointsArrayRandom.push(this.tripleArray);
+
+
+    for(let i=0; i<this.tripleArray.length; i++){
+      let tempPoints = copyPoints(this.tripleArray[i]);
+      tempPoints = reverse(tempPoints);
+      this.tripleArrayReverse.push(tempPoints);
+    }
+    pointsArrayRandomReverse.push(this.tripleArrayReverse);
     // drawVertices(svg1, this.points3, this.dash3, 1, 1, Math.sqrt(2) / 2);
   }
 }
@@ -264,6 +279,7 @@ var drawRightCenter = {
   draw: function () {
     this.points1 = [];
     this.tripleArray = [];
+    this.tripleArrayReverse = [];
     this.draw1();
     this.draw2();
     this.draw3();
@@ -276,6 +292,7 @@ var drawRightCenter = {
     this.dash1 = drawLeftCenter.dash1;
     this.tripleArray.push(this.points1);
     dashArrayRandom.push(this.dash1);
+    dashArrayRandomReverse.push(this.dash1);
     // drawVertices(svg1, this.points1, this.dash1, 1, 1, Math.sqrt(2) / 2);
   },
 
@@ -293,6 +310,13 @@ var drawRightCenter = {
     this.dash3 = this.dash1;
     this.tripleArray.push(this.points3);
     pointsArrayRandom.push(this.tripleArray);
+
+    for(let i=0; i<this.tripleArray.length; i++){
+      let tempPoints = copyPoints(this.tripleArray[i]);
+      tempPoints = reverse(tempPoints);
+      this.tripleArrayReverse.push(tempPoints);
+    }
+    pointsArrayRandomReverse.push(this.tripleArrayReverse);
     // drawVertices(svg1, this.points3, this.dash3, 1, 1, Math.sqrt(2) / 2);
   }
 }
@@ -302,6 +326,7 @@ var drawLeftBottom = {
   draw: function () {
     this.points1 = [];
     this.tripleArray = [];
+    this.tripleArrayReverse = [];
     this.draw1();
     this.draw2();
     this.draw3();
@@ -316,6 +341,7 @@ var drawLeftBottom = {
     this.dash1 = p2.x + Math.sqrt(2) * 3 * deltaChipMainX;
     this.tripleArray.push(this.points1);
     dashArrayRandom.push(this.dash1);
+    dashArrayRandomReverse.push(this.dash1);
     // drawVertices(svg1, this.points1, this.dash1, 1, -1, Math.sqrt(2) / 2);
   },
 
@@ -333,6 +359,13 @@ var drawLeftBottom = {
     this.dash3 = this.dash1;
     this.tripleArray.push(this.points3);
     pointsArrayRandom.push(this.tripleArray);
+
+    for(let i=0; i<this.tripleArray.length; i++){
+      let tempPoints = copyPoints(this.tripleArray[i]);
+      tempPoints = reverse(tempPoints);
+      this.tripleArrayReverse.push(tempPoints);
+    }
+    pointsArrayRandomReverse.push(this.tripleArrayReverse);
     // drawVertices(svg1, this.points3, this.dash3, 1, -1, Math.sqrt(2) / 2);
   }
 }
@@ -342,6 +375,7 @@ var drawRightBottom = {
   draw: function () {
     this.points1 = [];
     this.tripleArray = [];
+    this.tripleArrayReverse = [];
     this.draw1();
     this.draw2();
     this.draw3();
@@ -354,6 +388,7 @@ var drawRightBottom = {
     this.dash1 = drawLeftBottom.dash1;
     this.tripleArray.push(this.points1);
     dashArrayRandom.push(this.dash1);
+    dashArrayRandomReverse.push(this.dash1);
     // drawVertices(svg1, this.points1, this.dash1, 1, -1, Math.sqrt(2) / 2);
   },
 
@@ -371,6 +406,13 @@ var drawRightBottom = {
     this.dash3 = this.dash1;
     this.tripleArray.push(this.points3);
     pointsArrayRandom.push(this.tripleArray);
+
+    for(let i=0; i<this.tripleArray.length; i++){
+      let tempPoints = copyPoints(this.tripleArray[i]);
+      tempPoints = reverse(tempPoints);
+      this.tripleArrayReverse.push(tempPoints);
+    }
+    pointsArrayRandomReverse.push(this.tripleArrayReverse);
     // drawVertices(svg1, this.points3, this.dash3, 1, -1, Math.sqrt(2) / 2);
   }
 }
@@ -430,8 +472,7 @@ function animate() {
 
   if (explosions.length <= 0) {
     if (cannonballs.length < 3) {
-      // let index = Math.floor(Math.random());
-      let index = 0;
+      let index = Math.floor(Math.random()*4);
       cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArrayRandom[index][0], dashArrayRandom[index]));
       cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArrayRandom[index][1], dashArrayRandom[index]));
       cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArrayRandom[index][2], dashArrayRandom[index]));
@@ -441,11 +482,10 @@ function animate() {
 
   if (input) {
     if (cannonballs.length < 3) {
-      // let index = Math.floor(Math.random());
-      let index = 3;
-      cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArrayRandom[index][0], dashArrayRandom[index]));
-      cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArrayRandom[index][1], dashArrayRandom[index]));
-      cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArrayRandom[index][2], dashArrayRandom[index]));
+      let index = Math.floor(Math.random()*4);
+      cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArrayRandomReverse[index][0], dashArrayRandomReverse[index]));
+      cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArrayRandomReverse[index][1], dashArrayRandomReverse[index]));
+      cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArrayRandomReverse[index][2], dashArrayRandomReverse[index]));
       input = false;
     }
   }

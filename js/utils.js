@@ -53,13 +53,21 @@ var symmetryH = function (points) {
 /* reverse() will reverse an array of points */
 // e.g. a = [(4,2),(2,3)];
 //      reverse(a) = [(2,3),(4,2)];
+// var reverse = function (points) {
+//     var reversePoints = [];
+//     for (var i = 0; i < points.length - 1; i += 2) {
+//         var x = points[i];
+//         var y = points[i + 1];
+//         reversePoints.unshift(y);
+//         reversePoints.unshift(x);
+//     }
+//     return reversePoints;
+// }
+
 var reverse = function (points) {
     var reversePoints = [];
-    for (var i = 0; i < points.length - 1; i += 2) {
-        var x = points[i];
-        var y = points[i + 1];
-        reversePoints.unshift(y);
-        reversePoints.unshift(x);
+    for (var i = points.length-1; i >= 0; i --) {
+        reversePoints.push(points[i]);
     }
     return reversePoints;
 }
