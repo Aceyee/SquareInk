@@ -95,10 +95,6 @@ class Particle {
         c.save();
         c.beginPath();
         c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-        // c.shadowColor = particleShadowColor;
-        // c.shadowBlur = 10;
-        // c.shadowOffsetX = 0;
-        // c.shadowOffsetY = 0;
         c.fillStyle = this.color;
         c.fill();
         c.closePath();
@@ -118,12 +114,6 @@ class Explosion {
         for (var i = 0; i < explosionParts; i++) {
             var dx = (Math.random() * 8) - 4;
             var dy = (Math.random() * 6) - 3;
-
-            // var hue = (255 / 5) * i;
-            // var color = "hsl(" + hue + ", 100%, 50%)";
-            // var randomColorIndex = Math.floor(Math.random() * this.source.particleColors.length);
-            // var randomParticleColor = this.source.particleColors[randomColorIndex];
-            // var randomParticleColor = particleColor;
             var radius = Math.random() * 0.8 + particleRadius;
             this.particles.push(new Particle(this.source.x, this.source.y, dx, dy, radius, particleColor));
         }
@@ -166,8 +156,8 @@ class Cannonball {
 
     update(points = this.points) {
         if (this.currIndex < this.lastIndex) {
-            if (Math.abs(this.x - points[this.currIndex + 1].x) > 1 ||
-                Math.abs(this.y - points[this.currIndex + 1].y) > 1) {
+            if (Math.abs(this.x - points[this.currIndex + 1].x) > 2 ||
+                Math.abs(this.y - points[this.currIndex + 1].y) > 2) {
                 //nothing
             } else {
                 this.currIndex += 1;
@@ -191,10 +181,6 @@ class Cannonball {
         c.save();
         c.beginPath();
         c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-        // c.shadowColor = this.color;
-        // c.shadowBlur = 5;
-        // c.shadowOffsetX = 0;
-        // c.shadowOffsetY = 0;
         c.fillStyle = this.color;
         c.fill();
         c.closePath();
