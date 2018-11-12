@@ -4,52 +4,8 @@
  *  Description: provided helper functions for canvas
  */
 
-/* draw2Vertices() will draw a polygon that contains 2 vertices only */
-var draw2Vertices = function (svg, points, dash, moveCircleDirection) {
-    // draw polygon
-    var lastIndex = points.length - 1;
-    var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
-    newElement.setAttribute("class", "draw");
-    newElement.setAttribute("points", points);
-    newElement.style.strokeDasharray = dash;
-    newElement.style.strokeDashoffset = dash;
-
-    svg.appendChild(newElement);
-
-    // draw socket/circle
-    newElement = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
-    newElement.setAttribute("class", "socket");
-    newElement.setAttribute("cx", points[lastIndex].x);
-    newElement.setAttribute("cy", points[lastIndex].y - moveCircleDirection * strokeWidth);
-    newElement.setAttribute("r", strokeWidth);
-    newElement.setAttribute("stroke-width", strokeWidth / 2);
-    svg.appendChild(newElement);
-}
-
-/* draw2Vertices() will draw a polygon that contains 3 vertices */
-var draw3Vertices = function (svg, points, dash, moveCircleDirection) {
-    var lastIndex = points.length - 1;
-
-    // draw polygon
-    var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
-    newElement.setAttribute("class", "draw");
-    newElement.setAttribute("points", points);
-    newElement.style.strokeDasharray = dash;
-    newElement.style.strokeDashoffset = dash;
-    svg.appendChild(newElement);
-
-    // draw socket/circle
-    newElement = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
-    newElement.setAttribute("class", "socket");
-    newElement.setAttribute("cx", points[lastIndex].x + 0.5 * Math.sqrt(2) * moveCircleDirection * strokeWidth);
-    newElement.setAttribute("cy", points[lastIndex].y + 0.5 * Math.sqrt(2) * strokeWidth);
-    newElement.setAttribute("r", strokeWidth);
-    newElement.setAttribute("stroke-width", strokeWidth / 2);
-    svg.appendChild(newElement);
-}
-
 /* draw2Vertices() will draw a polygon that contains 4 vertices */
-var draw4Vertices = function (svg, points, dash, moveCircleH, moveCircleV, slopeFix) {
+var drawVertices = function (svg, points, dash, moveCircleH, moveCircleV, slopeFix) {
     var lastIndex = points.length - 1;
 
     // draw polygon

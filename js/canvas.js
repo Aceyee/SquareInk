@@ -57,19 +57,19 @@ var drawBottomSide = {
     var p1 = new Point(screenWidth / 2 - deltaChipMainX, screenHeight);
     var p2 = new Point(screenWidth / 2 - deltaChipMainX, chipMain.bottom + chipMain.border);
     this.points1 = [p1, p2];
-    draw2Vertices(svg1, this.points1, this.dash, 1);
+    drawVertices(svg1, this.points1, this.dash, 0, 1, -1);
   },
   draw2: function () {
     this.points2 = copyPoints(this.points1);
     this.points2 = shiftPointsH(this.points2, deltaChipMainX);
     pointsArray.push(this.points2);
     dashArray.push(this.dash);
-    draw2Vertices(svg1, this.points2, this.dash, 1);
+    drawVertices(svg1, this.points2, this.dash, 0, 1, -1);
   },
   draw3: function () {
     this.points3 = copyPoints(this.points2);
     this.points3 = shiftPointsH(this.points3, deltaChipMainX);
-    draw2Vertices(svg1, this.points3, this.dash, 1);
+    drawVertices(svg1, this.points3, this.dash, 0, 1, -1);
   }
 }
 
@@ -90,7 +90,7 @@ var drawLeftSide = {
     var p3 = new Point(p2.x, 0);
     this.points1 = [p3, p2, p1];
     this.dash1 = p2.y + Math.sqrt(2) * deltaChipMainX;
-    draw3Vertices(svg1, this.points1, this.dash1, 1);
+    drawVertices(svg1, this.points1, this.dash1, 1, 1, Math.sqrt(2) / 2);
   },
 
   draw2: function () {
@@ -104,7 +104,7 @@ var drawLeftSide = {
     this.dash2 = 2 * Math.sqrt(2) * 2 * deltaChipMainX + p2.y - p3.y;
     pointsArray.push(this.points2);
     dashArray.push(this.dash2);
-    draw4Vertices(svg1, this.points2, this.dash2, 1, 1, 0.5 * Math.sqrt(2));
+    drawVertices(svg1, this.points2, this.dash2, 1, 1, Math.sqrt(2) / 2);
   },
 
   draw3: function () {
@@ -116,7 +116,7 @@ var drawLeftSide = {
     this.points3 = [p4, p3, p2, p1];
 
     this.dash3 = (2 + 3) * Math.sqrt(2) * deltaChipMainX + p2.y - p3.y;
-    draw4Vertices(svg1, this.points3, this.dash3, 1, 1, 0.5 * Math.sqrt(2));
+    drawVertices(svg1, this.points3, this.dash3, 1, 1, 0.5 * Math.sqrt(2));
   }
 }
 
@@ -133,7 +133,7 @@ var drawRightSide = {
     this.points1 = drawLeftSide.points1;
     this.dash1 = drawLeftSide.dash1;
     this.points1 = symmetryH(this.points1);
-    draw3Vertices(svg1, this.points1, this.dash1, -1, 1);
+    drawVertices(svg1, this.points1, this.dash1, -1, 1, Math.sqrt(2) / 2);
   },
   draw2: function () {
     this.points2 = copyPoints(drawLeftSide.points2);
@@ -141,13 +141,13 @@ var drawRightSide = {
     this.points2 = symmetryH(this.points2);
     pointsArray.push(this.points2);
     dashArray.push(this.dash2);
-    draw4Vertices(svg1, this.points2, this.dash2, -1, 1, 0.5 * Math.sqrt(2));
+    drawVertices(svg1, this.points2, this.dash2, -1, 1, Math.sqrt(2) / 2);
   },
   draw3: function () {
     this.points3 = copyPoints(drawLeftSide.points3);
     this.dash3 = drawLeftSide.dash3;
     this.points3 = symmetryH(this.points3);
-    draw4Vertices(svg1, this.points3, this.dash3, -1, 1, 0.5 * Math.sqrt(2));
+    drawVertices(svg1, this.points3, this.dash3, -1, 1, 0.5 * Math.sqrt(2));
   }
 };
 
@@ -170,7 +170,7 @@ var drawTopSide = {
 
     this.points1 = [p4, p3, p2, p1];
     this.dash1 = p3.y + Math.sqrt(2) * deltaChipMainX + deltaChipMainX;
-    draw4Vertices(svg1, this.points1, this.dash1, 0, 1, 1);
+    drawVertices(svg1, this.points1, this.dash1, 0, 1, 1);
   },
 
   //Note: here the points1 already changed due to object oriented
@@ -179,13 +179,13 @@ var drawTopSide = {
     this.points2 = copyPoints(this.points1);
     this.points2 = shiftPointsH(this.points2, deltaChipMainX);
     this.dash2 = this.dash1;
-    draw4Vertices(svg1, this.points2, this.dash2, 0, 1, 1);
+    drawVertices(svg1, this.points2, this.dash2, 0, 1, 1);
   },
   draw3: function () {
     this.points3 = copyPoints(this.points2);
     this.points3 = shiftPointsH(this.points3, deltaChipMainX);
     this.dash3 = this.dash2;
-    draw4Vertices(svg1, this.points3, this.dash3, 0, 1, 1);
+    drawVertices(svg1, this.points3, this.dash3, 0, 1, 1);
   },
 
   /* here call symmetry horzontal function to get the points in a easier way */
@@ -193,19 +193,19 @@ var drawTopSide = {
     this.points4 = copyPoints(this.points1);
     this.points4 = symmetryH(this.points4);
     this.dash4 = this.dash1;
-    draw4Vertices(svg1, this.points4, this.dash4, 0, 1, 1);
+    drawVertices(svg1, this.points4, this.dash4, 0, 1, 1);
   },
   draw5: function () {
     this.points5 = copyPoints(this.points2);
     this.points5 = symmetryH(this.points5);
     this.dash5 = this.dash2;
-    draw4Vertices(svg1, this.points5, this.dash5, 0, 1, 1);
+    drawVertices(svg1, this.points5, this.dash5, 0, 1, 1);
   },
   draw6: function () {
     this.points5 = copyPoints(this.points3);
     this.points6 = symmetryH(this.points5);
     this.dash6 = this.dash3;
-    draw4Vertices(svg1, this.points6, this.dash6, 0, 1, 1);
+    drawVertices(svg1, this.points6, this.dash6, 0, 1, 1);
   }
 }
 
@@ -226,26 +226,26 @@ var drawLeftCenter = {
   /* for each draw method, decide the way points one by one, 
       and then push these (x,y)'s to an array*/
   draw1: function () {
-    var p1 = new Point(chipMain.left - chipMain.border, screenHeight/2);
-    var p2 = new Point(p1.x - 3* deltaChipMainX, p1.y - 3* deltaChipMainX);
+    var p1 = new Point(chipMain.left - chipMain.border, screenHeight / 2);
+    var p2 = new Point(p1.x - 3 * deltaChipMainX, p1.y - 3 * deltaChipMainX);
     var p3 = new Point(0, p2.y);
     this.points1 = [p3, p2, p1];
-    this.dash1 = p2.x + Math.sqrt(2)* 3 * deltaChipMainX;
-    draw3Vertices(svg1, this.points1, this.dash1, 1);
+    this.dash1 = p2.x + Math.sqrt(2) * 3 * deltaChipMainX;
+    drawVertices(svg1, this.points1, this.dash1, 1, 1, Math.sqrt(2) / 2);
   },
 
   draw2: function () {
     this.points2 = copyPoints(this.points1);
     this.points2 = shiftPointsV(this.points2, -deltaChipMainX);
     this.dash2 = this.dash1;
-    draw3Vertices(svg1, this.points2, this.dash2, 1);    
+    drawVertices(svg1, this.points2, this.dash2, 1, 1, Math.sqrt(2) / 2);
   },
 
   draw3: function () {
     this.points3 = copyPoints(this.points1);
     this.points3 = shiftPointsV(this.points3, deltaChipMainX);
     this.dash3 = this.dash1;
-    draw3Vertices(svg1, this.points3, this.dash3, 1);  
+    drawVertices(svg1, this.points3, this.dash3, 1, 1, Math.sqrt(2) / 2);
   }
 }
 
@@ -260,26 +260,26 @@ var drawLeftBottom = {
   /* for each draw method, decide the way points one by one, 
       and then push these (x,y)'s to an array*/
   draw1: function () {
-    var p1 = new Point(chipMain.left - chipMain.border, screenHeight-chipMain.top);
-    var p2 = new Point(p1.x - 3* deltaChipMainX, p1.y + 3* deltaChipMainX);
+    var p1 = new Point(chipMain.left - chipMain.border, screenHeight - chipMain.top);
+    var p2 = new Point(p1.x - 3 * deltaChipMainX, p1.y + 3 * deltaChipMainX);
     var p3 = new Point(0, p2.y);
     this.points1 = [p3, p2, p1];
-    this.dash1 = p2.x + Math.sqrt(2)* 3 * deltaChipMainX;
-    draw3Vertices(svg1, this.points1, this.dash1, 1);
+    this.dash1 = p2.x + Math.sqrt(2) * 3 * deltaChipMainX;
+    drawVertices(svg1, this.points1, this.dash1, 1, -1, Math.sqrt(2) / 2);
   },
 
   draw2: function () {
     this.points2 = copyPoints(this.points1);
     this.points2 = shiftPointsV(this.points2, -deltaChipMainX);
     this.dash2 = this.dash1;
-    draw3Vertices(svg1, this.points2, this.dash2, 1);    
+    drawVertices(svg1, this.points2, this.dash2, 1, -1, Math.sqrt(2) / 2);
   },
 
   draw3: function () {
     this.points3 = copyPoints(this.points2);
     this.points3 = shiftPointsV(this.points3, -deltaChipMainX);
     this.dash3 = this.dash1;
-    draw3Vertices(svg1, this.points3, this.dash3, 1);  
+    drawVertices(svg1, this.points3, this.dash3, 1, -1, Math.sqrt(2) / 2);
   }
 }
 
