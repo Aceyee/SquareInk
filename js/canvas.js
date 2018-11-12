@@ -27,7 +27,8 @@ const balanceResistance = 1;
 const resistance = 0.1;
 
 const cannonballColor = "aqua";
-const particleColor = "orange";
+const particleColor = "gold";
+const particleShadowColor = "orange";
 const particleRadius = 1;
 /******************************* Parameters End ******************************/
 
@@ -214,6 +215,78 @@ drawRightSide.draw();
 drawTopSide.draw();
 
 /******************************* SVG Draw End ********************************/
+var drawLeftCenter = {
+  // include three polygon lines, draw them separately in three methods
+  draw: function () {
+    this.points1 = [];
+    this.draw1();
+    this.draw2();
+    this.draw3();
+  },
+  /* for each draw method, decide the way points one by one, 
+      and then push these (x,y)'s to an array*/
+  draw1: function () {
+    var p1 = new Point(chipMain.left - chipMain.border, screenHeight/2);
+    var p2 = new Point(p1.x - 3* deltaChipMainX, p1.y - 3* deltaChipMainX);
+    var p3 = new Point(0, p2.y);
+    this.points1 = [p3, p2, p1];
+    this.dash1 = p2.x + Math.sqrt(2)* 3 * deltaChipMainX;
+    draw3Vertices(svg1, this.points1, this.dash1, 1);
+  },
+
+  draw2: function () {
+    this.points2 = copyPoints(this.points1);
+    this.points2 = shiftPointsV(this.points2, -deltaChipMainX);
+    this.dash2 = this.dash1;
+    draw3Vertices(svg1, this.points2, this.dash2, 1);    
+  },
+
+  draw3: function () {
+    this.points3 = copyPoints(this.points1);
+    this.points3 = shiftPointsV(this.points3, deltaChipMainX);
+    this.dash3 = this.dash1;
+    draw3Vertices(svg1, this.points3, this.dash3, 1);  
+  }
+}
+
+var drawLeftBottom = {
+  // include three polygon lines, draw them separately in three methods
+  draw: function () {
+    this.points1 = [];
+    this.draw1();
+    this.draw2();
+    this.draw3();
+  },
+  /* for each draw method, decide the way points one by one, 
+      and then push these (x,y)'s to an array*/
+  draw1: function () {
+    var p1 = new Point(chipMain.left - chipMain.border, screenHeight-chipMain.top);
+    var p2 = new Point(p1.x - 3* deltaChipMainX, p1.y + 3* deltaChipMainX);
+    var p3 = new Point(0, p2.y);
+    this.points1 = [p3, p2, p1];
+    this.dash1 = p2.x + Math.sqrt(2)* 3 * deltaChipMainX;
+    draw3Vertices(svg1, this.points1, this.dash1, 1);
+  },
+
+  draw2: function () {
+    this.points2 = copyPoints(this.points1);
+    this.points2 = shiftPointsV(this.points2, -deltaChipMainX);
+    this.dash2 = this.dash1;
+    draw3Vertices(svg1, this.points2, this.dash2, 1);    
+  },
+
+  draw3: function () {
+    this.points3 = copyPoints(this.points2);
+    this.points3 = shiftPointsV(this.points3, -deltaChipMainX);
+    this.dash3 = this.dash1;
+    draw3Vertices(svg1, this.points3, this.dash3, 1);  
+  }
+}
+
+drawLeftCenter.draw();
+drawLeftBottom.draw();
+
+
 
 /******************************* Canvas Draw *********************************/
 

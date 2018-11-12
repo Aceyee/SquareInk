@@ -78,6 +78,14 @@ var shiftPointsH = function (points, length) {
     return points;
 }
 
+/* shiftPointsH() shifts points vertically, given length */
+var shiftPointsV = function (points, length) {
+    for (var i = 0; i < points.length; i++) {
+        points[i].y += length;
+    }
+    return points;
+}
+
 /* symmetryH() symmetry points horizontally, by the screen width*/
 var symmetryH = function (points) {
     for (var i = 0; i < points.length; i++) {

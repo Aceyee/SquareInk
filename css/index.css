@@ -74,6 +74,7 @@ svg .draw{
     width: 100%;
     height: 100%;
     background:radial-gradient(#022B2F, black);
+    /* background:linear-gradient(black,#022B2F, rgb(0, 14, 15)); */
     z-index: 0;
 }
 

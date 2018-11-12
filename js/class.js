@@ -95,7 +95,7 @@ class Particle {
         c.save();
         c.beginPath();
         c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-        c.shadowColor = "white";
+        c.shadowColor = particleShadowColor;
         c.shadowBlur = 10;
         c.shadowOffsetX = 0;
         c.shadowOffsetY = 0;
