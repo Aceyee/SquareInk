@@ -63,44 +63,22 @@ svg .circuit-fade{
     /* -webkit-animation: animate 2s ease 1; */
 }
 
-
-
-/****************************** BLOCK 1 ***********************************/
-#block1{
+.block{
+    position: absolute;
     width: 100%;
     height: 100%;
-    /* background:radial-gradient(#022B2F, black); */
-    background-color: black;
     z-index: 0;
 }
 
-#chipMain{
-    width: 20rem; 
-    height: 20rem; 
-}
-
-#chipMain p{
-    position: relative;
-    top: 75%;
-    color: transparent;
-    animation: flash 2000ms linear infinite;
-    animation-delay: 2000ms;
+/****************************** BLOCK 1 ***********************************/
+#block1{
+    background-color: black;
 }
 
 /****************************** BLOCK 2 ***********************************/
 #block2{
     top:100%;
-    width: 100%;
-    height: 100%;
     background:radial-gradient(#022B2F, black);
-    /* background:linear-gradient(black,#022B2F, rgb(0, 14, 15)); */
-    z-index: 0;
-}
-
-#chipProject{
-    width: 90%;
-    height: 80%;
-    overflow: hidden;
 }
 
 .absolutePosition{
@@ -111,30 +89,6 @@ svg .circuit-fade{
     left: 50%;
     transform: translate(-50%,0);
 }
-
-.chipContainer{
-    background-color: transparent;
-    color: transparent;
-    border-style: double;
-    border-width: 0.2rem;
-    border-radius: 2rem;
-    animation: show 1000ms ease forwards;
-    animation-delay: 2s;
-    z-index: 1;
-}
-
-.projectContainer{
-    background-color: transparent;
-    color: transparent;
-    border-style: double;
-    border-width: 0.2rem;
-    border-radius: 2rem;
-    animation: show 1000ms ease forwards;
-    animation-delay: 2s;
-    z-index: 1;
-}
-
-.chipTitle{ position: absolute; }
 
 .socket{
     fill: transparent;
@@ -262,17 +216,10 @@ svg .circuit-fade{
 /****************************** BLOCK 3 ***********************************/
 #block3{
     top:200%;
-    width: 100%;
-    height: 100%;
     background:radial-gradient(#022B2F, black);
-    z-index: 0;
 }
     
-#chipMessage{
-    width: 90%;
-    height: 80%;
-    overflow: hidden;
-}
+
 
 .content{
     position: absolute;
@@ -373,5 +320,14 @@ svg .circuit-fade{
     }
     100% {
         stroke:#002222;
+    }
+}
+
+@keyframes flash{
+    0% {
+        color: transparent;
+    }
+    50% {
+        color: aqua;
     }
 }
