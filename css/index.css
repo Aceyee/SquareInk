@@ -53,7 +53,7 @@ svg .circuit-dark{
     /* -webkit-animation: animate 2s ease 1; */
 }
 
-svg .circuit-ease{
+svg .circuit-fade{
     stroke: aqua;
     stroke-width: 3px;
     fill: transparent;
@@ -140,6 +140,16 @@ svg .circuit-ease{
     fill: transparent;
     animation: show 500ms linear forwards;
     animation-delay: 1.6s;
+}
+
+.socket-fade{
+    fill: transparent;
+    animation: socket-fade 4s linear forwards;
+}
+
+.socket-fade-reverse{
+    fill: transparent;
+    animation: socket-fade-reverse 2s linear forwards;
 }
 
 .socket-dark{
@@ -359,7 +369,20 @@ svg .circuit-ease{
 
 @keyframes fade{
     to{stroke-dashoffset: 0;}
-    85%{stroke: aqua}
+    85%{stroke: aqua; color: aqua}
+    100%{stroke: transparent; color: transparent}
+}
+
+@keyframes socket-fade{
+    50%{stroke: transparent}
+    55%{stroke: aqua}
+    100%{stroke: transparent}
+}
+
+@keyframes socket-fade-reverse{
+    0%{stroke: transparent}
+    10%{stroke: aqua}
+    85%{stroke:aqua}
     100%{stroke: transparent}
 }
 

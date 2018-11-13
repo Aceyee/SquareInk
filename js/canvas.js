@@ -492,11 +492,11 @@ function animate() {
 
   if (explosions.length <= 0) {
     if (cannonballs.length < 3) {
-      // $(svg1after).empty();
+      $(svg1after).empty();
       let index = Math.floor(Math.random() * 4);
       for (let i = 0; i < 3; i++) {
         cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArrayRandom[index][i], dashArrayRandom[index]));
-        drawVerticesAfter(svg1after, pointsArrayRandom[index][i], dashArrayRandom[index], "bright", socketShift[index].h, socketShift[index].v, Math.sqrt(2) / 2);
+        drawVerticesAfter(svg1after, pointsArrayRandom[index][i], dashArrayRandom[index], "bright", socketShift[index].h, socketShift[index].v, Math.sqrt(2) / 2, false);
       }
       // drawVertices(svg1, pointsArrayRandom[index][0], dashArrayRandom[index], "bright", -1, -1, Math.sqrt(2) / 2);
       // drawVertices(svg1, pointsArrayRandom[index][1], dashArrayRandom[index], "bright", -1, -1, Math.sqrt(2) / 2);
@@ -510,7 +510,7 @@ function animate() {
       let index = Math.floor(Math.random() * 4);
       for (let i = 0; i < 3; i++) {
         cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArrayRandomReverse[index][i], dashArrayRandomReverse[index]));
-        drawVerticesAfter(svg1after, pointsArrayRandomReverse[index][i], dashArrayRandom[index], "bright", socketShift[index].h, socketShift[index].v, Math.sqrt(2) / 2);
+        drawVerticesAfter(svg1after, pointsArrayRandomReverse[index][i], dashArrayRandom[index], "bright", socketShift[index].h, socketShift[index].v, Math.sqrt(2) / 2, true);
       }
       // cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArrayRandomReverse[index][0], dashArrayRandomReverse[index]));
       // cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArrayRandomReverse[index][1], dashArrayRandomReverse[index]));
