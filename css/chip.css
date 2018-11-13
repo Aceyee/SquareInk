@@ -9,6 +9,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
+    text-align: center;
     z-index: 1;
 }
 
@@ -25,12 +26,17 @@
 #chipMain{
     width: 20rem; 
     height: 20rem; 
-    text-align: center;
+}
+
+#chipMain h1{
+    position: relative;
+    top: 50%;
+    transform: translate(0,-50%);
 }
 
 #chipMain p{
     position: relative;
-    top: 75%;
+    top: 50%;
     color: transparent;
     animation: flash 2s linear infinite;
     animation-delay: 2s;
@@ -42,8 +48,16 @@
     overflow: hidden;
 }
 
+#chipProject h1{
+    position: relative;
+}
+
 #chipMessage{
     width: 90%;
     height: 80%;
     overflow: hidden;
+}
+
+#chipMessage h1{
+    position: relative;
 }
