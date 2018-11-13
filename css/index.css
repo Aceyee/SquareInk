@@ -53,6 +53,16 @@ svg .circuit-dark{
     /* -webkit-animation: animate 2s ease 1; */
 }
 
+svg .circuit-ease{
+    stroke: aqua;
+    stroke-width: 3px;
+    fill: transparent;
+    /* animation: animate 2s linear forwards; */
+    animation: fade 2s linear forwards;
+    /* -moz-animation: animate 2s ease 1; */
+    /* -webkit-animation: animate 2s ease 1; */
+}
+
 
 
 /****************************** BLOCK 1 ***********************************/
@@ -345,6 +355,12 @@ svg .circuit-dark{
         color: aqua;
         stroke:aqua;
     }
+}
+
+@keyframes fade{
+    to{stroke-dashoffset: 0;}
+    85%{stroke: aqua}
+    100%{stroke: transparent}
 }
 
 @keyframes show-dark{

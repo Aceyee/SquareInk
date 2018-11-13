@@ -6,13 +6,42 @@
 
 /* drawVertices() will draw a polygon that contains at least two points */
 var drawVertices = function (svg, points, dash, brightness, moveCircleH, moveCircleV, slopeFix) {
-    var color ="";
     var circuitClass="";
     var socketClass="";
     var lastIndex = points.length - 1;
 
     if(brightness == "bright"){
         circuitClass = "circuit";
+        socketClass = "socket";
+    }else if(brightness=="dark"){
+        circuitClass = "circuit-dark";
+        socketClass = "socket-dark";
+    }
+    // draw polygon
+    var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
+    newElement.setAttribute("class", circuitClass);
+    newElement.setAttribute("points", points);
+    newElement.style.strokeDasharray = dash;
+    newElement.style.strokeDashoffset = dash;
+    svg.appendChild(newElement);
+
+    // draw socket/circle
+    newElement = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
+    newElement.setAttribute("class", socketClass);
+    newElement.setAttribute("cx", points[lastIndex].x + moveCircleH * strokeWidth * slopeFix);
+    newElement.setAttribute("cy", points[lastIndex].y + moveCircleV * strokeWidth * slopeFix);
+    newElement.setAttribute("r", strokeWidth);
+    newElement.setAttribute("stroke-width", strokeWidth / 2);
+    svg.appendChild(newElement);
+}
+
+var drawVerticesAfter = function (svg, points, dash, brightness, moveCircleH, moveCircleV, slopeFix) {
+    var circuitClass="";
+    var socketClass="";
+    var lastIndex = points.length - 1;
+
+    if(brightness == "bright"){
+        circuitClass = "circuit-ease";
         socketClass = "socket";
     }else if(brightness=="dark"){
         circuitClass = "circuit-dark";
@@ -44,7 +73,7 @@ var shiftPointsH = function (points, length) {
     return points;
 }
 
-/* shiftPointsH() shifts points vertically, given length */
+/* shiftPointsV() shifts points vertically, given length */
 var shiftPointsV = function (points, length) {
     for (var i = 0; i < points.length; i++) {
         points[i].y += length;
@@ -59,20 +88,6 @@ var symmetryH = function (points) {
     }
     return points;
 }
-
-/* reverse() will reverse an array of points */
-// e.g. a = [(4,2),(2,3)];
-//      reverse(a) = [(2,3),(4,2)];
-// var reverse = function (points) {
-//     var reversePoints = [];
-//     for (var i = 0; i < points.length - 1; i += 2) {
-//         var x = points[i];
-//         var y = points[i + 1];
-//         reversePoints.unshift(y);
-//         reversePoints.unshift(x);
-//     }
-//     return reversePoints;
-// }
 
 var reverse = function (points) {
     var reversePoints = [];
