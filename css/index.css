@@ -35,8 +35,17 @@ svg{
     z-index:-9;
 }
 
-svg .draw{
+svg .circuit{
     stroke: aqua;
+    stroke-width: 3px;
+    fill: transparent;
+    animation: animate 2s linear forwards;
+    /* -moz-animation: animate 2s ease 1; */
+    /* -webkit-animation: animate 2s ease 1; */
+}
+
+svg .circuit-dark{
+    stroke: #002222;
     stroke-width: 3px;
     fill: transparent;
     animation: animate 2s linear forwards;
@@ -120,6 +129,12 @@ svg .draw{
 .socket{
     fill: transparent;
     animation: show 500ms linear forwards;
+    animation-delay: 1.6s;
+}
+
+.socket-dark{
+    fill: transparent;
+    animation: show-dark 500ms linear forwards;
     animation-delay: 1.6s;
 }
 
@@ -321,15 +336,6 @@ svg .draw{
     }
 }
 
-@keyframes flash{
-    0% {
-        color: transparent;
-    }
-    50% {
-        color: aqua;
-    }
-}
-
 @keyframes show{
     0% {
         color: transparent;
@@ -338,5 +344,14 @@ svg .draw{
     100% {
         color: aqua;
         stroke:aqua;
+    }
+}
+
+@keyframes show-dark{
+    0% {
+        stroke: transparent;
+    }
+    100% {
+        stroke:#002222;
     }
 }
