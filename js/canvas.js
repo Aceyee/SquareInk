@@ -23,6 +23,8 @@ var pointsArrayRandomReverse = [];
 var dashArrayRandomReverse = [];
 
 var pathIntro = [];
+var pathRandom = [];
+var pathRandomReverse = [];
 
 var socketShift = [];
 
@@ -80,86 +82,82 @@ rightBottomSide.init();
 
 /******************************* Canvas Draw *********************************/
 
-// var canvas = document.getElementById('canvas1');
-// var c = canvas.getContext('2d');
+var canvas = document.getElementById('canvas1');
+var c = canvas.getContext('2d');
 
-// canvas.width = screenWidth;
-// canvas.height = screenHeight;
+canvas.width = screenWidth;
+canvas.height = screenHeight;
 
-// var cannonballs = [];
-// var explosions = [];
-// var input = false;
+var cannonballs = [];
+var explosions = [];
+var input = false;
 
-// var end = false;
-// var count = 0;
+var end = false;
+var count = 0;
 
-// c.fillStyle = "rgba(1, 1, 1, 0.2)";
+c.fillStyle = "rgba(1, 1, 1, 0.2)";
 
-// function animate() {
-//   window.requestAnimationFrame(animate);
-//   c.fillRect(0, 0, canvas.width, canvas.height);
+function animate() {
+  window.requestAnimationFrame(animate);
+  c.fillRect(0, 0, canvas.width, canvas.height);
 
-//   if (!end) {
-//     for (let i = 0; i < pointsArrayIntro.length; i++) {
-//       cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArrayIntro[i], dashArrayIntro[i]));
-//     }
-//   }
-//   end = true;
+  if (!end) {
+    for (let i = 0; i < pointsArrayIntro.length; i++) {
+      cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArrayIntro[i], dashArrayIntro[i]));
+    }
+  }
+  end = true;
 
-//   //update cannonbals, and create new Explosion after every period
-//   for (let i = 0; i < cannonballs.length; i++) {
-//     cannonballs[i].update();
-//     if (count % period == 0) {
-//       explosions.push(new Explosion(cannonballs[i]));
-//     }
-//     if (cannonballs[i].destroy) {
-//       cannonballs.splice(i, 1);
-//     }
-//   }
+  //update cannonbals, and create new Explosion after every period
+  for (let i = 0; i < cannonballs.length; i++) {
+    cannonballs[i].update();
+    if (count % period == 0) {
+      explosions.push(new Explosion(cannonballs[i]));
+    }
+    if (cannonballs[i].destroy) {
+      cannonballs.splice(i, 1);
+    }
+  }
 
-//   //update explosions, each explosion will create several particles,
-//   //if all partcicles are done, delete this explosion
-//   for (let i = 0; i < explosions.length; i++) {
-//     explosions[i].update();
-//     if (explosions[i].particles.length <= 0) {
-//       explosions.splice(i, 1);
-//     }
-//   }
+  //update explosions, each explosion will create several particles,
+  //if all partcicles are done, delete this explosion
+  for (let i = 0; i < explosions.length; i++) {
+    explosions[i].update();
+    if (explosions[i].particles.length <= 0) {
+      explosions.splice(i, 1);
+    }
+  }
 
-//   if (explosions.length <= 0) {
-//     if (cannonballs.length < 3) {
-//       $(svg1after).empty();
-//       let index = Math.floor(Math.random() * 4);
-//       for (let i = 0; i < 3; i++) {
-//         cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArrayRandom[index][i], dashArrayRandom[index]));
-//         drawVerticesAfter(svg1after, pointsArrayRandom[index][i], dashArrayRandom[index], "bright", socketShift[index].h, socketShift[index].v, Math.sqrt(2) / 2, false);
-//       }
-//       // drawVertices(svg1, pointsArrayRandom[index][0], dashArrayRandom[index], "bright", -1, -1, Math.sqrt(2) / 2);
-//       // drawVertices(svg1, pointsArrayRandom[index][1], dashArrayRandom[index], "bright", -1, -1, Math.sqrt(2) / 2);
-//       // drawVertices(svg1, pointsArrayRandom[index][2], dashArrayRandom[index], "bright", -1, -1, Math.sqrt(2) / 2);
-//       input = true;
-//     }
-//   }
+  if (explosions.length <= 0) {
+    if (cannonballs.length < 3) {
+      $(svg1after).empty();
+      let index = Math.floor(Math.random() * 4);
+      for (let i = 0; i < 3; i++) {
+        let path = pathRandom[index][i];
+        cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, path.points, path.length));
+        drawVerticesAfter(svg1after, path.points, path.length, "bright", path.moveCircleH, path.moveCircleV, path.slopeFix, false);
+      }
+      input = true;
+    }
+  }
 
-//   if (input) {
-//     if (cannonballs.length < 3) {
-//       let index = Math.floor(Math.random() * 4);
-//       for (let i = 0; i < 3; i++) {
-//         cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArrayRandomReverse[index][i], dashArrayRandomReverse[index]));
-//         drawVerticesAfter(svg1after, pointsArrayRandomReverse[index][i], dashArrayRandom[index], "bright", socketShift[index].h, socketShift[index].v, Math.sqrt(2) / 2, true);
-//       }
-//       // cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArrayRandomReverse[index][0], dashArrayRandomReverse[index]));
-//       // cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArrayRandomReverse[index][1], dashArrayRandomReverse[index]));
-//       // cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, pointsArrayRandomReverse[index][2], dashArrayRandomReverse[index]));
-//       input = false;
-//     }
-//   }
+  if (input) {
+    if (cannonballs.length < 3) {
+      let index = Math.floor(Math.random() * 4);
+      for (let i = 0; i < 3; i++) {
+        let path = pathRandomReverse[index][i];
+        cannonballs.push(new Cannonball(canvas.width / 2, canvas.height / 2, 2, cannonballColor, path.points, path.length));
+        drawVerticesAfter(svg1after, path.points, path.length, "bright", path.moveCircleH, path.moveCircleV, path.slopeFix, true);
+      }
+      input = false;
+    }
+  }
 
-//   if (count < 1000) {
-//     count++;
-//   } else {
-//     count = 0;
-//   }
-// }
-// animate();
+  if (count < 1000) {
+    count++;
+  } else {
+    count = 0;
+  }
+}
+animate();
 /******************************* Canvas Draw End *****************************/
