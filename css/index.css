@@ -10,284 +10,48 @@
  *  -9 : svg
  *  -10: canvas
  */
-html{ background: #00090C; }
+html{ 
+    background: #00090C; 
+}
 
 #blocks{
     height: 100%;
     width: 100%;
 }
 
-#canvas1{
+.block{
+    position: absolute;
     width: 100%;
     height: 100%;
-    z-index: -10;
-}
-
-.absoluteCenter{
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-}
-
-svg{
-    width:100%;
-    height: 100%;
-    z-index:-9;
-}
-
-svg .circuit{
-    stroke: aqua;
-    stroke-width: 3px;
-    fill: transparent;
-    animation: animate 2s linear forwards;
-    /* -moz-animation: animate 2s ease 1; */
-    /* -webkit-animation: animate 2s ease 1; */
-}
-
-svg .circuit-dark{
-    stroke: #002222;
-    stroke-width: 3px;
-    fill: transparent;
-    animation: animate 2s linear forwards;
-    /* -moz-animation: animate 2s ease 1; */
-    /* -webkit-animation: animate 2s ease 1; */
-}
-
-svg .circuit-fade{
-    stroke: aqua;
-    stroke-width: 3px;
-    fill: transparent;
-    /* animation: animate 2s linear forwards; */
-    animation: fade 2s linear forwards;
-    /* -moz-animation: animate 2s ease 1; */
-    /* -webkit-animation: animate 2s ease 1; */
-}
-
-
-
-/****************************** BLOCK 1 ***********************************/
-#block1{
-    width: 100%;
-    height: 100%;
-    /* background:radial-gradient(#022B2F, black); */
-    background-color: black;
     z-index: 0;
 }
 
-#chipMain{
-    width: 20rem; 
-    height: 20rem; 
-}
-
-#chipMain p{
-    position: relative;
-    top: 75%;
-    color: transparent;
-    animation: flash 2000ms linear infinite;
-    animation-delay: 2000ms;
+/****************************** BLOCK 1 ***********************************/
+#block1{
+    background-color: black;
 }
 
 /****************************** BLOCK 2 ***********************************/
 #block2{
     top:100%;
-    width: 100%;
-    height: 100%;
     background:radial-gradient(#022B2F, black);
-    /* background:linear-gradient(black,#022B2F, rgb(0, 14, 15)); */
-    z-index: 0;
-}
-
-#chipProject{
-    width: 90%;
-    height: 80%;
-    overflow: hidden;
-}
-
-.absolutePosition{
-    position: absolute;
-}
-
-.centerH{
-    left: 50%;
-    transform: translate(-50%,0);
-}
-
-.chipContainer{
-    background-color: transparent;
-    color: transparent;
-    border-style: double;
-    border-width: 0.2rem;
-    border-radius: 2rem;
-    animation: show 1000ms ease forwards;
-    animation-delay: 2s;
-    z-index: 1;
-}
-
-.projectContainer{
-    background-color: transparent;
-    color: transparent;
-    border-style: double;
-    border-width: 0.2rem;
-    border-radius: 2rem;
-    animation: show 1000ms ease forwards;
-    animation-delay: 2s;
-    z-index: 1;
-}
-
-.chipTitle{ position: absolute; }
-
-.socket{
-    fill: transparent;
-    animation: show 500ms linear forwards;
-    animation-delay: 1.6s;
-}
-
-.socket-fade{
-    fill: transparent;
-    animation: socket-fade 4s linear forwards;
-}
-
-.socket-fade-reverse{
-    fill: transparent;
-    animation: socket-fade-reverse 2s linear forwards;
-}
-
-.socket-dark{
-    fill: transparent;
-    animation: show-dark 500ms linear forwards;
-    animation-delay: 1.6s;
-}
-
-.circle {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 4rem;
-    height: 4rem;
-    border-radius: 50%;
-    border-style:solid;
-    border-color: aqua;
-    font-size: 1.5rem;
-    color: aqua;
-    line-height: 4rem;
-    text-align: center;
-    background: transparent;
 }
 
 #slideContainer{
-    position: relative;
+    position: absolute;
     border-radius: 1rem;
     overflow: hidden;
     top: 50%;
-    transform: translateY(-50%);
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 60%;
     margin: 0 auto;
-}
-
-#arrowBtns{
-    position: absolute;
-    top:50%;
-    transform: translateY(-50%);
-    width: 20%;
-    height: 100%;;
-}
-
-.arrowBtn{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 10%;
-    border-style:solid;
-    border-color: aqua;
-    width: 4rem;
-    height: 4rem;
-    background-color: transparent;
-    text-align: center;
-    
-    transition-duration: 0.4s;
-    -webkit-transition-duration: 0.4s; /* Safari */
-}
-
-.btnText{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: transparent;
-    animation: btnTextFlash 8000ms linear infinite;
-}
-
-.arrowBtn:hover{background-color: aqua;}
-
-#btnLeft{transform: translate(-150%, -50%);}
-#btnUp{transform: translate(-50%,-150%);}
-#btnRight{transform: translate(50%, -50%);}
-#btnDown{transform: translate(-50%, 50%);}
-
-#btnA{transform: translate(50%, -50%);}
-#btnB{transform: translate(-50%, 50%);}
-#btnX{transform: translate(-50%,-150%);}
-#btnY{transform: translate(-150%, -50%);}
-
-#actionBtns{
-    position: absolute;
-    left: 80%;
-    top:50%;
-    transform: translateY(-50%);
-    width: 20%;
-    height: 100%;;
-}
-
-
-/* The Close Button */
-.close {
-    display: none;
-    position: absolute;
-    left: 90%;
-    top:10%;
-    color:red;
-    font-size: 4rem;
-    font-weight: bold;
-    z-index: 2;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
 }
 
 /****************************** BLOCK 3 ***********************************/
 #block3{
     top:200%;
-    width: 100%;
-    height: 100%;
     background:radial-gradient(#022B2F, black);
-    z-index: 0;
-}
-    
-#chipMessage{
-    width: 90%;
-    height: 80%;
-    overflow: hidden;
-}
-
-.content{
-    position: absolute;
-    top:10%;
-    left:10%;
-    width:80%;
-    height: 80%;
-    margin:0 auto;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    border-top-left-radius:0.75rem;
-    border-bottom-left-radius:0.75rem;
-    border-top-right-radius:0.75rem;
-    border-bottom-right-radius:0.75rem;
-    color: black;
 }
 
 .card-message{
@@ -296,82 +60,3 @@ svg .circuit-fade{
 }
 
 .card-header{color: aqua;}
-
-.messageBtn{
-    background: transparent;
-    border-radius: 0.75rem;
-    border-color: aqua;
-    color: aqua;   
-    transition-duration: 0.4s;
-    -webkit-transition-duration: 0.4s; /* Safari */
-}
-
-.messageBtn:hover{
-    background: aqua;
-    color: white;   
-}
-
-#btn-send{
-    position: fixed;
-    bottom: 0%;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align:center;
-}
-
-@keyframes animate{to{stroke-dashoffset: 0;}}
-
-@-webkit-keyframes animate{to{stroke-dashoffset: 0;}}
-
-@-moz-keyframes animate{ to{stroke-dashoffset: 0; }}
-
-@keyframes btnTextFlash{
-    0% {
-        color: transparent;
-    }
-    20% {
-        color: aqua;
-    }
-    40%{
-        color: transparent;
-    }
-}
-
-@keyframes show{
-    0% {
-        color: transparent;
-        stroke: transparent;
-    }
-    100% {
-        color: aqua;
-        stroke:aqua;
-    }
-}
-
-@keyframes fade{
-    to{stroke-dashoffset: 0;}
-    85%{stroke: aqua; color: aqua}
-    100%{stroke: transparent; color: transparent}
-}
-
-@keyframes socket-fade{
-    50%{stroke: transparent}
-    55%{stroke: aqua}
-    100%{stroke: transparent}
-}
-
-@keyframes socket-fade-reverse{
-    0%{stroke: transparent}
-    10%{stroke: aqua}
-    85%{stroke:aqua}
-    100%{stroke: transparent}
-}
-
-@keyframes show-dark{
-    0% {
-        stroke: transparent;
-    }
-    100% {
-        stroke:#002222;
-    }
-}

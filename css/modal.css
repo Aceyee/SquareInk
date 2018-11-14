@@ -1,6 +1,14 @@
-/* The Modal */
+/*  Name: modal.css
+ *  Author: Zihan Ye
+ *  Description: style sheets for modal
+ */
+
 .modal {
     display: none; /* Hidden by default */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
     z-index: 1; /* Sit on top */
     width: 90%;
     height: 80%;
