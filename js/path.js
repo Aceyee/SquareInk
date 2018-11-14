@@ -18,19 +18,19 @@ var bottomSide = {
         var p1 = new Point(screenWidth / 2 - deltaChipMainX, screenHeight);
         var p2 = new Point(screenWidth / 2 - deltaChipMainX, chipMain.bottom + chipMain.border);
         this.leftPath = [p1, p2];
-        drawVertices(svg1, this.leftPath, this.dash, "bright", 0, 1, -1);
+        pathIntro.push(new Path(this.leftPath, this.dash, "bright", 0, 1, -1));
     },
     calcMidPath: function () {
-        this.middlePath = copyPoints(this.leftPath);
-        this.middlePath = shiftPointsH(this.middlePath, deltaChipMainX);
-        pointsArrayIntro.push(this.middlePath);
+        this.midPath = copyPoints(this.leftPath);
+        this.midPath = shiftPointsH(this.midPath, deltaChipMainX);
+        pointsArrayIntro.push(this.midPath);
         dashArrayIntro.push(this.dash);
-        drawVertices(svg1, this.middlePath, this.dash, "bright", 0, 1, -1);
+        pathIntro.push(new Path(this.midPath, this.dash, "bright", 0, 1, -1));
     },
     calcRightPath: function () {
-        this.rightPath = copyPoints(this.middlePath);
+        this.rightPath = copyPoints(this.midPath);
         this.rightPath = shiftPointsH(this.rightPath, deltaChipMainX);
-        drawVertices(svg1, this.rightPath, this.dash, "bright", 0, 1, -1);
+        pathIntro.push(new Path(this.rightPath, this.dash, "bright", 0, 1, -1));
     }
 }
 
@@ -50,7 +50,7 @@ var leftSide = {
         var p3 = new Point(p2.x, 0);
         this.topPath = [p3, p2, p1];
         this.dash1 = p2.y + Math.sqrt(2) * deltaChipMainX;
-        drawVertices(svg1, this.topPath, this.dash1, "bright", 1, 1, Math.sqrt(2) / 2);
+        pathIntro.push(new Path(this.topPath, this.dash1, "bright", 1, 1, Math.sqrt(2) / 2));
     },
 
     calcMidPath: function () {
@@ -64,7 +64,7 @@ var leftSide = {
         this.dash2 = 2 * Math.sqrt(2) * 2 * deltaChipMainX + p2.y - p3.y;
         pointsArrayIntro.push(this.midPath);
         dashArrayIntro.push(this.dash2);
-        drawVertices(svg1, this.midPath, this.dash2, "bright", 1, 1, Math.sqrt(2) / 2);
+        pathIntro.push(new Path(this.midPath, this.dash2, "bright", 1, 1, Math.sqrt(2) / 2));
     },
 
     calcBotPath: function () {
@@ -74,7 +74,7 @@ var leftSide = {
         var p4 = new Point(p3.x - 2 * deltaChipMainX, 0);
         this.botPath = [p4, p3, p2, p1];
         this.dash3 = (2 + 3) * Math.sqrt(2) * deltaChipMainX + p2.y - p3.y;
-        drawVertices(svg1, this.botPath, this.dash3, "bright", 1, 1, 0.5 * Math.sqrt(2));
+        pathIntro.push(new Path(this.botPath, this.dash3, "bright", 1, 1, Math.sqrt(2) / 2));
     }
 }
 
@@ -88,10 +88,10 @@ var rightSide = {
     },
     // here call symmetry horzontal function to get the points in a easier way 
     calcTopPath: function () {
-        this.topPath = leftSide.topPath;
+        this.topPath = copyPoints(leftSide.topPath);
         this.dash1 = leftSide.dash1;
         this.topPath = symmetryH(this.topPath);
-        drawVertices(svg1, this.topPath, this.dash1, "bright", -1, 1, Math.sqrt(2) / 2);
+        pathIntro.push(new Path(this.topPath, this.dash1, "bright", -1, 1, Math.sqrt(2) / 2));
     },
     calcMidPath: function () {
         this.midPath = copyPoints(leftSide.midPath);
@@ -99,13 +99,13 @@ var rightSide = {
         this.midPath = symmetryH(this.midPath);
         pointsArrayIntro.push(this.midPath);
         dashArrayIntro.push(this.dash2);
-        drawVertices(svg1, this.midPath, this.dash2, "bright", -1, 1, Math.sqrt(2) / 2);
+        pathIntro.push(new Path(this.midPath, this.dash2, "bright", -1, 1, Math.sqrt(2) / 2));
     },
     calcBotPath: function () {
         this.botPath = copyPoints(leftSide.botPath);
         this.dash3 = leftSide.dash3;
         this.botPath = symmetryH(this.botPath);
-        drawVertices(svg1, this.botPath, this.dash3, "bright", -1, 1, 0.5 * Math.sqrt(2));
+        pathIntro.push(new Path(this.botPath, this.dash3, "bright", -1, 1, Math.sqrt(2) / 2));
     }
 };
 
@@ -113,52 +113,52 @@ var rightSide = {
 var topSide = {
     // include six polygon lines, draw them separately in three methods
     init: function () {
-        this.dash = chipMain.top - chipMain.border + (Math.sqrt(2)-1) *deltaChipMainX;
-        this.LeftLeftPath();
-        this.LeftMidPath();
-        this.LeftRightPath();
-        this.RightLeftPath();
-        this.RightMidPath();
-        this.RightRightPath();
+        this.dash = chipMain.top - chipMain.border + (Math.sqrt(2) - 1) * deltaChipMainX;
+        this.calcLeftLeftPath();
+        this.calcLeftMidPath();
+        this.calcLeftRightPath();
+        this.calcRightLeftPath();
+        this.calcRightMidPath();
+        this.calcRightRightPath();
     },
-    LeftLeftPath: function () {
+    calcLeftLeftPath: function () {
         var p1 = new Point(chipMain.left, chipMain.top - chipMain.border);
         var p2 = new Point(p1.x, p1.y - deltaChipMainX);
         var p3 = new Point(p2.x - deltaChipMainX, p2.y - deltaChipMainX);
         var p4 = new Point(p3.x, 0);
-
         this.points1 = [p4, p3, p2, p1];
-        drawVertices(svg1, this.points1, this.dash, "bright", 0, 1, 1);
+        pathIntro.push(new Path(this.points1, this.dash, "bright", 0, 1, 1));
     },
 
     //Note: here the points1 already changed due to object oriented
     /* here shift the privous set of points to obtain next set of points */
-    LeftMidPath: function () {
+    calcLeftMidPath: function () {
         this.points2 = copyPoints(this.points1);
         this.points2 = shiftPointsH(this.points2, deltaChipMainX);
-        drawVertices(svg1, this.points2, this.dash, "bright", 0, 1, 1);
+        pathIntro.push(new Path(this.points2, this.dash, "bright", 0, 1, 1));
     },
-    LeftRightPath: function () {
+    calcLeftRightPath: function () {
         this.points3 = copyPoints(this.points2);
         this.points3 = shiftPointsH(this.points3, deltaChipMainX);
-        drawVertices(svg1, this.points3, this.dash, "bright", 0, 1, 1);
+        pathIntro.push(new Path(this.points3, this.dash, "bright", 0, 1, 1));
     },
 
     /* here call symmetry horzontal function to get the points in a easier way */
-    RightLeftPath: function () {
+    calcRightLeftPath: function () {
         this.points4 = copyPoints(this.points1);
         this.points4 = symmetryH(this.points4);
-        drawVertices(svg1, this.points4, this.dash, "bright", 0, 1, 1);
+        pathIntro.push(new Path(this.points4, this.dash, "bright", 0, 1, 1));        
     },
-    RightMidPath: function () {
+    calcRightMidPath: function () {
         this.points5 = copyPoints(this.points2);
         this.points5 = symmetryH(this.points5);
-        drawVertices(svg1, this.points5, this.dash, "bright", 0, 1, 1);
+        pathIntro.push(new Path(this.points5, this.dash, "bright", 0, 1, 1));
+
     },
-    RightRightPath: function () {
+    calcRightRightPath: function () {
         this.points5 = copyPoints(this.points3);
         this.points6 = symmetryH(this.points5);
-        drawVertices(svg1, this.points6, this.dash, "bright", 0, 1, 1);
+        pathIntro.push(new Path(this.points6, this.dash, "bright", 0, 1, 1));
     }
 }
 

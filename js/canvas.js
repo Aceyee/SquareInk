@@ -22,6 +22,8 @@ var dashArrayRandom = [];
 var pointsArrayRandomReverse = [];
 var dashArrayRandomReverse = [];
 
+var pathIntro = [];
+
 var socketShift = [];
 
 const second = 2;
@@ -62,6 +64,14 @@ bottomSide.init();
 leftSide.init();
 rightSide.init();
 topSide.init();
+
+for(let i=0; i<pathIntro.length; i++){
+    let path = pathIntro[i];
+    drawVertices(svg1, path.points, path.length, path.brightness, 
+        path.moveCircleH, path.moveCircleV, path.slopeFix);
+    // alert(pathIntro[i]);
+}
+
 
 drawLeftCenter.draw();
 drawLeftBottom.draw();
