@@ -19,7 +19,6 @@ const resistance = 0.1;
 
 const cannonballColor = "aqua";
 const particleColor = "gold";
-const particleShadowColor = "orange";
 const particleRadius = 1;
 /******************************* Constant End *****************************/
 
@@ -39,6 +38,7 @@ var pathRandomReverse = [];
 var screenWidth = $(window).width();
 var screenHeight = $(window).height();
 
+/* get the svg element on block1*/
 var svg1 = document.getElementById("svg1"); // get svg1 element
 var svg1after = document.getElementById("svg1after"); // get svg1 element
 
@@ -51,10 +51,10 @@ var svg3 = document.getElementById("svg3"); // get svg1 element
 // create new Chip class: chipMain
 var chipMain = new Chip('chipMain', 0);
 
-/* create new Chip class: chipProject*/
+// create new Chip class: chipProject
 var chipProject = new Chip('chipProject', 1);
 
-/* create new Chip class: chipMessage*/
+// create new Chip class: chipMessage
 var chipMessage = new Chip('chipMessage', 2);
 
 // divide the width by 9 for drawing socket (circle)
@@ -82,21 +82,20 @@ bottomSide.init();
 leftSide.init();
 rightSide.init();
 topSide.init();
+
 // initialize paths for introduction animations on block2
-drawBottomSide.draw();
-drawTopSide.draw();
+block2BottomSide.init();
+block2TopSide.init();
 
 // initialize paths for introduction animations on block3
-drawBottomSide2.draw();
-drawTopSide2.draw();
+block3BottomSide.init();
+block3TopSide.init();
 
 // initialize paths for after-introduction random animations
 leftCenterSide.init();
 leftBottomSide.init();
 rightCenterSide.init();
 rightBottomSide.init();
-
-
 /**************************** Initialize Path End ***************************/
 
 

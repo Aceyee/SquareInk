@@ -5,7 +5,11 @@
  *      path consists of numerious Point class: points (x,y)
  */
 
-/****************** Introduction Animation Path for Blcok1 *******************/
+
+ 
+/*****************************************************************************/
+/*              Introduction Animation Path for Blcok1                       */
+/*****************************************************************************/
 //method for drawing polygons on bottom side 
 var bottomSide = {
     // include three straght lines, use for loop to draw line, and shift X to draw next
@@ -162,11 +166,16 @@ var topSide = {
         pathIntro.push(new Path(this.points6, this.dash, "bright", 0, 1, 1));
     }
 }
-/*************** Introduction Animation Path for Blcok1 End ******************/
+/*****************************************************************************/
+/*              Introduction Animation Path for Blcok1 End                   */
+/*****************************************************************************/
 
 
 
-/****************** After-Introduction Animation Path ************************/
+
+/*****************************************************************************/
+/*              After-Introduction Animation Path for Blcok1                 */
+/*****************************************************************************/
 var leftCenterSide = {
     // include three polygon lines, draw them separately in three methods
     init: function () {
@@ -326,13 +335,19 @@ var rightBottomSide = {
         pathRandomReverse.push(this.triplePathReverse);
     }
 }
-/****************** After-Introduction Animation Path End ********************/
+/*****************************************************************************/
+/*            After-Introduction Animation Path for Blcok1 End               */
+/*****************************************************************************/
 
-/****************** Introduction Animation Path for Blcok2 *******************/
+
+
+/*****************************************************************************/
+/*                 Introduction Animation Path for Blcok2                    */
+/*****************************************************************************/
 /* method for drawing polygons on bottom side */
-var drawBottomSide = {
+var block2BottomSide = {
     /* include three straght lines, use for loop to draw line, and shift X to draw next */
-    draw: function () {
+    init: function () {
         var dash = screenHeight - chipProject.bottom - chipProject.border;
         var p1 = new Point(screenWidth / 2 - deltaChipMainX, screenHeight);
         var p2 = new Point(screenWidth / 2 - deltaChipMainX, chipProject.bottom + chipProject.border);
@@ -345,8 +360,8 @@ var drawBottomSide = {
 }
 
 /* method for drawing polygons on top side */
-var drawTopSide = {
-    draw: function () {
+var block2TopSide = {
+    init: function () {
         var dash = chipProject.top - chipProject.border;
         var p1 = new Point(screenWidth / 2 - deltaChipMainX, 0);
         var p2 = new Point(screenWidth / 2 - deltaChipMainX, chipProject.top - chipProject.border);
@@ -357,15 +372,19 @@ var drawTopSide = {
         }
     }
 }
-/*************** Introduction Animation Path for Blcok2 End ******************/
+/*****************************************************************************/
+/*             Introduction Animation Path for Blcok2 End                    */
+/*****************************************************************************/
 
 
 
-/****************** Introduction Animation Path for Blcok3 *******************/
+/*****************************************************************************/
+/*                 Introduction Animation Path for Blcok3                    */
+/*****************************************************************************/
 /* method for drawing polygons on bottom side */
-var drawBottomSide2 = {
+var block3BottomSide = {
     /* include three straght lines, use for loop to draw line, and shift X to draw next */
-    draw: function () {
+    init: function () {
         var dash = screenHeight - chipMessage.bottom - chipMessage.border;
         var p1 = new Point(screenWidth / 2 - deltaChipMainX, screenHeight);
         var p2 = new Point(screenWidth / 2 - deltaChipMainX, chipMessage.bottom + chipMessage.border);
@@ -378,8 +397,8 @@ var drawBottomSide2 = {
 }
 
 /* method for drawing polygons on top side */
-var drawTopSide2 = {
-    draw: function () {
+var block3TopSide = {
+    init: function () {
         var dash = chipMessage.top - chipMessage.border;
         var p1 = new Point(screenWidth / 2 - deltaChipMainX, 0);
         var p2 = new Point(screenWidth / 2 - deltaChipMainX, chipMessage.top - chipMessage.border);
@@ -390,4 +409,6 @@ var drawTopSide2 = {
         }
     }
 }
-/*************** Introduction Animation Path for Blcok3 End ******************/
+/*****************************************************************************/
+/*             Introduction Animation Path for Blcok3 End                    */
+/*****************************************************************************/
