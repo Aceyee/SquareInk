@@ -48,8 +48,6 @@ var drawVerticesAfter = function (svg, points, dash, brightness, moveCircleH, mo
         socketClass = "socket-dark";
     }
 
-
-
     // draw polygon
     var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'polyline'); //Create a path in SVG's namespace
     newElement.setAttribute("class", circuitClass);
