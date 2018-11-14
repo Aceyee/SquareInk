@@ -4,30 +4,9 @@
  *  Description: draw lines, circles, and poligons on canvas element
  */
 
-/******************************* Parameters *********************************/
-
-
+/******************************* Constant *********************************/
 //set stroke width for drawing
-var strokeWidth = 5;
-
-// store all pre-defined points in an array
-var pointsArrayIntro = [];
-var dashArrayIntro = [];
-
-// store all dynamic points in an array
-var pointsArrayRandom = [];
-var dashArrayRandom = [];
-
-// store all reverse dynamic points in an array
-var pointsArrayRandomReverse = [];
-var dashArrayRandomReverse = [];
-
-var pathIntro = [];
-var pathRandom = [];
-var pathRandomReverse = [];
-
-var socketShift = [];
-
+const strokeWidth = 5;
 const second = 2;
 const fps = 60;
 const lambda = second * fps;
@@ -42,6 +21,19 @@ const cannonballColor = "aqua";
 const particleColor = "gold";
 const particleShadowColor = "orange";
 const particleRadius = 1;
+/******************************* Constant End *****************************/
+
+
+
+/******************************* Variables ********************************/
+// store all pre-defined points in an array
+var pointsArrayIntro = [];
+var dashArrayIntro = [];
+
+// store all reverse dynamic points in an array
+var pathIntro = [];
+var pathRandom = [];
+var pathRandomReverse = [];
 
 //get screen height and screen width
 var screenWidth = $(window).width();
@@ -50,11 +42,6 @@ var screenHeight = $(window).height();
 // create new Chip class: chipMain
 var chipMain = new Chip('chipMain', 0);
 
-/******************************* Parameters End ******************************/
-
-/******************************* SVG Draw *********************************/
-
-// get the svg element on block1
 var svg1 = document.getElementById("svg1"); // get svg1 element
 var svg1after = document.getElementById("svg1after"); // get svg1 element
 
@@ -62,40 +49,44 @@ var svg1after = document.getElementById("svg1after"); // get svg1 element
 var division = 9;
 var deltaChipMainX = chipMain.width / division;
 
+var canvas = document.getElementById('canvas1');
+canvas.width = screenWidth;
+canvas.height = screenHeight;
+var c = canvas.getContext('2d');
+c.fillStyle = "rgba(1, 1, 1, 0.2)";
+
+var cannonballs = [];
+var explosions = [];
+var input = false;
+var end = false;
+var count = 0;
+/******************************* Variables End ******************************/
+
+
+
+/******************************* Initialize Path ****************************/
+// initialize paths for introduction animations
 bottomSide.init();
 leftSide.init();
 rightSide.init();
 topSide.init();
 
-for(let i=0; i<pathIntro.length; i++){
-    let path = pathIntro[i];
-    drawVertices(svg1, path.points, path.length, path.brightness, 
-        path.moveCircleH, path.moveCircleV, path.slopeFix);
-}
-
+// initialize paths for after-introduction random animations
 leftCenterSide.init();
 leftBottomSide.init();
 rightCenterSide.init();
 rightBottomSide.init();
+/**************************** Initialize Path End ***************************/
 
-/******************************* SVG Draw End ********************************/
 
-/******************************* Canvas Draw *********************************/
 
-var canvas = document.getElementById('canvas1');
-var c = canvas.getContext('2d');
+/*************************** Draw Canvas and SVG ****************************/
 
-canvas.width = screenWidth;
-canvas.height = screenHeight;
-
-var cannonballs = [];
-var explosions = [];
-var input = false;
-
-var end = false;
-var count = 0;
-
-c.fillStyle = "rgba(1, 1, 1, 0.2)";
+for(let i=0; i<pathIntro.length; i++){
+  let path = pathIntro[i];
+  drawVertices(svg1, path.points, path.length, path.brightness, 
+      path.moveCircleH, path.moveCircleV, path.slopeFix);
+}
 
 function animate() {
   window.requestAnimationFrame(animate);
@@ -160,4 +151,4 @@ function animate() {
   }
 }
 animate();
-/******************************* Canvas Draw End *****************************/
+/************************ Draw Canvas and SVG End ***************************/

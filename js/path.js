@@ -290,8 +290,6 @@ var rightCenterSide = {
     }
 }
 
-
-
 var rightBottomSide = {
     // include three polygon lines, draw them separately in three methods
     init: function () {
@@ -320,7 +318,7 @@ var rightBottomSide = {
         this.points3 = copyPoints(this.points2);
         this.points3 = shiftPointsV(this.points3, -deltaChipMainX);
         this.triplePath.push(new Path(this.points3, this.dash, "bright", -1, -1, Math.sqrt(2) / 2));
-        pointsArrayRandom.push(this.triplePath);
+        pathRandom.push(this.triplePath);
 
         for (let i = 0; i < this.triplePath.length; i++) {
             let tempPoints = copyPoints(this.triplePath[i].points);
