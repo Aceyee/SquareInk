@@ -81,7 +81,7 @@ class Particle {
         this.dy = -dy;
         this.radius = radius;
         this.color = color;
-        this.timeToLive = bounceTimes;
+        this.timeToLive = particleBounceTimes;
         this.mass = Math.pow(radius, 3) / 10;
     }
 
@@ -90,13 +90,12 @@ class Particle {
             this.dy = -(this.dy) / 5;
             this.timeToLive--;
         }
-
         if (this.x + this.radius + this.dx > canvas.width || this.x - this.radius + this.dx < 0) {
             this.dx = -this.dx;
         }
-        if (this.dx > balanceResistance) {
+        if (this.dx > balanceSpeed) {
             this.dx -= resistance;
-        } else if (this.dx < -balanceResistance) {
+        } else if (this.dx < -balanceSpeed) {
             this.dx += resistance;
         }
         this.dy += gravity * this.mass;
@@ -127,8 +126,8 @@ class Explosion {
     }
     init() {
         for (var i = 0; i < explosionParts; i++) {
-            var dx = (Math.random() * 8) - 4;
-            var dy = (Math.random() * 6) - 3;
+            var dx = (Math.random() * initialSpeedX) - initialSpeedX/2;
+            var dy = (Math.random() * initialSpeedY) - initialSpeedY/2;
             var radius = Math.random() * 0.8 + particleRadius;
             this.particles.push(new Particle(this.source.x, this.source.y, dx, dy, radius, particleColor));
         }

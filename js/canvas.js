@@ -5,21 +5,28 @@
  */
 
 /******************************* Constant *********************************/
-//set stroke width for drawing
+/* style settings */
 const strokeWidth = 5;
+const cannonballColor = "aqua";
+
+/* physical settings */
 const second = 2;
 const fps = 60;
 const lambda = second * fps;
 const period = 10;
-const gravity = 0.5;
-const bounceTimes = 1;
-const explosionParts = 5;
-const balanceResistance = 1;
-const resistance = 0.1;
+const gravity = 0.6;
 
-const cannonballColor = "aqua";
+/* explosion settings */
+const initialSpeedX = 8;
+const initialSpeedY = 6;
+const balanceSpeed = 1;
+const resistance = 0.1;
+const explosionParts = 5;
+
+/* other settings */
 const particleColor = "gold";
 const particleRadius = 1;
+const particleBounceTimes = 1;
 /******************************* Constant End *****************************/
 
 
@@ -38,9 +45,9 @@ var pathRandomReverse = [];
 var screenWidth = $(window).width();
 var screenHeight = $(window).height();
 
-/* get the svg element on block1*/
+/* get the svg elements on block1*/
 var svg1 = document.getElementById("svg1"); // get svg1 element
-var svg1after = document.getElementById("svg1after"); // get svg1 element
+var svg1after = document.getElementById("svg1after"); // get svg1 after element
 
 /* get the svg element on block2*/
 var svg2 = document.getElementById("svg2"); // get svg1 element
