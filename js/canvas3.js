@@ -8,8 +8,6 @@
 var screenWidth = $(window).width();
 var screenHeight = $(window).height();
 
-/* set stroke width for drawing */
-var strokeWidth = 5;
 
 /* get the svg element on block2*/
 var svg3 = document.getElementById("svg3"); // get svg1 element
