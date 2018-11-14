@@ -39,11 +39,23 @@ var pathRandomReverse = [];
 var screenWidth = $(window).width();
 var screenHeight = $(window).height();
 
+var svg1 = document.getElementById("svg1"); // get svg1 element
+var svg1after = document.getElementById("svg1after"); // get svg1 element
+
+/* get the svg element on block2*/
+var svg2 = document.getElementById("svg2"); // get svg1 element
+
+/* get the svg element on block2*/
+var svg3 = document.getElementById("svg3"); // get svg1 element
+
 // create new Chip class: chipMain
 var chipMain = new Chip('chipMain', 0);
 
-var svg1 = document.getElementById("svg1"); // get svg1 element
-var svg1after = document.getElementById("svg1after"); // get svg1 element
+/* create new Chip class: chipProject*/
+var chipProject = new Chip('chipProject', 1);
+
+/* create new Chip class: chipMessage*/
+var chipMessage = new Chip('chipMessage', 2);
 
 // divide the width by 9 for drawing socket (circle)
 var division = 9;
@@ -65,17 +77,26 @@ var count = 0;
 
 
 /******************************* Initialize Path ****************************/
-// initialize paths for introduction animations
+// initialize paths for introduction animations on block1
 bottomSide.init();
 leftSide.init();
 rightSide.init();
 topSide.init();
+// initialize paths for introduction animations on block2
+drawBottomSide.draw();
+drawTopSide.draw();
+
+// initialize paths for introduction animations on block3
+drawBottomSide2.draw();
+drawTopSide2.draw();
 
 // initialize paths for after-introduction random animations
 leftCenterSide.init();
 leftBottomSide.init();
 rightCenterSide.init();
 rightBottomSide.init();
+
+
 /**************************** Initialize Path End ***************************/
 
 
