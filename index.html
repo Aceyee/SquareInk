@@ -31,7 +31,7 @@
 
 <body class="scrollbar scrollbar-tempting-azure">
     <!-- Three blocks included -->
-    <div id="blocks">
+    <div>
         <!-- Block1 is designed based on circuit board and combinated animations of lines, circles, and polygons -->
         <div id="block1" class="block">
             <a href="#block2">
@@ -132,32 +132,31 @@
             <div id="chipMessage" class="chip chip-container">
                 <h1>MESSAGE</h1>
                 <!-- Content window contains a message board and a leaveMessage button -->
-                <div class="content content-message scrollbar scrollbar-tempting-azure" data-spy="scroll" data-target="#message"
+                <div class="chip chip-content scrollbar scrollbar-tempting-azure" data-spy="scroll" data-target="#message"
                     data-offset="0">
                     <div id="corkboard">
                         <!-- Display messages, which are dynamically loaded from database -->
                         <div id="message">
                         </div>
                     </div>
-
-                    <!-- Collapse button -->
-                    <div id="sendBtn">
-                        <div class="collapse" id="collapseExample">
-                            <div class="card card-body card-message">
-                                <form method="post" action="/php/send.php">
-                                    <div class="text-white">
-                                        Your Name: <input type="text" name="username" maxlength="20"> <br /><br />
-                                        Message: <textarea type="text" name="message" rows="4" cols="50"></textarea>
-                                    </div>
-                                    <input class="button button-message" type="submit" value="Submit">
-                                </form>
-                            </div>
+                </div>
+                <!-- Collapse button -->
+                <div id="sendBtn">
+                    <div class="collapse" id="collapseExample">
+                        <div class="card card-body card-message">
+                            <form method="post" action="/php/send.php">
+                                <div class="text-white">
+                                    Your Name: <input type="text" name="username" maxlength="20"> <br /><br />
+                                    Message: <textarea type="text" name="message" rows="4" cols="50"></textarea>
+                                </div>
+                                <input class="button button-message" type="submit" value="Submit">
+                            </form>
                         </div>
-                        <button class="button button-message" type="button" data-toggle="collapse" data-target="#collapseExample"
-                            aria-expanded="false" aria-controls="collapseExample">
-                            Leave a Message
-                        </button>
                     </div>
+                    <button class="button button-message" type="button" data-toggle="collapse" data-target="#collapseExample"
+                        aria-expanded="false" aria-controls="collapseExample">
+                        Leave a Message
+                    </button>
                 </div>
             </div>
         </div>

@@ -10,7 +10,9 @@
  *  -9 : svg
  *  -10: canvas
  */
-html{ background: #00090C; }
+html{ 
+    background: #00090C; 
+}
 
 #blocks{
     height: 100%;
@@ -35,13 +37,6 @@ html{ background: #00090C; }
     background:radial-gradient(#022B2F, black);
 }
 
-.centerH{
-    left: 50%;
-    transform: translate(-50%,0);
-}
-
-
-
 #slideContainer{
     position: absolute;
     border-radius: 1rem;
@@ -53,45 +48,10 @@ html{ background: #00090C; }
     margin: 0 auto;
 }
 
-/* The Close Button */
-.close {
-    display: none;
-    position: absolute;
-    left: 90%;
-    top:10%;
-    color:red;
-    font-size: 4rem;
-    font-weight: bold;
-    z-index: 2;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
 /****************************** BLOCK 3 ***********************************/
 #block3{
     top:200%;
     background:radial-gradient(#022B2F, black);
-}
-
-.content{
-    position: absolute;
-    top:10%;
-    left:10%;
-    width:80%;
-    height: 80%;
-    margin:0 auto;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    border-top-left-radius:0.75rem;
-    border-bottom-left-radius:0.75rem;
-    border-top-right-radius:0.75rem;
-    border-bottom-right-radius:0.75rem;
-    color: black;
 }
 
 .card-message{
