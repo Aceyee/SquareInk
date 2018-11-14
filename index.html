@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="/css/modal.css">
     <link rel="stylesheet" href="/css/animation.css">
     <link rel="stylesheet" href="/css/draw.css">
+    <link rel="stylesheet" href="/css/button.css">
     <link rel="stylesheet" href="/css/scrollbar.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
         crossorigin="anonymous"></script>
@@ -39,7 +40,6 @@
                     <p>Click Here To Browse</p>
                 </div>
             </a>
-
             <svg id="svg1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                 preserveAspectRatio="xMidYMid meet"></svg>
             <svg id="svg1after" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -54,35 +54,35 @@
             <div id="chipProject" class="chip chip-container">
                 <h1>PROJECTS</h1>
                 <!-- Arrow buttons include 4 buttons: up, down, left, and right  -->
-                <div id="arrowBtns">
+                <div id="arrowButtons">
                     <!-- Left button controls slide: go to previous slide -->
                     <a href="">
-                        <div id="btnLeft" class="arrowBtn" href="#carouselExampleControls" data-slide="prev">
-                            <p class="btnText">Prev</p>
+                        <div id="btnLeft" class="button button-arrow" href="#carousel" data-slide="prev">
+                            <p>Prev</p>
                         </div>
                     </a>
                     <!-- Up button controls page slide: go to top-->
                     <a href="#block1">
-                        <div id="btnUp" class="arrowBtn">
-                            <p class="btnText">Top</p>
+                        <div id="btnUp" class="button button-arrow">
+                            <p>Top</p>
                         </div>
                     </a>
                     <!-- Right button controls slide: go to next slide -->
                     <a href="">
-                        <div id="btnRight" class="arrowBtn" href="#carouselExampleControls" data-slide="next">
-                            <p class="btnText">Next</p>
+                        <div id="btnRight" class="button button-arrow" href="#carousel" data-slide="next">
+                            <p>Next</p>
                         </div>
                     </a>
                     <!-- Down button controls page slide: go to bottom-->
                     <a href="#block3">
-                        <div id="btnDown" class="arrowBtn">
-                            <p class="btnText">Bottom</p>
+                        <div id="btnDown" class="button button-arrow">
+                            <p>Bottom</p>
                         </div>
                     </a>
                 </div>
                 <!-- Central screen for slides, which display projects. Adapted from bootstrap -->
                 <div id="slideContainer">
-                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                    <div id="carousel" class="carousel slide" data-ride="carousel">
                         <div class="carousel-inner">
                             <div id="item_grid" class="carousel-item active">
                                 <a href="#block2">
@@ -104,11 +104,11 @@
                     </div>
                 </div>
                 <!-- Decorations. Currently no functions for these buttons -->
-                <div id="actionBtns">
-                    <div id="btnA" class="circle">A</div>
-                    <div id="btnB" class="circle">B</div>
-                    <div id="btnX" class="circle">X</div>
-                    <div id="btnY" class="circle">Y</div>
+                <div id="actionButtons">
+                    <div id="btnA" class="button button-circle">A</div>
+                    <div id="btnB" class="button button-circle">B</div>
+                    <div id="btnX" class="button button-circle">X</div>
+                    <div id="btnY" class="button button-circle">Y</div>
                 </div>
             </div>
 
@@ -141,7 +141,7 @@
                     </div>
 
                     <!-- Collapse button -->
-                    <div id="btn-send">
+                    <div id="sendBtn">
                         <div class="collapse" id="collapseExample">
                             <div class="card card-body card-message">
                                 <form method="post" action="/php/send.php">
@@ -149,11 +149,11 @@
                                         Your Name: <input type="text" name="username" maxlength="20"> <br /><br />
                                         Message: <textarea type="text" name="message" rows="4" cols="50"></textarea>
                                     </div>
-                                    <input class="messageBtn" type="submit" value="Submit">
+                                    <input class="button button-message" type="submit" value="Submit">
                                 </form>
                             </div>
                         </div>
-                        <button class="messageBtn" type="button" data-toggle="collapse" data-target="#collapseExample"
+                        <button class="button button-message" type="button" data-toggle="collapse" data-target="#collapseExample"
                             aria-expanded="false" aria-controls="collapseExample">
                             Leave a Message
                         </button>

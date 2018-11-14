@@ -46,6 +46,12 @@ svg .circuit-fade{
     /* -webkit-animation: animate 2s ease 1; */
 }
 
+.socket{
+    fill: transparent;
+    animation: show 500ms linear forwards;
+    animation-delay: 1.6s;
+}
+
 .socket-fade{
     fill: transparent;
     animation: socket-fade 4s linear forwards;
