@@ -69,14 +69,12 @@ for(let i=0; i<pathIntro.length; i++){
     let path = pathIntro[i];
     drawVertices(svg1, path.points, path.length, path.brightness, 
         path.moveCircleH, path.moveCircleV, path.slopeFix);
-    // alert(pathIntro[i]);
 }
 
-
-drawLeftCenter.draw();
-drawLeftBottom.draw();
-drawRightCenter.draw();
-drawRightBottom.draw();
+leftCenterSide.init();
+leftBottomSide.init();
+rightCenterSide.init();
+rightBottomSide.init();
 
 /******************************* SVG Draw End ********************************/
 

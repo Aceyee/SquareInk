@@ -5,6 +5,9 @@
  *      path consists of numerious Point class: points (x,y)
  */
 
+
+/************************ Introduction Animation Path ****************************/
+
 /* method for drawing polygons on bottom side */
 var bottomSide = {
     // include three straght lines, use for loop to draw line, and shift X to draw next
@@ -162,21 +165,23 @@ var topSide = {
     }
 }
 
+/******************* Introduction Animation Path End *************************/
 
+/************************ Dynamic Animation Path ****************************/
 
-var drawLeftCenter = {
+var leftCenterSide = {
     // include three polygon lines, draw them separately in three methods
-    draw: function () {
+    init: function () {
         this.points1 = [];
         this.tripleArray = [];
         this.tripleArrayReverse = [];
-        this.draw1();
-        this.draw2();
-        this.draw3();
+        this.calcTopPath();
+        this.calcMidPath();
+        this.calcBotPath();
     },
     /* for each draw method, decide the way points one by one, 
         and then push these (x,y)'s to an array*/
-    draw1: function () {
+    calcTopPath: function () {
         var p1 = new Point(chipMain.left - chipMain.border, screenHeight / 2);
         var p2 = new Point(p1.x - 3 * deltaChipMainX, p1.y - 3 * deltaChipMainX);
         var p3 = new Point(0, p2.y);
@@ -192,7 +197,7 @@ var drawLeftCenter = {
         // drawVertices(svg1, this.points1, this.dash1, "dark", 1, 1, Math.sqrt(2) / 2);
     },
 
-    draw2: function () {
+    calcMidPath: function () {
         this.points2 = copyPoints(this.points1);
         this.points2 = shiftPointsV(this.points2, -deltaChipMainX);
         this.dash2 = this.dash1;
@@ -200,7 +205,7 @@ var drawLeftCenter = {
         // drawVertices(svg1, this.points2, this.dash2, "dark", 1, 1, Math.sqrt(2) / 2);
     },
 
-    draw3: function () {
+    calcBotPath: function () {
         this.points3 = copyPoints(this.points1);
         this.points3 = shiftPointsV(this.points3, deltaChipMainX);
         this.dash3 = this.dash1;
@@ -218,22 +223,22 @@ var drawLeftCenter = {
     }
 }
 
-var drawRightCenter = {
-    // include three polygon lines, draw them separately in three methods
-    draw: function () {
+var leftBottomSide = {
+    // include three polygon lines, init them separately in three methods
+    init: function () {
         this.points1 = [];
         this.tripleArray = [];
         this.tripleArrayReverse = [];
-        this.draw1();
-        this.draw2();
-        this.draw3();
+        this.calcTopPath();
+        this.calcMidPath();
+        this.calcBotPath();
     },
     /* for each draw method, decide the way points one by one, 
         and then push these (x,y)'s to an array*/
-    draw1: function () {
-        this.points1 = copyPoints(drawLeftCenter.points1);
+    calcTopPath: function () {
+        this.points1 = copyPoints(leftCenterSide.points1);
         this.points1 = symmetryH(this.points1);
-        this.dash1 = drawLeftCenter.dash1;
+        this.dash1 = leftCenterSide.dash1;
         this.tripleArray.push(this.points1);
         dashArrayRandom.push(this.dash1);
         dashArrayRandomReverse.push(this.dash1);
@@ -244,7 +249,7 @@ var drawRightCenter = {
         // drawVertices(svg1, this.points1, this.dash1, "dark", -1, 1, Math.sqrt(2) / 2);
     },
 
-    draw2: function () {
+    calcMidPath: function () {
         this.points2 = copyPoints(this.points1);
         this.points2 = shiftPointsV(this.points2, -deltaChipMainX);
         this.dash2 = this.dash1;
@@ -252,7 +257,7 @@ var drawRightCenter = {
         // drawVertices(svg1, this.points2, this.dash2, "dark", -1, 1, Math.sqrt(2) / 2);
     },
 
-    draw3: function () {
+    calcBotPath: function () {
         this.points3 = copyPoints(this.points1);
         this.points3 = shiftPointsV(this.points3, deltaChipMainX);
         this.dash3 = this.dash1;
@@ -269,19 +274,19 @@ var drawRightCenter = {
     }
 }
 
-var drawLeftBottom = {
+var rightCenterSide = {
     // include three polygon lines, draw them separately in three methods
-    draw: function () {
+    init: function () {
         this.points1 = [];
         this.tripleArray = [];
         this.tripleArrayReverse = [];
-        this.draw1();
-        this.draw2();
-        this.draw3();
+        this.calcTopPath();
+        this.calcMidPath();
+        this.calcBotPath();
     },
     /* for each draw method, decide the way points one by one, 
         and then push these (x,y)'s to an array*/
-    draw1: function () {
+    calcTopPath: function () {
         var p1 = new Point(chipMain.left - chipMain.border, screenHeight - chipMain.top);
         var p2 = new Point(p1.x - 3 * deltaChipMainX, p1.y + 3 * deltaChipMainX);
         var p3 = new Point(0, p2.y);
@@ -297,7 +302,7 @@ var drawLeftBottom = {
         // drawVertices(svg1, this.points1, this.dash1, "dark", 1, -1, Math.sqrt(2) / 2);
     },
 
-    draw2: function () {
+    calcMidPath: function () {
         this.points2 = copyPoints(this.points1);
         this.points2 = shiftPointsV(this.points2, -deltaChipMainX);
         this.dash2 = this.dash1;
@@ -305,7 +310,7 @@ var drawLeftBottom = {
         // drawVertices(svg1, this.points2, this.dash2, "dark", 1, -1, Math.sqrt(2) / 2);
     },
 
-    draw3: function () {
+    calcBotPath: function () {
         this.points3 = copyPoints(this.points2);
         this.points3 = shiftPointsV(this.points3, -deltaChipMainX);
         this.dash3 = this.dash1;
@@ -322,22 +327,22 @@ var drawLeftBottom = {
     }
 }
 
-var drawRightBottom = {
+var rightBottomSide = {
     // include three polygon lines, draw them separately in three methods
-    draw: function () {
+    init: function () {
         this.points1 = [];
         this.tripleArray = [];
         this.tripleArrayReverse = [];
-        this.draw1();
-        this.draw2();
-        this.draw3();
+        this.calcTopPath();
+        this.calcMidPath();
+        this.calcBotPath();
     },
     /* for each draw method, decide the way points one by one, 
         and then push these (x,y)'s to an array*/
-    draw1: function () {
-        this.points1 = copyPoints(drawLeftBottom.points1);
+    calcTopPath: function () {
+        this.points1 = copyPoints(leftBottomSide.points1);
         this.points1 = symmetryH(this.points1);
-        this.dash1 = drawLeftBottom.dash1;
+        this.dash1 = leftBottomSide.dash1;
         this.tripleArray.push(this.points1);
         dashArrayRandom.push(this.dash1);
         dashArrayRandomReverse.push(this.dash1);
@@ -348,7 +353,7 @@ var drawRightBottom = {
         // drawVertices(svg1, this.points1, this.dash1, "dark", -1, -1, Math.sqrt(2) / 2);
     },
 
-    draw2: function () {
+    calcMidPath: function () {
         this.points2 = copyPoints(this.points1);
         this.points2 = shiftPointsV(this.points2, -deltaChipMainX);
         this.dash2 = this.dash1;
@@ -356,7 +361,7 @@ var drawRightBottom = {
         // drawVertices(svg1, this.points2, this.dash2, "dark", -1, -1, Math.sqrt(2) / 2);
     },
 
-    draw3: function () {
+    calcBotPath: function () {
         this.points3 = copyPoints(this.points2);
         this.points3 = shiftPointsV(this.points3, -deltaChipMainX);
         this.dash3 = this.dash1;
